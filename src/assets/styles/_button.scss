@@ -1,0 +1,34 @@
+.btn-add{
+    color: white;
+    font-size: 13px;
+    background-color: #145A32;
+    margin-right: 10px;
+}
+
+.btn-save{
+    color: white;
+    font-size: 13px;
+    background-color: #384ad7;
+    width: 100px;
+}
+
+.btn-delete{
+    color: white;
+    font-size: 13px;
+    background-color: #922B21;
+    margin-right: 10px;
+    width: 80px;
+}
+
+.btn-cancel{
+    font-size: 13px;
+    width: 80px;
+}
+
+
+.icon-wrapper{
+    // color: #34495E !important;
+    &:hover{
+        color: #922B21 !important;
+    }
+}

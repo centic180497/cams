@@ -1,0 +1,21 @@
+.arrow{
+  bottom: -5px;
+  width: 3rem;
+  height: 1rem;
+  // transform: translate(50%, 0);
+  left: calc(50% - 1.5rem);
+  // right: 0;
+  
+  position: absolute;
+  &::before{
+    // left: -50%;
+    width: 0;
+    height: 0;
+    margin: auto;
+    content: "";
+    display: block;
+    border-style: solid;
+    border-width: 1em 1em 0 1em ;
+    border-color:  rgba($color: #ffffff, $alpha: 1) transparent transparent transparent
+  }
+}

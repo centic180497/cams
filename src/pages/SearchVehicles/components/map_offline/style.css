@@ -1,0 +1,17 @@
+.leaflet-popup-content {
+    margin:4px 4px;
+}
+.leaflet-tooltip-pane {
+    z-index: 650;
+    left: -15px;
+    top: -40px;
+    background-color: white;
+}
+.leaflet-control-zoom-fullscreen {
+    background-image: url(https://github.com/brunob/leaflet.fullscreen/raw/master/icon-fullscreen.png);
+}
+.leaflet-div-icon {
+    background: transparent;
+    border: none;
+}
+

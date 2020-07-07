@@ -1,0 +1,45 @@
+.video-centic-control-bar {
+  position: absolute;
+  display: none;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 36px;
+  margin-bottom: 5px;
+  flex-direction: row;
+  transform-style: preserve-3d;
+}
+
+.video-centic-control-bar .control-bar-left {
+  display: flex;
+  flex-direction: row;
+  transform-style: preserve-3d;
+}
+
+.video-centic-control-bar .control-bar-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  transform-style: preserve-3d;
+}
+
+.video-centic-show-control-bar
+  .video-centic-control-bar {
+  display: flex !important;
+}
+
+.video-centic-show-control-bar.video-centic-user-active
+  .video-centic-control-bar {
+  display: flex !important;
+}
+
+.video-centic-user-active .video-centic-control-bar {
+  display: flex;
+}
+
+.video-centic-control-button {
+  color: #fff;
+  width: 46px;
+  min-width: 46px;
+  transform-style: preserve-3d;
+}

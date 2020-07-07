@@ -1,0 +1,21 @@
+
+.video-centic-cam-name{
+  display: none;
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 12px;
+  right: 12px;
+}
+
+.video-centic-paused .video-centic-cam-name {
+  display: block;
+}
+
+.video-centic-user-active .video-centic-cam-name{
+  display: block;
+}
+
+.video-centic-show-control-bar .video-centic-cam-name{
+  display: block;
+}

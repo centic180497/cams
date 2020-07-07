@@ -1,0 +1,14 @@
+.video-centic-loading-spinner {
+  display: none;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -30px;
+  margin-top: -30px;
+}
+
+.video-centic-seeking .video-centic-loading-spinner,
+.video-centic-waiting .video-centic-loading-spinner {
+  display: block;
+}

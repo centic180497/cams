@@ -1,0 +1,181 @@
+//player
+.video-player {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  height: 0;
+  padding-top: 56.25%;
+  // transform-style: preserve-3d;
+}
+
+.video-player-error {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d7ccc8;
+  color: #f44336;
+}
+
+//video
+.centic-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  // border: 1px solid #fff;
+}
+
+//control-bar
+.control-bar {
+  z-index: 1;
+  user-select: none;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding: 0 8px;
+  transition: all .5s ease-in-out;
+  background: rgba($color: #000000, $alpha: .3) // animation-name: slide-down
+}
+
+@keyframes slide-down {}
+
+.control-bar.control-bar__user-active {
+  visibility: visible;
+}
+
+.control-bar.control-bar__hide.control-bar__user-active {
+  visibility: visible;
+}
+
+.control-bar.control-bar__hide {
+  // display: none;
+  visibility: hidden;
+  transition: all .5s ease-in-out;
+}
+
+.control-bar__left {
+  display: flex;
+  flex-direction: row;
+}
+
+.control-bar__right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.control-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+.control-button__icon {
+  color: white;
+}
+
+.title-tip {
+  white-space: nowrap;
+  visibility: hidden;
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  background-color: rgba($color: #000000, $alpha: .7);
+  bottom: 130%;
+  padding: 5px;
+}
+
+.control-button__fullscreen .title-tip {
+  right: 0px;
+}
+
+.control-button__play .title-tip {
+  left: 0;
+}
+
+.control-button__reload .title-tip {
+  transform: translate(-50%, 0);
+  left: 50%;
+}
+
+.control-button__follow .title-tip {
+  transform: translate(-50%, 0);
+  left: 50%;
+}
+
+.control-button__snapshot .title-tip {
+  transform: translate(-50%, 0);
+  left: 50%;
+}
+
+.control-button__fullscreen:hover {
+  .title-tip {
+    visibility: visible;
+  }
+}
+
+.control-button__reload:hover {
+  .title-tip {
+    visibility: visible;
+  }
+}
+
+.control-button__follow:hover {
+  .title-tip {
+    visibility: visible;
+  }
+}
+
+.control-button__play:hover {
+  .title-tip {
+    visibility: visible;
+  }
+}
+
+.control-button__snapshot:hover {
+  .title-tip {
+    visibility: visible;
+  }
+}
+
+.player-header {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 30px;
+  transition: all .5s ease-in-out;
+  background: rgba($color: #000000, $alpha: .3);
+  display: flex;
+  align-items: center
+}
+
+.player-header-text {
+  color: white;
+  font-size: 16px;
+  padding-left: 10px;
+  font-weight: 500;
+}
+
+.player-header.player-header__hide {
+  visibility: hidden;
+  transition: all .5s ease-in-out;
+}
+
+.player-header.player-header__user-active {
+  visibility: visible;
+}
+
+.player-header.player-header__hide.player-header__user-active {
+  visibility: visible;
+}

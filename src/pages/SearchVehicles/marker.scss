@@ -1,0 +1,105 @@
+.arrow-bottom {
+  bottom: -5px;
+  width: 3rem;
+  height: 1rem;
+  // transform: translate(50%, 0);
+  left: calc(50% - 1.5rem);
+  // right: 0;
+  position: absolute;
+  &::before {
+    // left: -50%;
+    width: 0;
+    height: 0;
+    margin: auto;
+    content: '';
+    display: block;
+    text-shadow: 0 0 10px #333;
+    border-style: solid;
+    border-width: 1em 1em 0 1em;
+    border-color: rgba($color: #ffffff, $alpha: 1) transparent transparent
+      transparent;
+  }
+}
+
+.arrow-left {
+  width: 1rem;
+  height: 3rem;
+  // transform: translate(50%, 0);
+  // left: calc(50% - 1.5rem);
+  top: calc(50% - 1.5rem);
+  // right: 100%;
+  left: -10px;
+
+  display: flex;
+  align-items: center;
+  position: absolute;
+  &::before {
+    width: 0;
+    height: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    content: '';
+    display: block;
+    text-shadow: 0 0 10px #333;
+    border-style: solid;
+    border-width: 1em 1em 1em 0;
+    border-color: transparent rgba($color: #ffffff, $alpha: 1) transparent
+      transparent;
+  }
+}
+
+@keyframes ripple_alert {
+  from {
+    transform-style: preserve-3d;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    transform-style: preserve-3d;
+    opacity: 0;
+    transform: scale3d(4, 4, 1);
+  }
+}
+
+@mixin rings($duration, $delay) {
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border-radius: 100%;
+  top: -8px;
+  left: -8px;
+  right: 0;
+  bottom: 0;
+  content: '';
+  height: 100%;
+  width: 100%;
+  padding: 4px;
+  // min-height: 35px;
+  // min-width: 35px;
+  animation-name: ripple_alert;
+  animation-duration: $duration;
+  animation-delay: $delay;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
+  border: 4px solid #A93226;
+  transform-style: preserve-3d;
+  box-sizing: content-box;
+  z-index: 4;
+}
+
+.cam-alert {
+  // z-index: 4 !important;
+  transform-style: preserve-3d;
+  // border-radius: 100%;
+  // box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+
+  &::after {
+    @include rings(3s, 0s);
+  }
+  &::before {
+    @include rings(3s, 0.5s);
+  }
+}

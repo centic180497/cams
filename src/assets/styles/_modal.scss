@@ -1,0 +1,78 @@
+.modal-header{
+    padding: .5rem;
+    .close{
+        padding: 0;
+        font-weight: 400;
+        margin: 0 0 0 auto;
+        line-height: 1;
+    }
+}
+
+.modal-title{
+    font-size: 16px;
+}
+
+.centic-modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 1000;
+}
+
+.centic-modal-content{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    overflow: auto;
+    padding: 20px;
+}
+
+.close-modal{
+    width: 40px; 
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    color: rgba($color: #2C3D46, $alpha: .6);
+    border: none;
+    cursor: pointer;
+}
+.close-modal-link{
+    width: 40px; 
+    height: 40px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.confirm-content{
+    padding-bottom: 30px;
+}
+
+.CenticModal_Header{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.CenticModal_Body{
+    height: calc(100vh - 181px);
+    overflow: auto;
+    padding:  10px 25px;
+}
+.CenticModal_Footer{
+    border-top: 1px solid #ccc;
+    padding: 10px 25px;
+}

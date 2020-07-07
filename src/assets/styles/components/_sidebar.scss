@@ -1,0 +1,144 @@
+.sidebar{
+    width: 50px;
+    // min-height: calc(100vh - 50px);
+    position: fixed;
+    z-index: 1;
+    background-color: white;
+    border-right: 1px solid #E3E3E3;
+    // overflow: auto;
+    // overflow-x: hidden;
+    top: 50px;
+    bottom: 0;
+    
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 7px;
+    border-radius: 10px;
+    
+}
+  /* Track */
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+  /* Handle */
+.sidebar::-webkit-scrollbar-thumb {
+    background: #D6DBDF; 
+    border-radius: 10px;
+}
+
+  /* Handle on hover */
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #707B7C; 
+}
+
+
+
+.sidebar-wrapper{
+    // padding-top: 10px;
+    // overflow: auto;
+    height: 100%;
+    // overflow-x: hidden;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .nav-item{
+        width: 100%;
+        position: relative;
+        // padding: 0 10px;
+    }
+    .top-icon{
+        flex-grow: 1;
+        flex-shrink: 1;
+        // flex-basis: 0px;
+    }
+    .bottom-icon{
+        flex-grow: 0;
+    }
+}
+
+
+.nav-link{
+    color: #34495E;
+    border-radius: 5px;
+    padding: .75rem 15px;
+    display: block;
+    &:hover{
+        color: #253858;
+        background-color: #F2F3F4;
+    }
+    .sidebar-icon{
+        display: block;
+        width: 20px;
+        height: 20px;
+        // float: left;
+        // margin-right: 10px;
+    }
+    // p{
+    //     font-size: 16px;
+    //     font-weight: 500;
+    // }
+}
+
+.nav-link.active{
+    background-color: #253858;
+    // color: #0052CC;
+    color: white;
+}
+.icon-button{
+    background: transparent;
+    padding: 13px;
+    border: none;
+    outline: none;
+    color: #5f6368;
+    line-height: 0;
+}
+
+
+.settings-menu{
+    position: absolute;
+    background: white;
+    padding: 4px 0;
+    left: 60px;
+    bottom:  10px;
+    width: 180px;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+    z-index: 1000;
+    li{
+        outline: none;
+    }
+    &:after{
+        position: absolute;
+        bottom: 5px;
+        left: -10px;
+
+        content: '';
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid white;
+
+    }
+}
+.settings-menu-show{
+    display: none
+}
+.settings-menu-button{
+    width: 100%;
+    color: #5f6368;
+    text-align: left;
+    border: none;
+    outline: none;
+    padding-top: 8px;
+    line-height: 0;
+    padding-bottom: 8px;
+    background: transparent;
+    .text{
+        padding-left: 8px;
+        font-size: 0.875rem;
+        display: inline-block;
+        line-height: 24px;
+    }
+}

@@ -1,0 +1,57 @@
+.login-page {
+  min-height: 100vh;
+  background-color: #172b4d !important;
+  background-image: url('../../assets/images/background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  .content {
+    padding-top: 21vh;
+  }
+  .card-header {
+    background-color: white;
+  }
+  .input-group {
+    .input-group-text {
+      background-color: white;
+      border-right: 0;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .form-control {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+      border-left: 0;
+      padding-left: 0;
+      &:focus {
+        border-color: #2874a6;
+      }
+    }
+  }
+  .input-focused {
+    .input-group-text {
+      border-color: #2874a6;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+  }
+  .input-error {
+    .input-group-text {
+      border: 1px solid red !important;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      border-right: 0 !important;
+    }
+    .form-control {
+      border: 1px solid red !important;
+      border-left: 0 !important;
+    }
+  }
+
+  .input-error.input-focused {
+    .form-control {
+      border-color: red;
+    }
+  }
+}
+
+.btn-signin {
+  width: 120px;
+}

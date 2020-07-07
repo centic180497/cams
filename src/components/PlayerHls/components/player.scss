@@ -1,0 +1,84 @@
+//player
+.video-player{
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  height: 0;
+  padding-top: 56.25%
+}
+//video
+.centic-video{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 1px solid #fff;
+}
+//control-bar
+.control-bar{
+  user-select: none;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding: 0 8px
+}
+
+.control-bar__left{
+  display: flex;
+  flex-direction: row;
+}
+.control-bar__right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.control-button{
+  background: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+.control-button__icon{
+  color: white;
+}
+
+.title-tip{
+  white-space: nowrap;
+  visibility: hidden;
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  background-color: rgba($color: #000000, $alpha: .6);
+  bottom: 130%;
+  padding: 5px;
+  
+}
+
+.control-button__fullscreen .title-tip{
+  right: 0px;
+}
+.control-button__play .title-tip{
+  left: 0;
+}
+
+.control-button__fullscreen:hover {
+  .title-tip{
+    visibility: visible;
+  }
+}
+
+.control-button__play:hover{
+  .title-tip{
+    visibility: visible;
+  }
+}

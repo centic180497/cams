@@ -1,0 +1,604 @@
+{
+  "flow": [
+    {
+      "total": 25,
+      "bike": 21,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:25",
+      "timestamp": 1573457100000
+    },
+    {
+      "total": 28,
+      "bike": 26,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:26",
+      "timestamp": 1573457160000
+    },
+    {
+      "total": 29,
+      "bike": 25,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:27",
+      "timestamp": 1573457220000
+    },
+    {
+      "total": 28,
+      "bike": 26,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:28",
+      "timestamp": 1573457280000
+    },
+    {
+      "total": 23,
+      "bike": 22,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:29",
+      "timestamp": 1573457340000
+    },
+    {
+      "total": 30,
+      "bike": 27,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:30",
+      "timestamp": 1573457400000
+    },
+    {
+      "total": 30,
+      "bike": 25,
+      "car": 4,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:31",
+      "timestamp": 1573457460000
+    },
+    {
+      "total": 24,
+      "bike": 24,
+      "car": 0,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:32",
+      "timestamp": 1573457520000
+    },
+    {
+      "total": 34,
+      "bike": 32,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:33",
+      "timestamp": 1573457580000
+    },
+    {
+      "total": 18,
+      "bike": 17,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:34",
+      "timestamp": 1573457640000
+    },
+    {
+      "total": 33,
+      "bike": 28,
+      "car": 4,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:35",
+      "timestamp": 1573457700000
+    },
+    {
+      "total": 22,
+      "bike": 18,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:36",
+      "timestamp": 1573457760000
+    },
+    {
+      "total": 24,
+      "bike": 24,
+      "car": 0,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:37",
+      "timestamp": 1573457820000
+    },
+    {
+      "total": 31,
+      "bike": 27,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:38",
+      "timestamp": 1573457880000
+    },
+    {
+      "total": 29,
+      "bike": 26,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:39",
+      "timestamp": 1573457940000
+    },
+    {
+      "total": 34,
+      "bike": 31,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:40",
+      "timestamp": 1573458000000
+    },
+    {
+      "total": 20,
+      "bike": 19,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:41",
+      "timestamp": 1573458060000
+    },
+    {
+      "total": 27,
+      "bike": 23,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:42",
+      "timestamp": 1573458120000
+    },
+    {
+      "total": 29,
+      "bike": 28,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:43",
+      "timestamp": 1573458180000
+    },
+    {
+      "total": 36,
+      "bike": 35,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:44",
+      "timestamp": 1573458240000
+    },
+    {
+      "total": 24,
+      "bike": 20,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:45",
+      "timestamp": 1573458300000
+    },
+    {
+      "total": 21,
+      "bike": 17,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:46",
+      "timestamp": 1573458360000
+    },
+    {
+      "total": 27,
+      "bike": 25,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:47",
+      "timestamp": 1573458420000
+    },
+    {
+      "total": 31,
+      "bike": 27,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:48",
+      "timestamp": 1573458480000
+    },
+    {
+      "total": 28,
+      "bike": 27,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:49",
+      "timestamp": 1573458540000
+    },
+    {
+      "total": 23,
+      "bike": 21,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:50",
+      "timestamp": 1573458600000
+    },
+    {
+      "total": 28,
+      "bike": 25,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:51",
+      "timestamp": 1573458660000
+    },
+    {
+      "total": 32,
+      "bike": 28,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:52",
+      "timestamp": 1573458720000
+    },
+    {
+      "total": 25,
+      "bike": 24,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:53",
+      "timestamp": 1573458780000
+    },
+    {
+      "total": 34,
+      "bike": 32,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:54",
+      "timestamp": 1573458840000
+    },
+    {
+      "total": 17,
+      "bike": 16,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:55",
+      "timestamp": 1573458900000
+    },
+    {
+      "total": 28,
+      "bike": 24,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:56",
+      "timestamp": 1573458960000
+    },
+    {
+      "total": 26,
+      "bike": 21,
+      "car": 5,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:57",
+      "timestamp": 1573459020000
+    },
+    {
+      "total": 27,
+      "bike": 27,
+      "car": 0,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:58",
+      "timestamp": 1573459080000
+    },
+    {
+      "total": 27,
+      "bike": 23,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "14:59",
+      "timestamp": 1573459140000
+    },
+    {
+      "total": 31,
+      "bike": 28,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:00",
+      "timestamp": 1573459200000
+    },
+    {
+      "total": 34,
+      "bike": 31,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:01",
+      "timestamp": 1573459260000
+    },
+    {
+      "total": 21,
+      "bike": 20,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:02",
+      "timestamp": 1573459320000
+    },
+    {
+      "total": 28,
+      "bike": 24,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:03",
+      "timestamp": 1573459380000
+    },
+    {
+      "total": 23,
+      "bike": 22,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:04",
+      "timestamp": 1573459440000
+    },
+    {
+      "total": 37,
+      "bike": 36,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:05",
+      "timestamp": 1573459500000
+    },
+    {
+      "total": 24,
+      "bike": 22,
+      "car": 1,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:06",
+      "timestamp": 1573459560000
+    },
+    {
+      "total": 25,
+      "bike": 19,
+      "car": 6,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:07",
+      "timestamp": 1573459620000
+    },
+    {
+      "total": 24,
+      "bike": 22,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:08",
+      "timestamp": 1573459680000
+    },
+    {
+      "total": 33,
+      "bike": 30,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:09",
+      "timestamp": 1573459740000
+    },
+    {
+      "total": 27,
+      "bike": 25,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:10",
+      "timestamp": 1573459800000
+    },
+    {
+      "total": 22,
+      "bike": 20,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:11",
+      "timestamp": 1573459860000
+    },
+    {
+      "total": 30,
+      "bike": 27,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:12",
+      "timestamp": 1573459920000
+    },
+    {
+      "total": 31,
+      "bike": 29,
+      "car": 1,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:13",
+      "timestamp": 1573459980000
+    },
+    {
+      "total": 26,
+      "bike": 23,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:14",
+      "timestamp": 1573460040000
+    },
+    {
+      "total": 31,
+      "bike": 30,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:15",
+      "timestamp": 1573460100000
+    },
+    {
+      "total": 23,
+      "bike": 21,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:16",
+      "timestamp": 1573460160000
+    },
+    {
+      "total": 27,
+      "bike": 23,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:17",
+      "timestamp": 1573460220000
+    },
+    {
+      "total": 22,
+      "bike": 18,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:18",
+      "timestamp": 1573460280000
+    },
+    {
+      "total": 28,
+      "bike": 27,
+      "car": 1,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:19",
+      "timestamp": 1573460340000
+    },
+    {
+      "total": 30,
+      "bike": 26,
+      "car": 4,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:20",
+      "timestamp": 1573460400000
+    },
+    {
+      "total": 28,
+      "bike": 26,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:21",
+      "timestamp": 1573460460000
+    },
+    {
+      "total": 32,
+      "bike": 29,
+      "car": 3,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:22",
+      "timestamp": 1573460520000
+    },
+    {
+      "total": 24,
+      "bike": 22,
+      "car": 2,
+      "minibus": 0,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:23",
+      "timestamp": 1573460580000
+    },
+    {
+      "total": 28,
+      "bike": 24,
+      "car": 3,
+      "minibus": 1,
+      "truck": 0,
+      "description": "Bình thường",
+      "updated": "15:24",
+      "timestamp": 1573460640000
+    }
+  ]
+}

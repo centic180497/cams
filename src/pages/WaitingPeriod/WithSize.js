@@ -1,0 +1,43 @@
+import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
+import _ from 'lodash'
+
+const WithSize = Child =>
+  class extends Component {
+    state = {
+      width: null,
+      height: null,
+    }
+
+    constructor(props) {
+      super(props)
+      this.setSizeDebounced = _.debounce(this.setSize, 1000)
+      window.addEventListener('resize', this.setSizeDebounced)
+    }
+
+    componentDidMount() {
+      this.setSize()
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.setSizeDebounced)
+    }
+
+    setSize = () => {
+      const width = ReactDOM.findDOMNode(this).clientWidth
+      const height = ReactDOM.findDOMNode(this).clientHeight
+      this.setState({ width, height })
+    }
+
+    render() {
+      const { width, height } = this.state
+
+      return (
+        <div style={{ width: '100%', height: '100%' }}>
+          {width && height ? <Child width={width} height={height} {...this.props} /> : null}
+        </div>
+      )
+    }
+  }
+
+export default WithSize

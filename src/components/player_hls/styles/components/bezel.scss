@@ -1,0 +1,44 @@
+.video-centic-bezel-icon {
+  font-size: 36px;
+  color: #fff;
+}
+
+.video-centic-bezel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -30px;
+  margin-top: -30px;
+
+  &.video-centic-bezel-animation {
+    animation: video-centic-bezel-fadeout .5s linear 1 normal forwards;
+    pointer-events: none;
+  }
+
+  &.video-centic-bezel-animation-alt {
+    animation: video-centic-bezel-fadeout-alt .5s linear 1 normal forwards;
+    pointer-events: none;
+  }
+}
+
+@keyframes video-centic-bezel-fadeout {
+  0% {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2)
+  }
+}
+
+@keyframes video-centic-bezel-fadeout-alt {
+  0% {
+    opacity: 1
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2)
+  }
+}

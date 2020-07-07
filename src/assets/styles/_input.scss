@@ -1,0 +1,48 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+[class^="ti-"], [class*=" ti-"]{
+    padding: 7px 0 7px 7px;
+}
+
+.form-control{
+    padding: 10px 12px;
+    // padding: 7px;
+    font-size: .875rem;
+    // font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+    &:focus{
+        box-shadow: 0 0 0 1px #0770cd !important;
+        border-color: #0770cd;
+        color: #333333;
+    }
+}
+
+.control-label{
+    font-size: .875rem;
+    margin-bottom: 5px;
+}
+
+.error-message{
+    color: red;
+    line-height: 1;
+    height: 16px;
+    transition: color 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+    font-size: 13px;
+    font-weight: 400;
+}
+.invalid-feedback{
+    display: block;
+}
+
+.is-invalid{
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 1px #dc3545 !important;
+    &:focus{
+        box-shadow: 0 0 0 1px #dc3545 !important;
+    }
+}

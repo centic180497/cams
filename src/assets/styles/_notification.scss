@@ -1,0 +1,56 @@
+.centic-notification{
+    width: 300px;
+    min-height: 30px;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    margin-left: -150px;
+    z-index: 1111;
+    border-radius: .25rem;
+    background-color: white;
+    display: flex;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+    
+}
+
+.notification-icon{
+    display: flex;
+    align-items: center;
+    .notification-icon-wrapper{
+        padding: 0 10px;  
+    }
+    .success{
+        color: #1D8348;
+    }
+    .error{
+        color: #7B241C;
+    }
+}
+.notification-message{
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    width: 233px;
+}
+
+.notification-dimiss{
+    display: flex;
+    align-items: center;
+    .notification-icon-wrapper{
+        padding: 0 10px;
+        cursor: pointer;
+    }
+    width: 31px;
+}
+
+.Toastify__toast{
+    border-radius: 4px !important;
+    min-height: 50px !important;
+    font-size: 0.875rem !important;
+}
+.Toastify__toast--success{
+    background-color: #43a047 !important;
+}
+.Toastify__toast--error{
+    background-color:  #d32f2f !important;
+}
