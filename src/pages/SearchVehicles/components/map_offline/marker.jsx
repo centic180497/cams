@@ -3,6 +3,12 @@ import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import icon from 'assets/icon/mX.png'
+import MarkerClusterGroup from "react-leaflet-markercluster"
+// import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
+import "leaflet.markercluster/dist/leaflet.markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import 'react-leaflet-markercluster/dist/styles.min.css';
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 // import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -18,7 +24,6 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import classNames from 'classnames'
 import { divIcon } from 'leaflet'
 import './marker.scss'
-// import './popupcontent.css'
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -53,11 +58,10 @@ const styles = (theme) => ({
     maxWidth: '300px ',
     minWidth: '150px',
     maxHeight: '600px',
-
   },
-  Popup:{
-    width:310,
-  }
+  Popup: {
+    width: 310,
+  },
 })
 
 class MakerComponent extends React.Component {
@@ -112,58 +116,62 @@ class MakerComponent extends React.Component {
     )
     const iconcamera = divIcon({
       iconSize: [30, 30],
-      iconAnchor: [15,30],
+      iconAnchor: [15, 30],
       popupAnchor: [150, 220],
       html: iconmaker,
     })
 
     const possition = [15.87944, 108.335]
     return (
-      <Marker
-        // onClick={() => this._onClick(cam)}
-     
-        position={[cam.lat, cam.lng]}
-        icon={iconcamera}
-        ref={
-          focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
-            ? this.openPopup
-            : null
-        }
-      >
-        {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
-          <Popup className={classes.Popup} closePopupOnClick={true}>
-            <div className="abc">
-            <Typography
-              className={classes.markerCamName}
-              className={classes.camName}
-            >
-              Biển số xe:{focusedVehicle.plate_number}
+      <MarkerClusterGroup  showCoverageOnHover={false} className={classes.cluster}>
+        <Marker
+          // onClick={() => this._onClick(cam)}
+
+          position={[cam.lat, cam.lng]}
+          icon={iconcamera}
+          ref={
+            focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
+              ? this.openPopup
+              : null
+          }
+        >
+          {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
+            <Popup className={classes.Popup} closePopupOnClick={true}>
+              <div className="abc">
+                <Typography
+                  className={classes.markerCamName}
+                  className={classes.camName}
+                >
+                  Biển số xe:{focusedVehicle.plate_number}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {cam.name}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {focusedVehicle.timestamp}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {focusedVehicle.address}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  <img
+                    className={classes.imgseach}
+                    src={
+                      'http://116.110.6.137:1085' + focusedVehicle.object_img
+                    }
+                  />
+                </Typography>
+              </div>
+            </Popup>
+          ) : null}
+          <Tooltip className={classes.Tooltip} direction={'top'}>
+            <Typography align="center" className={classes.camName}>
+              {cam.name}{' '}
             </Typography>
-            <Typography className={classes.markerCamName}>
-              {cam.name}
-            </Typography>
-            <Typography className={classes.markerCamName}>
-              {focusedVehicle.timestamp}
-            </Typography>
-            <Typography className={classes.markerCamName}>
-              {focusedVehicle.address}
-            </Typography>
-            <Typography className={classes.markerCamName}>
-              <img
-                className={classes.imgseach}
-                src={'http://116.110.6.137:1085' + focusedVehicle.object_img}
-              />
-            </Typography>
-            </div>
-          </Popup>
-        ) : null}
-        <Tooltip className={classes.Tooltip} direction={'top'}>
-          <Typography align="center" className={classes.camName}>
-            {cam.name}{' '}
-          </Typography>
-          <Typography align="center">{cam.address} </Typography>
-        </Tooltip>
-      </Marker>
+            <Typography align="center">{cam.address} </Typography>
+          </Tooltip>
+        </Marker>
+        </MarkerClusterGroup>
     )
   }
 }

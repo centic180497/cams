@@ -19,7 +19,7 @@ import {
   addCamToFollowList,
   removeCamFromFollowList,
 } from 'actions/action_followList'
-import { showInfoWindow } from 'actions/action_map'
+import { showInfoWindow, changeBoundsMap } from 'actions/action_map'
 import { closePrevStreaming } from 'actions/action_streaming'
 
 const styles = (theme) => ({
@@ -95,12 +95,19 @@ class CamItem extends Component {
   }
 
   _onCardClick = () => {
-    const { infoWindow } = this.props
+    const { infoWindow, changeBoundsMap } = this.props
     const { id, lat, lng } = this.props.detail
     if (infoWindow !== -1 && infoWindow !== id) {
+      console.log('alskjdakjsd ')
+
       this.props.closePrevStreaming(infoWindow)
     }
     if (infoWindow !== id) {
+      console.log('!== id ', id)
+
+      changeBoundsMap({ center: { lat, lng }, zoom: 15 })
+      // console.log(this.props.zoom)
+
       this.props.showInfoWindow({
         center: { lat, lng },
         id,
@@ -171,6 +178,7 @@ class CamItem extends Component {
 
 const mapStateToProps = ({ cameras, map }) => ({
   infoWindow: map.showInfoWindow,
+  zoom: map.zoom,
 })
 
 export default connect(mapStateToProps, {
@@ -179,4 +187,5 @@ export default connect(mapStateToProps, {
   addCamToFollowList,
   removeCamFromFollowList,
   showCamInfoModal,
+  changeBoundsMap,
 })(withStyles(styles)(CamItem))

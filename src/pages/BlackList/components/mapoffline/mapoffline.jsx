@@ -1,15 +1,17 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
+import L from 'leaflet'
 import { Icon } from 'leaflet'
 import icon from 'assets/icon/mX.png'
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 // import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
-// import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
-import FullscreenControl from 'react-leaflet-fullscreen'
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
+import FullscreenControl from 'leaflet-fullscreen'
 import 'assets/styles/components/_marker.scss'
 import './marker.scss'
 import MarkerComponent from './marker'
@@ -18,7 +20,7 @@ import { Portal } from 'react-leaflet-portal'
 import _ from 'lodash'
 import {changeBoundsMap} from '../../../../actions/action_map'
 
-console.log(FullscreenControl)
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -38,8 +40,12 @@ const styles = (theme) => ({
 //     popupAnchor: [0, -39],
 //     className:'testmarker',
 // })
-
 class MapOffline extends React.Component {
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+  }
+  
   state = {
     hovered: false,
   }
@@ -57,7 +63,6 @@ class MapOffline extends React.Component {
     this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
     console.log(this.props.zoom, this.props.center)
     console.log(this.props.defaultZoom);
-    
   }
 
   render() {
@@ -74,12 +79,15 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+         fullscreenControl={true}
+         fullscreenControlOptions={{position:"topright"}}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
           closePopupOnClick={false}
           onViewportChanged={this.onViewportChanged}
         >
+           
           <Portal position="bottomright">
             <button
               className={classes.control}
@@ -96,7 +104,8 @@ class MapOffline extends React.Component {
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
           </Portal>
-          <FullscreenControl position="topright" />
+        
+    
           <TileLayer
             url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

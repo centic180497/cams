@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import { Icon } from 'leaflet'
 import icon from 'assets/icon/mX.png'
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
@@ -169,6 +171,7 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+         fullscreenControl={true}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
@@ -192,7 +195,6 @@ class MapOffline extends React.Component {
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
           </Portal>
-          <FullscreenControl position="topright" />
           <TileLayer
             url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

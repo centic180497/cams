@@ -8,8 +8,9 @@ import icon from 'assets/icon/mX.png'
 import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import { Typography } from '@material-ui/core'
-import FullscreenControl from 'react-leaflet-fullscreen'
 import { cancelHoverRowVehicle } from '../../../../actions/action_searchVehicles'
 import _ from 'lodash'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -17,6 +18,7 @@ import { divIcon } from 'leaflet'
 import MakerComponent from './marker'
 import { changeBoundsMap } from '../../../../actions/action_map'
 import { Portal } from 'react-leaflet-portal'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -44,6 +46,9 @@ const styles = (theme) => ({
   test: {
     border: '1px solid black',
   },
+  cluster:{
+    height:100
+  }
 })
 
 class MapOffline extends React.Component {
@@ -88,6 +93,7 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+        fullscreenControl={true}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
@@ -115,7 +121,6 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          <FullscreenControl position="topright" />
           {cams.length > 0
             ? cams.map((cam, index) => {
                 return <MakerComponent key={index} cam={cam}></MakerComponent>

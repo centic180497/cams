@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
-import FullscreenControl from 'react-leaflet-fullscreen'
 import 'assets/styles/components/_marker.scss'
 import './marker.scss'
 import classNames from 'classnames'
@@ -111,10 +110,11 @@ class MarkerComponent extends React.Component {
           icon={iconcamera}
           ref={isShowInfoWindow ? this.openPopup : this.closePopups}
           closePopupOnClick={true}
+          direction={'right'}
   
         >
           {isShowInfoWindow ? (
-            <Popup onClose={() => this.handleClose()} className={classes.Popup}>
+            <Popup  autoPan={true} direction={'right'} onClose={() => this.handleClose()} className={classes.Popup}>
               <Typography noWrap className={classes.plate}>
                 Biển số xe: {focusedVehicle.plate_number}
               </Typography>

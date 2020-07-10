@@ -9,16 +9,23 @@ import { connect } from 'react-redux'
 import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
-import FullscreenControl from 'react-leaflet-fullscreen'
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { Portal } from 'react-leaflet-portal'
-import {changeBoundsMap} from 'actions/action_map'
+import { changeBoundsMap } from 'actions/action_map'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
+// import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
+import 'leaflet.markercluster/dist/leaflet.markercluster'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import 'react-leaflet-markercluster/dist/styles.min.css'
 
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
     height: '100vh',
-    position:'sticky'
+    position: 'sticky',
   },
   map: {
     width: '100%',
@@ -28,7 +35,7 @@ const styles = (theme) => ({
     // padding: '5px 10px 0px 10px',
     // Opacity: 1,
   },
-   Marker: {
+  Marker: {
     backgroundColor: 'black',
   },
   camName: {
@@ -44,8 +51,6 @@ const styles = (theme) => ({
   //   width:'100%',
   //   maxWidth:480
   // }
-
-
 })
 const iconcamera = new Icon({
   iconUrl: icon,
@@ -55,65 +60,6 @@ const iconcamera = new Icon({
 })
 
 class MapOffline extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      cams: [
-        {
-          address: ' Hòa Khê,  Thanh Khê,  Đà Nẵng',
-          id: '5ed7274f94d0787eb85f35df',
-          ip: '10.49.24.14',
-          is_in_followlist: true,
-          lat: 16.059392,
-          lng: 108.186097,
-          name: 'Camera 1 - Huỳnh Ngọc Huệ',
-          status: 'enabled',
-        },
-        {
-          address: ' Hòa Khê,  Thanh Khê,  Đà Nẵng',
-          id: '5ed7277b94d0787eb85f35e0',
-          ip: '10.49.24.14',
-          is_in_followlist: true,
-          lat: 16.061243,
-          lng: 108.186007,
-          name: 'Camera 2 - Huỳnh Ngọc Huệ',
-          status: 'enabled',
-        },
-        {
-          address: ' Hòa Khê,  Thanh Khê,  Đà Nẵng',
-          id: '5ed727a294d0787eb85f35e1',
-          ip: '10.49.24.14',
-          is_in_followlist: true,
-          lat: 16.059132,
-          lng: 108.185999,
-          name: 'Camera 3 - Hà Huy Tập',
-          status: 'enabled',
-        },
-        {
-          address: ' Hòa Khê,  Thanh Khê,  Đà Nẵng',
-          id: '5ed727c294d0787eb85f35e2',
-          ip: '10.49.24.14',
-          is_in_followlist: true,
-          lat: 16.059222,
-          lng: 108.186154,
-          name: 'Camera 4 - Hà Huy Tập',
-          status: 'enabled',
-        },
-        {
-          address: ' Hòa Khê,  Thanh Khê,  Đà Nẵng',
-          id: '5ed728bb94d0787eb85f35e3',
-          ip: '10.49.24.14',
-          is_in_followlist: true,
-          lat: 16.059229,
-          lng: 108.186005,
-          name: 'Camera 5 - Giám sát nút',
-          status: 'enabled',
-        },
-      ],
-      currentPos: null,
-    }
-    this.handleClick = this.handleClick.bind(this)
-  }
   // _onMarkerClick = (item) => {
   //   console.log(item.lat)
   //   const { infoWindow } = this.props
@@ -131,10 +77,10 @@ class MapOffline extends React.Component {
       })
     }
   }
-  // onViewportChanged = (viewport) => {
-  //   console.log(viewport)
-  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  // }
+  onViewportChanged = (viewport) => {
+    console.log(viewport)
+    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
   // handlePortalClick = () => {
   //   const possition = [15.87944, 108.335]
   //   const { center, zoom, defaultZoom } = this.props
@@ -150,27 +96,24 @@ class MapOffline extends React.Component {
   }
   handleClose(id) {
     // this.props.showInfoWindow({ id: -1 })
-    this.props.closeInfoWindow(id)
+    this.props.closeInfoWindow({ id: -1 })
   }
-
-  handleClick(e) {
-    console.log('e ne', e)
-    this.setState({ currentPos: e.latlng })
+  handleClick(marker) {
+    console.log(marker, marker.layer)
   }
-
   render() {
     const { classes, cams, infoWindow } = this.props
-    console.log(infoWindow)
 
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
         <Map
+          fullscreenControl={true}
           center={possition}
-          zoom={13}
+          zoom={this.props.zoom}
           className={classes.map}
           onClick={this.handleClick}
-          // onViewportChanged={this.onViewportChanged}
+          onViewportChanged={this.onViewportChanged}
         >
           <Portal position="bottomright">
             <button
@@ -188,49 +131,57 @@ class MapOffline extends React.Component {
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
           </Portal>
-          <FullscreenControl position="topright" />
+          {/* <FullscreenControl position="topright" /> */}
           <TileLayer
             url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          {cams.length > 0
-            ? cams.map((cam, index) => {
-                return (
-                  <Marker
-                  position="right"
-                    key={index}
-                    onClick={() => this._onClick(cam)}
-                    position={[cam.lat, cam.lng]}
-                    icon={iconcamera}
-                    ref={
-                      infoWindow && cam.id === infoWindow
-                        ? this.openPopup
-                        : null
-                    }
-                  >
-                    <Popup
-      
-                      onClose={() => this.handleClose(cam.id)}
-                      className={classes.Popup}
+          <MarkerClusterGroup
+            disableClusteringAtZoom={14}
+            // zoomToBoundsOnClick={true}
+            spiderfyOnMaxZoom={true}
+            //  removeOutsideVisibleBounds={true}
+            // maxClusterRadius={3}
+            // chunkedLoading={true}
+          >
+            {cams.length > 0
+              ? cams.map((cam, index) => {
+                  return (
+                    <Marker
+                      position="right"
+                      key={index}
+                      onClick={() => this._onClick(cam)}
+                      position={[cam.lat, cam.lng]}
+                      icon={iconcamera}
+                      ref={
+                        infoWindow && cam.id === infoWindow
+                          ? this.openPopup
+                          : null
+                      }
                     >
-                      <Typography className={classes.markerCamName}>
-                        {cam.name}
-                      </Typography>
-                      <LiveView id={cam.id} className={classes.video}/>
-                    </Popup>
+                      <Popup
+                        onClose={() => this.handleClose(cam.id)}
+                        className={classes.Popup}
+                      >
+                        <Typography className={classes.markerCamName}>
+                          {cam.name}
+                        </Typography>
+                        <LiveView id={cam.id} className={classes.video} />
+                      </Popup>
 
-                    <Tooltip className={classes.Tooltip} direction={'top'}>
-                      <Typography align="center" className={classes.camName}>
-                        {' '}
-                        {cam.name}{' '}
-                      </Typography>
-                      <Typography align="center"> {cam.address} </Typography>
-                    </Tooltip>
-                  </Marker>
-                )
-              })
-            : null}
+                      <Tooltip className={classes.Tooltip} direction={'top'}>
+                        <Typography align="center" className={classes.camName}>
+                          {' '}
+                          {cam.name}{' '}
+                        </Typography>
+                        <Typography align="center"> {cam.address} </Typography>
+                      </Tooltip>
+                    </Marker>
+                  )
+                })
+              : null}
+          </MarkerClusterGroup>
         </Map>
       </div>
     )
