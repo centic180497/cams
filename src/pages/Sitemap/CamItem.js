@@ -94,18 +94,22 @@ class CamItem extends Component {
     this.props.showCamInfoModal()
   }
 
+  test = () => {
+    const { changeBoundsMap, detail } = this.props
+    let { lat, lng } = detail
+    // changeBoundsMap({ center: { lat, lng }, zoom: 15 })
+
+  }
+
   _onCardClick = () => {
     const { infoWindow, changeBoundsMap } = this.props
     const { id, lat, lng } = this.props.detail
     if (infoWindow !== -1 && infoWindow !== id) {
-      console.log('alskjdakjsd ')
-
       this.props.closePrevStreaming(infoWindow)
     }
     if (infoWindow !== id) {
-      console.log('!== id ', id)
-
-      changeBoundsMap({ center: { lat, lng }, zoom: 15 })
+      // this.test()
+      // changeBoundsMap({ center: { lat, lng }, zoom: 15 })
       // console.log(this.props.zoom)
 
       this.props.showInfoWindow({

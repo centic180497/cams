@@ -49,9 +49,8 @@ const styles = (theme) => ({
     width: '100%',
   },
   test: {
-    //   marginLeft: '-3px',
-    width: '30px',
-    //   marginTop: '-6px',
+    width: '35px',
+    height: '39px',
   },
   imgseach: {
     width: '100%',
@@ -65,6 +64,9 @@ const styles = (theme) => ({
 })
 
 class MakerComponent extends React.Component {
+  state = {
+    hover: false,
+  }
   // _onMarkerClick = (item) => {
   //   console.log(item.lat)
   //   const { infoWindow } = this.props
@@ -97,36 +99,63 @@ class MakerComponent extends React.Component {
       marker.leafletElement.closePopup()
     }
   }
-
+  onMouseOver = (e) => {
+    console.log("over");
+    
+    this.setState({
+      hover: true,
+    })
+  }
   // handleClick(e) {
   //   console.log('e ne', e)
   //   this.setState({ currentPos: e.latlng })
   // }
+  onMouseOut = (e) => {
+    console.log('khsihfisu');
+    
+    this.setState({ 
+      hover: false,
+    })
+  }
 
   render() {
+    const { hover } = this.state
     const { classes, cams, focusedVehicle, cam } = this.props
+    const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
+          'marker-hover': hover || isShowInfoWindow,
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
+        // onMouseEnter={this.onMouseOut}
+        // onMouseLeave={this.onMouseOver }
       >
         <img className={classes.test} src={icon} />
       </div>,
     )
     const iconcamera = divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [150, 220],
-      html: iconmaker,
-    })
+      iconUrl: icon,
+      iconSize: [40, 39],
+      iconAnchor: [20, 39],
+      popupAnchor: [0, -12],
+      tooltipAnchor:[0,-12],
+      html:iconmaker
+    }) 
+    // const iconcamera = divIcon({
+    //   iconUrl: icon,
+    //   iconSize: [30, 30],
+    //   iconAnchor: [15, 39],
+    //   popupAnchor: [150, 220],
+    //   html: iconmaker,
+    // })
 
     const possition = [15.87944, 108.335]
     return (
-      <MarkerClusterGroup  showCoverageOnHover={false} className={classes.cluster}>
         <Marker
           // onClick={() => this._onClick(cam)}
-
+          onMouseOver={this.onMouseOut}
+          onMouseOut={this.onMouseOver }
           position={[cam.lat, cam.lng]}
           icon={iconcamera}
           ref={
@@ -164,14 +193,15 @@ class MakerComponent extends React.Component {
               </div>
             </Popup>
           ) : null}
-          <Tooltip className={classes.Tooltip} direction={'top'}>
+          {isShowInfoWindow?  (<Tooltip className={classes.Tooltip} direction={'top'}>
             <Typography align="center" className={classes.camName}>
               {cam.name}{' '}
             </Typography>
             <Typography align="center">{cam.address} </Typography>
-          </Tooltip>
+          </Tooltip>):null}
+        
+     
         </Marker>
-        </MarkerClusterGroup>
     )
   }
 }

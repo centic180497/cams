@@ -41,7 +41,7 @@ class Marker extends Component {
     })
   }
 
-  _onMouseLeave = () => {
+  _onMouseLeave = (e) => {
     this.setState({
       hover: false,
     })
