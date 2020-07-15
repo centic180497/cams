@@ -21,6 +21,7 @@ import {
 } from '../../../../actions/action_searchVehicles'
 import _ from 'lodash'
 import { renderToStaticMarkup } from 'react-dom/server'
+import DivIcon from 'react-leaflet-div-icon';
 import classNames from 'classnames'
 import { divIcon } from 'leaflet'
 import './marker.scss'
@@ -49,8 +50,13 @@ const styles = (theme) => ({
     width: '100%',
   },
   test: {
-    width: '35px',
+    width: '30px',
     height: '39px',
+    marginLeft: '13px',
+    marginTop: '13px',
+    "&:hover": {
+      transform: "scale(1.5)"
+    }
   },
   imgseach: {
     width: '100%',
@@ -125,45 +131,36 @@ class MakerComponent extends React.Component {
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
-          'marker-hover': hover || isShowInfoWindow,
+          // 'marker-hover': hover || isShowInfoWindow,
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
-        // onMouseEnter={this.onMouseOut}
-        // onMouseLeave={this.onMouseOver }
       >
         <img className={classes.test} src={icon} />
+        {/* <Marker icon={camera}></Marker> */}
       </div>,
     )
     const iconcamera = divIcon({
-      iconUrl: icon,
-      iconSize: [40, 39],
-      iconAnchor: [20, 39],
-      popupAnchor: [0, -12],
-      tooltipAnchor:[0,-12],
-      html:iconmaker
-    }) 
-    // const iconcamera = divIcon({
-    //   iconUrl: icon,
-    //   iconSize: [30, 30],
-    //   iconAnchor: [15, 39],
-    //   popupAnchor: [150, 220],
-    //   html: iconmaker,
-    // })
-
+      // iconUrl: camera,
+      iconSize: [30, 39],
+      iconAnchor: [15, 39],
+      popupAnchor: [0, -39],
+      tooltipAnchor:[0,-39],
+      html: iconmaker,
+    })
     const possition = [15.87944, 108.335]
     return (
+      
         <Marker
           // onClick={() => this._onClick(cam)}
-          onMouseOver={this.onMouseOut}
-          onMouseOut={this.onMouseOver }
           position={[cam.lat, cam.lng]}
           icon={iconcamera}
+          // icon={iconcamera}
           ref={
             focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
               ? this.openPopup
               : null
           }
-        >
+        >   
           {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
             <Popup className={classes.Popup} closePopupOnClick={true}>
               <div className="abc">
@@ -193,15 +190,18 @@ class MakerComponent extends React.Component {
               </div>
             </Popup>
           ) : null}
-          {isShowInfoWindow?  (<Tooltip className={classes.Tooltip} direction={'top'}>
+        <div className={classes.custom}>
+          <Tooltip className={classes.Tooltip} direction={'top'}>
+        
             <Typography align="center" className={classes.camName}>
               {cam.name}{' '}
             </Typography>
             <Typography align="center">{cam.address} </Typography>
-          </Tooltip>):null}
-        
-     
+          </Tooltip>
+        </div>
         </Marker>
+
+
     )
   }
 }

@@ -1,13 +1,6 @@
 .leaflet-popup-content {
     margin:4px 4px;
 }
-.leaflet-tooltip-pane {
-    z-index: 650;
-    left: -15px;
-    top: -40px;
-    background-color: white;
-}
-
 .leaflet-div-icon {
     background: transparent;
     border: none;
@@ -21,3 +14,8 @@
     flex-direction: column;
     align-items: flex-end;
   }
+/* .leaflet-pane .leaflet-tooltip-pane{
+  margin-top: -22px;
+  margin-left: -28px;
+} */
+

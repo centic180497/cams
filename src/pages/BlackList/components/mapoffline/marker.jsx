@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
-import 'assets/styles/components/_marker.scss'
+// import 'assets/styles/components/_marker.scss'
 import './marker.scss'
 import classNames from 'classnames'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -39,9 +39,13 @@ const styles = (theme) => ({
     fontWeight: 500,
   },
   test: {
-    marginLeft: '-3px',
+    marginLeft: '13px',
     width: '30px',
-    marginTop: '-6px',
+    height:'39px',
+    marginTop: '13px',
+    "&:hover": {
+      transform: "scale(1.5)"
+    }
   },
   imgseach:{
     width: '100%',
@@ -97,9 +101,10 @@ class MarkerComponent extends React.Component {
     const iconcamera = divIcon({
       // iconAnchor: [15, 39],
       // popupAnchor: [0, -39],
-      iconSize: [15, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [-15, -43],
+      iconSize: [30, 39],
+      iconAnchor: [15, 39],
+      popupAnchor: [0, -39],
+      tooltipAnchor:[0,-39],
       html: iconmaker,
     })
     const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id

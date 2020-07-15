@@ -8,6 +8,7 @@ import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
 import LiveView from '../LiveView'
 import './style.css'
+import MarkerComponent from './maker.js'
 // import 'leaflet.markercluster';
 import { Typography } from '@material-ui/core'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
@@ -59,33 +60,35 @@ const iconcamera = new Icon({
   iconSize: [30, 39],
   iconAnchor: [15, 39],
   popupAnchor: [0, -39],
+  tooltipAnchor:[0,-39],
+  className:"hover"
 }) 
-const getMapBounds = (map, maps, cameras) => {
-  const bounds = new maps.LatLngBounds()
-  cameras.map(cam => {
-    bounds.extend(new maps.LatLng(cam.lat, cam.lng))
-  })
-  return bounds
-}
+// const getMapBounds = (map, maps, cameras) => {
+//   const bounds = new maps.LatLngBounds()
+//   cameras.map(cam => {
+//     bounds.extend(new maps.LatLng(cam.lat, cam.lng))
+//   })
+//   return bounds
+// }
 
-const apiIsLoaded = (map, maps, cameras) => {
-  if (cameras.length > 0) {
-    const bounds = getMapBounds(map, maps, cameras)
-    if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-      let extendPoint1 = new maps.LatLng(
-        bounds.getNorthEast().lat() + 0.01,
-        bounds.getNorthEast().lng() + 0.01,
-      )
-      let extendPoint2 = new maps.LatLng(
-        bounds.getNorthEast().lat() - 0.01,
-        bounds.getNorthEast().lng() - 0.01,
-      )
-      bounds.extend(extendPoint1)
-      bounds.extend(extendPoint2)
-    }
-    map.fitBounds(bounds)
-  }
-}
+// const apiIsLoaded = (map, maps, cameras) => {
+//   if (cameras.length > 0) {
+//     const bounds = getMapBounds(map, maps, cameras)
+//     if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+//       let extendPoint1 = new maps.LatLng(
+//         bounds.getNorthEast().lat() + 0.01,
+//         bounds.getNorthEast().lng() + 0.01,
+//       )
+//       let extendPoint2 = new maps.LatLng(
+//         bounds.getNorthEast().lat() - 0.01,
+//         bounds.getNorthEast().lng() - 0.01,
+//       )
+//       bounds.extend(extendPoint1)
+//       bounds.extend(extendPoint2)
+//     }
+//     map.fitBounds(bounds)
+//   }
+// }
 class MapOffline extends React.Component {
   // _onMarkerClick = (item) => {
   //   console.log(item.lat)
@@ -104,19 +107,19 @@ class MapOffline extends React.Component {
   //     apiIsLoaded(this.map, this.maps, cameras)
   //   }
   // }
-  _onClick = ({ id, lat, lng }) => {
-    const { infoWindow } = this.props
+  // _onClick = ({ id, lat, lng }) => {
+  //   const { infoWindow } = this.props
 
-    if ((infoWindow !== -1) & (infoWindow !== id)) {
-      this.props.closePrevStreaming(infoWindow)
-    }
-    if (infoWindow !== id) {
-      this.props.showInfoWindow({
-        center: { lat, lng },
-        id,
-      })
-    }
-  }
+  //   if ((infoWindow !== -1) & (infoWindow !== id)) {
+  //     this.props.closePrevStreaming(infoWindow)
+  //   }
+  //   if (infoWindow !== id) {
+  //     this.props.showInfoWindow({
+  //       center: { lat, lng },
+  //       id,
+  //     })
+  //   }
+  // }
   onViewportChanged = (viewport) => {
     // console.log(viewport)
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
@@ -143,29 +146,45 @@ class MapOffline extends React.Component {
     //   })
     // });
   }
-  // handleClose(id) {
-  //   // this.props.showInfoWindow({ id: -1 })
-  //   this.props.closeInfoWindow({ id: -1 })
+  // // handleClose(id) {
+  // //   // this.props.showInfoWindow({ id: -1 })
+  // //   this.props.closeInfoWindow({ id: -1 })
+  // // }
+  // handleClick(marker) {
+  //   // console.log('marker.layer', marker.layer)
   // }
-  handleClick(marker) {
-    // console.log('marker.layer', marker.layer)
-  }
   zoomToShowLayer(markers) {
-    if (markers) {
-    // markers.openPopup()
-
-    }
+    
     console.log("dasdad",markers);
+      console.log("dasdad",markers);
+      markers.layer.zoomToBounds();
+      const layer= markers.layer.getAllChildMarkers()
+      this.openPopup(layer[0])
+        // layer[0].openPopup()
+     console.log(layer[0]);
+     
+    // markers.layer.zoomToBounds();
+    // markers.layer.openPopup()
+    // markers.openPopup()
     // markers.layer.openPopup()
     // markers.freezeAtZoom(15)
 
 
     // markers.target._maxzoom=15
-    markers.layer.openPopup()
+    // markers.layer.openPopup()
 //     target.__parent.zoomToBounds();
 // target.__parent.spiderfy();
 // target.openPopup();
   //   console.log(markers);
+  }
+  layeradd(e){
+    var mcg = L.markerClusterGroup()
+    console.log(mcg);
+  }
+
+  test = (layer, callback) => {
+    console.log('===layer===', layer);
+    
   }
   render() {
     const { classes, cams, infoWindow } = this.props
@@ -184,6 +203,7 @@ class MapOffline extends React.Component {
           className={classes.map}
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}
+          animate={true}
         >
           <Portal position="bottomright">
             <button
@@ -208,66 +228,30 @@ class MapOffline extends React.Component {
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
         <MarkerClusterGroup 
-          wrapperOptions={{enableDefaultStyle: true}}
+          // wrapperOptions={{enableDefaultStyle: true}}
             disableClusteringAtZoom={14}
-            autoClose={false}
-            autoPan={false}
+            // autoClose={false}
+            // autoPan={false}
             // zoomToBoundsOnClick={true}
-            // showCoverageOnHover={false}
-            // spiderfyOnMaxZoom={false}
-            // animateAddingMarkers={false}
+            showCoverageOnHover={true}
+            spiderfyOnMaxZoom={true}
+            animateAddingMarkers={true}
             // animate={true}
             onClusterClick={this.zoomToShowLayer}
             // removeOutsideVisibleBounds={true}
             // freezeAtzoom={}
-            
+            hasLayer={true}
             //  removeOutsideVisibleBounds={true}
             maxClusterRadius={50}
             // chunkedLoading={true}
+            ref={this.ref}
+            clusterlayeradd={this.layeradd}
+            zoomToShowLayer={this.test}
           >
             {cams.length > 0
               ? cams.map((cam, index) => {
-                if (cam.id === infoWindow) {
-                console.log('cam.id', cam.id);
-                console.log('infoWindow', infoWindow);
-
-
-                }else {
-                console.log('asdaasd');
-
-                }
-                
                   return (
-                    <Marker
-                      position="right"
-                      key={index}
-                      onClick={() => this._onClick(cam)}
-                      position={[cam.lat, cam.lng]}
-                      icon={iconcamera}
-                      ref={
-                        infoWindow && cam.id === infoWindow
-                          ? this.openPopup
-                          : null
-                      }
-                    >
-                      <Popup
-                        // onClose={() => this.handleClose(cam.id)}
-                        className={classes.Popup}
-                      >
-                        <Typography className={classes.markerCamName}>
-                          {cam.name}
-                        </Typography>
-                        <LiveView id={cam.id} className={classes.video} />
-                      </Popup>
-
-                      <Tooltip className={classes.Tooltip} direction={'top'}>
-                        <Typography align="center" className={classes.camName}>
-                          {' '}
-                          {cam.name}{' '}
-                        </Typography>
-                        <Typography align="center"> {cam.address} </Typography>
-                      </Tooltip>
-                    </Marker>
+                    <MarkerComponent key={index} cam={cam}/>
                   )
                 })
               : null}

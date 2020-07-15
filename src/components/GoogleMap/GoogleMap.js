@@ -32,8 +32,6 @@ const styles = theme => ({
 const getMapBounds = (map, maps, cameras) => {
   console.log("maps",maps);
   console.log("camearas",cameras);
-  
-  
   const bounds = new maps.LatLngBounds()
   cameras.map(cam => {
     bounds.extend(new maps.LatLng(cam.lat, cam.lng))

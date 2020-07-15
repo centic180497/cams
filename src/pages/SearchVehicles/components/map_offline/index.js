@@ -18,6 +18,7 @@ import { divIcon } from 'leaflet'
 import MakerComponent from './marker'
 import { changeBoundsMap } from '../../../../actions/action_map'
 import { Portal } from 'react-leaflet-portal'
+import DivIcon from 'react-leaflet-div-icon';
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 const styles = (theme) => ({
   root: {
@@ -123,7 +124,8 @@ class MapOffline extends React.Component {
           />
           {cams.length > 0
             ? cams.map((cam, index) => {
-                return <MakerComponent key={index} cam={cam}></MakerComponent>
+
+                return<MakerComponent key={index} cam={cam}></MakerComponent>
               })
             : null}
         </Map>
