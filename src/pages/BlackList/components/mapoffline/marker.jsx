@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
-// import 'assets/styles/components/_marker.scss'
+import 'assets/styles/components/_marker.scss'
 import './marker.scss'
 import classNames from 'classnames'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -41,21 +41,26 @@ const styles = (theme) => ({
   test: {
     marginLeft: '13px',
     width: '30px',
-    height:'39px',
+    height: '39px',
     marginTop: '13px',
-    "&:hover": {
-      transform: "scale(1.5)"
-    }
+    '&:hover': {
+      transform: 'scale(1.5)',
+    },
   },
-  imgseach:{
-    width: '100%',
-    maxWidth: '300px ',
-    minWidth: '150px',
-
-    maxHeight: '600px',
+  imgseach: {
+    width: 'auto',
+    // maxWidth: '300px',
+    minWidth: '300px',
+    minHeight: '100px',
+    maxHeight: '400px',
+    height: 'auto',
   },
-  Popup:{
-    width:'310px',
+  Popup: {
+    width: '310px',
+    // maxWidth: 600,
+  },
+  markerCamName:{
+    width:'100%',
   }
 })
 
@@ -78,7 +83,6 @@ class MarkerComponent extends React.Component {
       marker.leafletElement.closePopup()
     }
   }
-  
 
   render() {
     const {
@@ -99,12 +103,10 @@ class MarkerComponent extends React.Component {
       </div>,
     )
     const iconcamera = divIcon({
-      // iconAnchor: [15, 39],
-      // popupAnchor: [0, -39],
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
-      tooltipAnchor:[0,-39],
+      tooltipAnchor: [0, -39],s
       html: iconmaker,
     })
     const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
@@ -116,26 +118,37 @@ class MarkerComponent extends React.Component {
           ref={isShowInfoWindow ? this.openPopup : this.closePopups}
           closePopupOnClick={true}
           direction={'right'}
-  
         >
           {isShowInfoWindow ? (
-            <Popup  autoPan={true} direction={'right'} onClose={() => this.handleClose()} className={classes.Popup}>
-              <Typography noWrap className={classes.plate}>
-                Biển số xe: {focusedVehicle.plate_number}
-              </Typography>
-              <Typography noWrap className={classes.camName}>
-                {_.get(focusedVehicle, 'camera.name')}
-              </Typography>
-              <Typography noWrap className={classes.time}>
-                {focusedVehicle.timestamp}
-              </Typography>
-              <Typography noWrap className={classes.address}>
-                {focusedVehicle.address}
-              </Typography>
-              {/* <Typography className={classes.markerCamName}>
-              <img className={classes.imgseach} src={'http://116.110.6.137:1085'+focusedVehicle.object_img} />
-            </Typography> */}
-            </Popup>
+            <div className={classes.imgblack}>
+              <Popup
+                autoPan={true}
+                direction={'right'}
+                onClose={() => this.handleClose()}
+                className={classes.Popup}
+              >
+                <Typography noWrap className={classes.plate}>
+                  Biển số xe: {focusedVehicle.plate_number}
+                </Typography>
+                <Typography noWrap className={classes.camName}>
+                  {_.get(focusedVehicle, 'camera.name')}
+                </Typography>
+                <Typography noWrap className={classes.time}>
+                  {focusedVehicle.timestamp}
+                </Typography>
+                <Typography noWrap className={classes.address}>
+                  {focusedVehicle.address}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  <img
+                    className={classes.imgseach}
+                    src={
+                      'http://116.110.6.137:1085' + focusedVehicle.object_img
+                    }
+                  />
+                </Typography>
+              </Popup>
+            </div>
           ) : (
             this.closePopups
           )}

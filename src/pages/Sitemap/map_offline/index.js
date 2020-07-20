@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
-import { Icon, L} from 'leaflet'
+import { Icon, L, markerClusterGroup } from 'leaflet'
 import icon from 'assets/icon/mX.png'
 import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 import { closePrevStreaming } from '../../../actions/action_streaming'
@@ -14,6 +14,7 @@ import { Typography } from '@material-ui/core'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { Portal } from 'react-leaflet-portal'
+import { divIcon } from 'leaflet'
 import { changeBoundsMap } from 'actions/action_map'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 // import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
@@ -60,9 +61,11 @@ const iconcamera = new Icon({
   iconSize: [30, 39],
   iconAnchor: [15, 39],
   popupAnchor: [0, -39],
-  tooltipAnchor:[0,-39],
-  className:"hover"
-}) 
+  tooltipAnchor: [0, -39],
+  className: 'hover',
+})
+
+
 // const getMapBounds = (map, maps, cameras) => {
 //   const bounds = new maps.LatLngBounds()
 //   cameras.map(cam => {
@@ -90,17 +93,18 @@ const iconcamera = new Icon({
 //   }
 // }
 class MapOffline extends React.Component {
-  // _onMarkerClick = (item) => {
-  //   console.log(item.lat)
-  //   const { infoWindow } = this.props
-  // }
+  constructor(props) {
+    super(props)
+    this.Ref = React.createRef()
+  }
+
   // componentDidUpdate(prevProps) {
   //   const { cameras = [] } = this.props
   //   const arrCams = cameras.map(cam => cam.id)
   //   const prevArrCams = prevProps.cameras.map(cam => cam.id)
 
   //   if (
-  //     prevProps.cameras.length > 0 &&
+  //     prevProps.cameropenPopupas.length > 0 &&
   //     this.props.cameras.length > 0 &&
   //     !_.isEqual(arrCams, prevArrCams)
   //   ) {
@@ -121,15 +125,17 @@ class MapOffline extends React.Component {
   //   }
   // }
   onViewportChanged = (viewport) => {
+    console.log('asdhakjsdhk')
+
     // console.log(viewport)
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   }
   handlePortalClick = () => {
     // const { cameras } = this.props
     // apiIsLoaded(this.map, this.maps, cameras)
-    const center=[15.892538563302992,108.33192510216088]
-    const{changeBoundsMap}=this.props
-    changeBoundsMap({center:center,zoom:this.props.defaultZoom})
+    const center = [15.892538563302992, 108.33192510216088]
+    const { changeBoundsMap } = this.props
+    changeBoundsMap({ center: center, zoom: this.props.defaultZoom })
   }
 
   openPopup(marker) {
@@ -153,45 +159,38 @@ class MapOffline extends React.Component {
   // handleClick(marker) {
   //   // console.log('marker.layer', marker.layer)
   // }
-  zoomToShowLayer(markers) {
-    
-    console.log("dasdad",markers);
-      console.log("dasdad",markers);
-      markers.layer.zoomToBounds();
-      const layer= markers.layer.getAllChildMarkers()
-      this.openPopup(layer[0])
-        // layer[0].openPopup()
-     console.log(layer[0]);
-     
-    // markers.layer.zoomToBounds();
-    // markers.layer.openPopup()
-    // markers.openPopup()
-    // markers.layer.openPopup()
-    // markers.freezeAtZoom(15)
+  zoomToShowLayer = (markers) => {
+    const { cams } = this.props
+    // console.log(this.props.cams, 'dadasihdi')
 
+    // console.log(markers)
 
-    // markers.target._maxzoom=15
-    // markers.layer.openPopup()
-//     target.__parent.zoomToBounds();
-// target.__parent.spiderfy();
-// target.openPopup();
-  //   console.log(markers);
+    markers.layer.zoomToBounds()
+
+    const layer = markers.layer.getAllChildMarkers()
   }
-  layeradd(e){
-    var mcg = L.markerClusterGroup()
-    console.log(mcg);
+  onzoomend = (e) => {
+    // var mcg = L.markerClusterGroup()
+    console.log('eeeeeeeeee////', e)
+    // e.zoomToShowLayer(e,function(){
+    //   // e.openPopup();
+    // })
+    e.leafletElement.openPopup()
   }
+  Add = (e) => {
+    // console.log('e', e)
 
-  test = (layer, callback) => {
-    console.log('===layer===', layer);
+    // let id = '5e950e72c95ba32d4eaf80c2'
+    let id =this.props.cams.filter(cam=>cam.id===this.props.infoWindow)
+    // console.log("ididd",id);
     
   }
+
   render() {
     const { classes, cams, infoWindow } = this.props
 
     // console.log('infowindow...', infoWindow);
     // console.log('cams...', cams);
-    
 
     const possition = [15.87944, 108.335]
     return (
@@ -204,6 +203,7 @@ class MapOffline extends React.Component {
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}
           animate={true}
+          onZoomEnd={this.onChangeView}
         >
           <Portal position="bottomright">
             <button
@@ -227,32 +227,33 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-        <MarkerClusterGroup 
-          // wrapperOptions={{enableDefaultStyle: true}}
-            disableClusteringAtZoom={14}
+          <MarkerClusterGroup
+            // onClusterMouseOver={this.test}
+            // wrapperOptions={{enableDefaultStyle: true}}
+            zoomToShowLayer={true}
+            disableClusteringAtZoom={13}
             // autoClose={false}
             // autoPan={false}
-            // zoomToBoundsOnClick={true}
+            onClusterZoomToBounds={true}
             showCoverageOnHover={true}
             spiderfyOnMaxZoom={true}
             animateAddingMarkers={true}
             // animate={true}
             onClusterClick={this.zoomToShowLayer}
-            // removeOutsideVisibleBounds={true}
+            removeOutsideVisibleBounds={true}
             // freezeAtzoom={}
             hasLayer={true}
             //  removeOutsideVisibleBounds={true}
             maxClusterRadius={50}
             // chunkedLoading={true}
             ref={this.ref}
-            clusterlayeradd={this.layeradd}
-            zoomToShowLayer={this.test}
+            onClusterlayeradd={this.layeradd}
+            onlayeradd={this.Add}
+           zoomToShowLayer={this.onzoomend}
           >
             {cams.length > 0
               ? cams.map((cam, index) => {
-                  return (
-                    <MarkerComponent key={index} cam={cam}/>
-                  )
+                  return <MarkerComponent key={index} cam={cam} />
                 })
               : null}
           </MarkerClusterGroup>
@@ -262,7 +263,7 @@ class MapOffline extends React.Component {
   }
 }
 
-const mapStateToProps = ({ map,cameras }) => ({
+const mapStateToProps = ({ map, cameras }) => ({
   infoWindow: map.showInfoWindow,
   center: map.center,
   defaultZoom: map.defaultZoom,

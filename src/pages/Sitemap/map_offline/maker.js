@@ -15,10 +15,13 @@ import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { Portal } from 'react-leaflet-portal'
 import { changeBoundsMap } from 'actions/action_map'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
+import { divIcon } from 'leaflet'
 // import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
 import 'leaflet.markercluster/dist/leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import { renderToStaticMarkup } from 'react-dom/server'
+import classNames from 'classnames'
 import 'react-leaflet-markercluster/dist/styles.min.css'
 import _ from 'lodash'
 
@@ -46,6 +49,15 @@ const styles = (theme) => ({
   markerCamName: {
     margin: '0 !important',
   },
+  test: {
+    marginLeft: '13px',
+    width: '30px',
+    height:'39px',
+    marginTop: '13px',
+    "&:hover": {
+      transform: "scale(1.5)"
+    }
+  },
   // Popup:{
   //   width: '480px !important',
   // },
@@ -54,14 +66,14 @@ const styles = (theme) => ({
   //   maxWidth:480
   // }
 })
-const iconcamera = new Icon({
-  iconUrl: icon,
-  iconSize: [30, 39],
-  iconAnchor: [15, 39],
-  popupAnchor: [0, -39],
-  tooltipAnchor:[0,-39],
-  className:"hover"
-}) 
+// const iconcamera = new Icon({
+//   iconUrl: icon,
+//   iconSize: [30, 39],
+//   iconAnchor: [15, 39],
+//   popupAnchor: [0, -39],
+//   tooltipAnchor:[0,-39],
+//   className:"hover"
+// }) 
 const getMapBounds = (map, maps, cameras) => {
   const bounds = new maps.LatLngBounds()
   cameras.map(cam => {
@@ -115,7 +127,6 @@ class MarkerComponent extends React.Component {
 //   }
 
   openPopup(marker) {
-    console.log(marker)
 
     if (marker && marker.leafletElement) {
       // if (marker.leafletElement._zoom > 13) {
@@ -151,6 +162,24 @@ class MarkerComponent extends React.Component {
 //   }
   render() {
     const { classes, cams, infoWindow,cam,key } = this.props
+    const iconmaker = renderToStaticMarkup(
+      <div
+        className={classNames('marker-instance', {
+          // 'cam-alert': this.props.matchCams.includes(cam.id),
+        })}
+      >
+        <img className={classes.test} src={icon} />
+      </div>,
+    )
+    const iconcamera = divIcon({
+      // iconAnchor: [15, 39],
+      // popupAnchor: [0, -39],
+      iconSize: [30, 39],
+      iconAnchor: [15, 39],
+      popupAnchor: [0, -39],
+      tooltipAnchor:[0,-39],
+      html: iconmaker,
+    })
 
     // console.log('infowindow...', infoWindow);
     // console.log('cams...', cams);
