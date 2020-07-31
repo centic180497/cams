@@ -242,36 +242,14 @@ class MapOffline extends React.Component {
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
           <MarkerClusterGroup  
-                   onlayeradd={this.marker}
-            // oneachLayer={this.Add}
-            // onlayeradd={ this.test }
-            className='cluster'
-            // onClusterMouseOver={this.test}
-            // wrapperOptions={{enableDefaultStyle: true}}
+            onlayeradd={this.marker}
             zoomToShowLayer={true}
-            disableClusteringAtZoom={18}
-            // autoClose={false}
-            // autoPan={false}
-            // onClusterZoomToBounds={true}
-            showCoverageOnHover={true}
+            disableClusteringAtZoom={13}
+            showCoverageOnHover={false}
             spiderfyOnMaxZoom={false}
-            // animateAddingMarkers={true}
-            // animate={true}
             onClusterClick={this.handleZoomToShowLayer}
-            // animateAddingMarkers= {true} 
-            // spiderfyDistanceMultiplier= {true}
-            // removeOutsideVisibleBounds={false}
-            // freezeAtzoom={}
-            // hasLayer={false}
-            //  removeOutsideVisibleBounds={true}
             maxClusterRadius={50}
-            // chunkedLoading={true}
-            // ref={this.zoomAndOpenPopup}
             ref={this.zoomAndOpenPopup}
-            // clusterlayeradd={this.test}
-            // onClusterlayeradd={this.layeradd}
-            //  zoomToShowLayer={this.onzoomend}
-          
           >
             {cams.length > 0
               ? cams.map((cam, index) => {

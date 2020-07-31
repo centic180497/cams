@@ -93,6 +93,7 @@ class CameraItem extends Component {
   }
 
   handleClick = (e) => {
+    console.log('handle click')
     e.stopPropagation()
     const { lat, lng, id } = this.props.detail
     this.props.focusOnCam({

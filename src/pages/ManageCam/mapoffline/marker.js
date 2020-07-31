@@ -135,7 +135,7 @@ const iconcamera = new Icon({
   popupAnchor: [0, -39],
 })
 
-class MapOffline extends React.Component {
+class MarkerComponent extends React.Component {
   constructor(props) {
     super(props)
 
@@ -159,17 +159,14 @@ class MapOffline extends React.Component {
   //     }
   //   }
 
-
-
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
     }
   }
-  handleClose = () => {
-    console.log('handleClose')
+  handleClose() {
     this.props.cancelFocusedCam()
-    this.props.focusOnCam({ id: -1 })
+    this.props.focusOnCam({ id: this.props.focusedCam })
   }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
@@ -254,45 +251,6 @@ class MapOffline extends React.Component {
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
-        <Map
-          fullscreenControl={true}
-          center={possition}
-          zoom={this.props.zoom}
-          className={classes.map}
-          onClick={this.handleClick}
-          onViewportChanged={this.onViewportChanged}
-        >
-          <Portal position="bottomright">
-            <button
-              className={classes.control}
-              onClick={this.handlePortalClick}
-            >
-              <svg
-                class="MuiSvgIcon-root jss2162"
-                focusable="false"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"
-                  className={classes.svg}
-                ></path>
-              </svg>
-            </button>
-          </Portal>
-          <TileLayer
-            url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
-            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://centic.vn"> Centic</a>'
-          />
-              {/* <MarkerClusterGroup  
-            zoomToShowLayer={true}
-            disableClusteringAtZoom={13}
-            showCoverageOnHover={false}
-            spiderfyOnMaxZoom={false}
-            maxClusterRadius={50}
-            
-          > */}
             {cams.length > 0
               ? cams.map((cam, index) => {
                   return (
@@ -309,10 +267,9 @@ class MapOffline extends React.Component {
                       }
                     >
                       <Popup
-                        // onClick={() => this.handleClose(cam.id)}
-                        closeButton={this.handleClose}
+                        onClose={() => this.handleClose(cam.id)}
+                        // onClick={()=>this.handleClose()}
                         className={classes.Popup}
-                        // onremove={this.handleclose}
                       >
                         <Typography noWrap className={classes.markerCamName}>
                           {cam.name}
@@ -366,14 +323,6 @@ class MapOffline extends React.Component {
                   )
                 })
               : null}
-            {/* </MarkerClusterGroup> */}
-            {!isEmpty(this.props.newCamCoor) && (
-              <NewCameaMarker
-                lat={this.props.newCamCoor.lat}
-                lng={this.props.newCamCoor.lng}
-              />
-            )}
-        </Map>
       </div>
     )
   }
@@ -409,4 +358,4 @@ export default connect(mapStateToProps, {
   //   showInfoWindow,
   //   closeInfoWindow,
   //   closePrevStreaming,
-})(withStyles(styles)(MapOffline))
+})(withStyles(styles)(MarkerComponent))

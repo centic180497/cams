@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import './style.css'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip'
 import { Typography } from '@material-ui/core'
 import { cancelHoverRowVehicle } from '../../../../actions/action_searchVehicles'
 import _ from 'lodash'
@@ -134,39 +134,49 @@ class MapOffline extends React.Component {
           closePopupOnClick={false}
           onpopupopen={this.test}
         >
-          
           <Portal position="bottomright" className={classes.portal}>
             <Tooltip title="Boundmap" aria-label="Boundmap">
-            <button
-              className={classes.control}
-              onClick={this.handlePortalClick}
-            >
-              <svg
-                class="MuiSvgIcon-root jss2162"
-                focusable="false"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+              <button
+                className={classes.control}
+                onClick={this.handlePortalClick}
               >
-                <path
-                  d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"
-                  className={classes.svg}
-                ></path>
-              </svg>
-            </button>
-               </Tooltip>
+                <svg
+                  class="MuiSvgIcon-root jss2162"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"
+                    className={classes.svg}
+                  ></path>
+                </svg>
+              </button>
+            </Tooltip>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
           </Portal>
-         
+
           <TileLayer
             url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          {cams.length > 0
-            ? cams.map((cam, index) => {
-                return <MakerComponent key={index} cam={cam}></MakerComponent>
-              })
-            : null}
+          <MarkerClusterGroup
+            onlayeradd={this.marker}
+            zoomToShowLayer={true}
+            disableClusteringAtZoom={13}
+            showCoverageOnHover={false}
+            spiderfyOnMaxZoom={false}
+            onClusterClick={this.handleZoomToShowLayer}
+            maxClusterRadius={50}
+            ref={this.zoomAndOpenPopup}
+          >
+            {cams.length > 0
+              ? cams.map((cam, index) => {
+                  return <MakerComponent key={index} cam={cam}></MakerComponent>
+                })
+              : null}
+          </MarkerClusterGroup>
         </Map>
       </div>
     )
