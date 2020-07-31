@@ -91,7 +91,6 @@ class GoogleMap extends Component {
         bootstrapURLKeys={{ key: MAP_API_KEY }}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => {
-          console.log('map loaded')
           apiIsLoaded(map, maps, cameras)
           this.map = map
           this.maps = maps

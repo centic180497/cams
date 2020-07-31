@@ -4,7 +4,7 @@ import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import { Icon } from 'leaflet'
-import icon from 'assets/icon/mX.png'
+import icon from 'assets/icon/mmx.png'
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 // import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -16,6 +16,9 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { Switch } from '@material-ui/core'
 import { Portal } from 'react-leaflet-portal'
 import Button from '@material-ui/core/Button'
+import { renderToStaticMarkup } from 'react-dom/server'
+import classNames from 'classnames'
+import { divIcon } from 'leaflet'
 // import { Tooltip } from '@material-ui/core'
 import {
   focusOnCam,
@@ -24,15 +27,16 @@ import {
   cancelFocusedCam,
   getCameraLocation,
   fetchCamLocation,
+  configCam,
   changeCamStatus,
   changingCamStatus,
 } from '../../../actions/action_camera'
+import{showDeleteCamModal}from 'actions/action_modal'
 import NewCameaMarker from '../../../components/Marker/NewCameaMarker'
 // import LiveView from '../LiveView'
 import { isEmpty } from 'lodash'
 import './style.css'
 import { Typography } from '@material-ui/core'
-import FullscreenControl from 'react-leaflet-fullscreen'
 import { changeBoundsMap } from '../../../actions/action_map'
 const styles = (theme) => ({
   root: {
@@ -67,6 +71,7 @@ const styles = (theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    width:"100%"
     // textAlign: 'center'
   },
   iconButton: {
@@ -88,6 +93,39 @@ const styles = (theme) => ({
     userSelect: 'none',
     backgroundColor: 'rgb(255, 255, 255)',
   },
+  test: {
+    marginLeft: '13px',
+    width: '30px',
+    height:'39px',
+    marginTop: '13px',
+    "&:hover": {
+      width: "38px",
+      height: '38px',
+      zIndex: 2,
+      transformStyle: 'preserve-3d'
+    }
+  },
+  Popup: {
+    width: '250px',
+    // maxWidth: 600,
+  },
+  markerCamNameimg: {
+    width: '100%',
+    height: '500px',
+  },
+  control: {
+    borderRadius: '4px',
+    border: 'none',
+    backgroundColor: 'white',
+    boxShadow: '0 1px 5px rgba(0,0,0,0.65)',
+  },
+  svg: {
+    color: '#4a4242',
+  },
+  // markerCamName:{
+  //   width:'100%',
+  //   possition:"relative"
+  // }
 })
 const iconcamera = new Icon({
   iconUrl: icon,
@@ -137,7 +175,16 @@ class MapOffline extends React.Component {
   handleClick = (e) => {
     let lat = e.latlng.lat
     let lng = e.latlng.lng
-    this.props.fetchCamLocation({ lat, lng })
+    const { isEditingCam, isAddingCam } = this.props
+    if (isEditingCam) { 
+      this.props.changeCamLocation({ lat, lng })
+      // this.props.fetchCamLocation({ lat, lng })
+    }
+    if (isAddingCam) {
+      // this.props.getCameraLocation({ lat, lng })
+      this.props.fetchCamLocation({lat, lng})
+    }
+    // this.props.fetchCamLocation({ lat, lng })
   }
   _onSwitchChange = (id, status) => (e) => {
     e.stopPropagation()
@@ -153,31 +200,65 @@ class MapOffline extends React.Component {
     })
   }
   handlePortalClick = () => {
-    const possition = [15.87944, 108.335]
-    const { center, zoom,defaultZoom } = this.props
+    const center = [15.892538563302992, 108.33192510216088]
+    const { defaultZoom } = this.props
     this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
-    console.log(this.props.zoom, this.props.center)
-    console.log(this.props.defaultZoom);
     
   }
   onViewportChanged = (viewport) => {
-    console.log(viewport)
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
+
+  handleConfigsClick = (e,cam) => {
+    e.stopPropagation()
+    console.log(cam);
+    
+    // const { id, lat, lng, name, ip } = this.props.detail
+    const{id,lat,lng,name,ip}=cam
+    this.props.configCam({
+      center: { lat, lng },
+      name,
+      ip,
+      zoom: 15,
+      id,
+    })
+  }
+  handleDelete = (event,cam) => {
+    event.stopPropagation()
+    this.props.showDeleteCamModal(cam)
   }
   render() {
     const { classes, cams, infoWindow } = this.props
+    const iconmaker = renderToStaticMarkup(
+      <div
+        className={classNames('marker-instance', {
+          // 'cam-alert': this.props.matchCams.includes(cam.id),
+        })}
+      >
+        <img className={classes.test} src={icon} />
+      </div>,
+    )
+    const iconcamera = divIcon({
+      // iconAnchor: [15, 39],
+      // popupAnchor: [0, -39],
+      iconSize: [30, 39],
+      iconAnchor: [15, 39],
+      popupAnchor: [0, -39],
+      tooltipAnchor:[0,-39],
+      html: iconmaker,
+    })
 
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
         <Map
          fullscreenControl={true}
-          center={this.props.center}
+          center={possition}
           zoom={this.props.zoom}
           className={classes.map}
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}
-          // onClick={this.handleClick}
+
         >
           <Portal position="bottomright">
             <button
@@ -190,7 +271,7 @@ class MapOffline extends React.Component {
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"></path>
+                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"   className={classes.svg}></path>
               </svg>
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
@@ -219,24 +300,24 @@ class MapOffline extends React.Component {
                       // onClick={()=>this.handleClose()}
                       className={classes.Popup}
                     >
-                      <Typography className={classes.markerCamName}>
+                      <Typography noWrap className={classes.markerCamName}>
                         {cam.name}
                       </Typography>
-                      <Typography className={classes.markerCamName}>
+                      <Typography noWrap className={classes.markerCamName}>
                         {cam.address}
                       </Typography>
-                      <Fragment>
+                      <Fragment >
                         <div className={classes.controls}>
                           <IconButton
                             className={classes.iconButton}
-                            onClick={this.handleConfigsClick}
+                            onClick={(e) => this.handleConfigsClick(e, cam)}
                           >
                             <SettingsIcon className={classes.icon} />
                           </IconButton>
 
                           <IconButton
                             className={classes.iconButton}
-                            onClick={this.handleDelete}
+                            onClick={(e)=>this.handleDelete(e,cam)}
                           >
                             <DeleteIcon className={classes.icon} />
                           </IconButton>
@@ -283,7 +364,7 @@ class MapOffline extends React.Component {
   }
 }
 
-const mapStateToProps = ({ map, cameras }) => ({
+const mapStateToProps = ({ map, cameras,manageCam}) => ({
   center: map.center,
   defaultZoom: map.defaultZoom,
   zoom: map.zoom,
@@ -295,7 +376,10 @@ const mapStateToProps = ({ map, cameras }) => ({
     lng: cameras.addCamera.lng,
   },
   changingCamStatus: cameras.changingCamStatus,
-  defaultZoom:map.defaultZoom
+  defaultZoom:map.defaultZoom,
+  editCam: cameras.editCam.connection,
+  isEditingCam: map.isEditingCam,
+  isAddingCam: map.isAddingCam,
   //   infoWindow: map.showInfoWindow,
 })
 export default connect(mapStateToProps, {
@@ -305,6 +389,8 @@ export default connect(mapStateToProps, {
   cancelFocusedCam,
   changeCamStatus,
   changeBoundsMap,
+  configCam: configCam,
+  showDeleteCamModal,
   //   showInfoWindow,
   //   closeInfoWindow,
   //   closePrevStreaming,

@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import { Icon } from 'leaflet'
-import icon from 'assets/icon/mX.png'
+import icon from 'assets/icon/mmx.png'
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 // import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -44,29 +44,43 @@ const styles = (theme) => ({
     height: '39px',
     marginTop: '13px',
     '&:hover': {
-      transform: 'scale(1.5)',
+      // transform: 'scale(1.5)',
+      width: "38px",
+      height: '38px',
+      zIndex: 2,
+      transformStyle: 'preserve-3d'
     },
   },
   imgseach: {
-    width: 'auto',
+    width: '100%',
     // maxWidth: '300px',
-    minWidth: '300px',
-    minHeight: '100px',
-    maxHeight: '400px',
-    height: 'auto',
+    maxWidth: '100%',
+    minHeight:'150px',
+    // minHeight: '150px',
+    maxHeight: '600px',
+    height: '100%',
+    pointerEvents:'none',
+    objectFit:'fill'
   },
   Popup: {
-    width: '310px',
+    width: '300px',
     // maxWidth: 600,
   },
   markerCamName:{
     width:'100%',
+    possition:"relative",
+    height:'600px',
+    paddingRight:"8px"
+  },
+  imgpopup:{
+    width:'100%',
+    paddingRight:"8px"
   }
 })
 
 class MarkerComponent extends React.Component {
   state = {
-    hovered: false,
+    hover: false,
   }
   openPopup(marker) {
     if (marker && marker.leafletElement) {
@@ -99,15 +113,18 @@ class MarkerComponent extends React.Component {
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
-        <img className={classes.test} src={icon} />
+        <img className={classes.test} src={icon}
+        onMouseEnter={this._onMouseEnter}
+        onMouseLeave={this._onMouseLeave}
+        />
       </div>,
     )
     const iconcamera = divIcon({
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
-      tooltipAnchor: [0, -39],s
-      html: iconmaker,
+      tooltipAnchor: [0, -39],
+      html: iconmaker
     })
     const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
     return (
@@ -120,7 +137,7 @@ class MarkerComponent extends React.Component {
           direction={'right'}
         >
           {isShowInfoWindow ? (
-            <div className={classes.imgblack}>
+            <div className={classes.imgpopup}>
               <Popup
                 autoPan={true}
                 direction={'right'}

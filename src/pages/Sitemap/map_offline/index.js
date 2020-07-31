@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
-import { Icon, L, markerClusterGroup } from 'leaflet'
+import L from 'leaflet'
 import icon from 'assets/icon/mX.png'
 import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 import { closePrevStreaming } from '../../../actions/action_streaming'
@@ -18,11 +18,13 @@ import { divIcon } from 'leaflet'
 import { changeBoundsMap } from 'actions/action_map'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 // import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
-import 'leaflet.markercluster/dist/leaflet.markercluster'
+import 'leaflet.markercluster/dist/leaflet.markercluster.js'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'react-leaflet-markercluster/dist/styles.min.css'
+import 'leaflet.markercluster/dist/leaflet.markercluster-src.js'
 import _ from 'lodash'
+// import 'leaflet.markercluster.freezable'
 
 const styles = (theme) => ({
   root: {
@@ -48,6 +50,15 @@ const styles = (theme) => ({
   markerCamName: {
     margin: '0 !important',
   },
+  control: {
+    borderRadius: '4px',
+    border: 'none',
+    backgroundColor: 'white',
+    boxShadow: '0 1px 5px rgba(0,0,0,0.65)',
+  },
+  svg:{
+    color:'#4a4242'
+  }
   // Popup:{
   //   width: '480px !important',
   // },
@@ -56,81 +67,49 @@ const styles = (theme) => ({
   //   maxWidth:480
   // }
 })
-const iconcamera = new Icon({
-  iconUrl: icon,
-  iconSize: [30, 39],
-  iconAnchor: [15, 39],
-  popupAnchor: [0, -39],
-  tooltipAnchor: [0, -39],
-  className: 'hover',
-})
-
-
-// const getMapBounds = (map, maps, cameras) => {
-//   const bounds = new maps.LatLngBounds()
-//   cameras.map(cam => {
-//     bounds.extend(new maps.LatLng(cam.lat, cam.lng))
-//   })
-//   return bounds
-// }
-
-// const apiIsLoaded = (map, maps, cameras) => {
-//   if (cameras.length > 0) {
-//     const bounds = getMapBounds(map, maps, cameras)
-//     if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-//       let extendPoint1 = new maps.LatLng(
-//         bounds.getNorthEast().lat() + 0.01,
-//         bounds.getNorthEast().lng() + 0.01,
-//       )
-//       let extendPoint2 = new maps.LatLng(
-//         bounds.getNorthEast().lat() - 0.01,
-//         bounds.getNorthEast().lng() - 0.01,
-//       )
-//       bounds.extend(extendPoint1)
-//       bounds.extend(extendPoint2)
-//     }
-//     map.fitBounds(bounds)
-//   }
-// }
 class MapOffline extends React.Component {
   constructor(props) {
     super(props)
-    this.Ref = React.createRef()
+    this.state = {
+      layer: [],
+      markers: null,
+      zoom: 12,
+      // layerCluster: null
+      id:[]
+    }
+    this.ref = React.createRef();
+    this.zoomAndOpenPopup=React.createRef();
+    // this.mapref= React.createRef();
   }
 
+  // componentDidMount = () => {
+  //   console.log("kgldgkfdgoi");
+  //   console.log(this.ref.current);
+    
+  //   console.log(this.zoomAndOpenPopup);
+    
+    
+  // }
+
   // componentDidUpdate(prevProps) {
-  //   const { cameras = [] } = this.props
-  //   const arrCams = cameras.map(cam => cam.id)
-  //   const prevArrCams = prevProps.cameras.map(cam => cam.id)
 
-  //   if (
-  //     prevProps.cameropenPopupas.length > 0 &&
-  //     this.props.cameras.length > 0 &&
-  //     !_.isEqual(arrCams, prevArrCams)
-  //   ) {
-  //     apiIsLoaded(this.map, this.maps, cameras)
-  //   }
+  //   console.log(this.zoomAndOpenPopup);
+    
+  //   console.log(this.zoomAndOpenPopup.current.leafletElement);
+  //   const cluster =this.zoomAndOpenPopup.current.leafletElement;
+  //   console.log(cluster._featureGroup._leaflet_id);
+    
+  //   this.state.id.push(cluster._leaflet_id)
+  //   var target = cluster.getLayer(this.state.id[0])
+  //   console.log(target);
+    
   // }
-  // _onClick = ({ id, lat, lng }) => {
-  //   const { infoWindow } = this.props
-
-  //   if ((infoWindow !== -1) & (infoWindow !== id)) {
-  //     this.props.closePrevStreaming(infoWindow)
-  //   }
-  //   if (infoWindow !== id) {
-  //     this.props.showInfoWindow({
-  //       center: { lat, lng },
-  //       id,
-  //     })
-  //   }
-  // }
+ 
   onViewportChanged = (viewport) => {
-    console.log('asdhakjsdhk')
-
-    // console.log(viewport)
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   }
   handlePortalClick = () => {
+    
     // const { cameras } = this.props
     // apiIsLoaded(this.map, this.maps, cameras)
     const center = [15.892538563302992, 108.33192510216088]
@@ -138,63 +117,96 @@ class MapOffline extends React.Component {
     changeBoundsMap({ center: center, zoom: this.props.defaultZoom })
   }
 
-  openPopup(marker) {
-    console.log(marker)
+  handleZoomToShowLayer = (a) => {
 
-    if (marker && marker.leafletElement) {
-      // if (marker.leafletElement._zoom > 13) {
-      //   marker.leafletElement.openPopup()
-      // }
-      marker.leafletElement.openPopup()
-    }
-    //   marker.zoomToShowLayer(target, function() {
-    //     target.openPopup();
-    //   })
-    // });
+    // a.layer.zoomToBounds()
+
+    var group = a.layer.getAllChildMarkers()
   }
-  // // handleClose(id) {
-  // //   // this.props.showInfoWindow({ id: -1 })
-  // //   this.props.closeInfoWindow({ id: -1 })
-  // // }
-  // handleClick(marker) {
-  //   // console.log('marker.layer', marker.layer)
-  // }
-  zoomToShowLayer = (markers) => {
-    const { cams } = this.props
-    // console.log(this.props.cams, 'dadasihdi')
-
-    // console.log(markers)
-
-    markers.layer.zoomToBounds()
-
-    const layer = markers.layer.getAllChildMarkers()
-  }
-  onzoomend = (e) => {
-    // var mcg = L.markerClusterGroup()
-    console.log('eeeeeeeeee////', e)
-    // e.zoomToShowLayer(e,function(){
-    //   // e.openPopup();
-    // })
-    e.leafletElement.openPopup()
-  }
-  Add = (e) => {
-    // console.log('e', e)
-
-    // let id = '5e950e72c95ba32d4eaf80c2'
-    let id =this.props.cams.filter(cam=>cam.id===this.props.infoWindow)
-    // console.log("ididd",id);
+  // zoomAndOpenPopup=(layer)=>{
+  //   if (layer) {
+  //     this.setState({
+  //       ...this.state,
+  //       layerCluster: layer
+  //     })
+  //   } 
+    // let mapcluster= document.querySelector("mapcluster")
+    // console.log(layer);
+    // console.log(this.ref.current.leafletElement);
     
-  }
+    // const map=this.ref.current.leafletElement
+    // const mcg = layer.leafletElement;
+    // if(mcg){
+    //        mcg.zoomToShowLayer(layer,function(){
+    //   // layer.openPopup()
+    //   console.log("Asasdad");
+      
+    // })
+    // }
+    // console.log(mcg);
+    
+    // map.addLayer(mcg)
+    //  mcg.zoomToShowLayer(layer,function(){
+    //   // layer.openPopup()
+    //   console.log("Asasdad");
+      
+    // })
+    // console.log("mdad",mcg);
+    // console.log("map",map);
+    
+    // mcg.addTo(this.ref)
+    // mcg.zoomToShowLayer(layer,function(){
+    //   layer.openPopup()
+    // })
+
+    // console.log("this.cluster",this.cluster);
+    // this.ref.current.addLayer(layer)
+  // this.ref.current.addLayer(mcg)    
+    //  this.ref.addLayer(mcg)
+    
+    //  mcg.zoomToShowLayer(layer,function(){
+    //    console.log("hdiasuhdiauhd");
+       
+    marker=(e)=>{
+    console.log(this.zoomAndOpenPopup.current.leafletElement);
+    let layer=e.layer._leaflet_id
+    console.log('layer',layer);
+    
+    const cluser=this.zoomAndOpenPopup.current.leafletElement
+    let getlayer=cluser.getLayer(layer)
+    console.log("getlayer",getlayer);
+
+    // cluser.zoomToShowLayer(e,function(){
+    //   e.layer.openPopup()
+    // })
+    
+    
+    
+    // const cluster =this.zoomAndOpenPopup.current.leafletElement;
+    // let target = e.layer
+    // cluster.zoomToShowLayer(target,function(){
+    //   target.openPopup()
+    // })
+
+
+      console.log(e);
+      
+    }
+    
+
+ 
 
   render() {
     const { classes, cams, infoWindow } = this.props
-
+    // console.log(this.state.layer)
     // console.log('infowindow...', infoWindow);
     // console.log('cams...', cams);
 
+    // console.log('aslkdjasdkj', this.state.layerCluster)
+
     const possition = [15.87944, 108.335]
     return (
-      <div className={classes.root}>
+      <div className={classes.root} id="test">
         <Map
           fullscreenControl={true}
           center={possition}
@@ -202,8 +214,10 @@ class MapOffline extends React.Component {
           className={classes.map}
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}
-          animate={true}
-          onZoomEnd={this.onChangeView}
+          id="mapcluster"
+          ref={this.ref}
+          // onlayeradd={this.marker}
+          // maxZoom={18}
         >
           <Portal position="bottomright">
             <button
@@ -216,7 +230,7 @@ class MapOffline extends React.Component {
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"></path>
+                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z" className={classes.svg}></path>
               </svg>
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick}></Button> */}
@@ -227,29 +241,37 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          <MarkerClusterGroup
+          <MarkerClusterGroup  
+                   onlayeradd={this.marker}
+            // oneachLayer={this.Add}
+            // onlayeradd={ this.test }
+            className='cluster'
             // onClusterMouseOver={this.test}
             // wrapperOptions={{enableDefaultStyle: true}}
             zoomToShowLayer={true}
-            disableClusteringAtZoom={13}
+            disableClusteringAtZoom={18}
             // autoClose={false}
             // autoPan={false}
-            onClusterZoomToBounds={true}
+            // onClusterZoomToBounds={true}
             showCoverageOnHover={true}
-            spiderfyOnMaxZoom={true}
-            animateAddingMarkers={true}
+            spiderfyOnMaxZoom={false}
+            // animateAddingMarkers={true}
             // animate={true}
-            onClusterClick={this.zoomToShowLayer}
-            removeOutsideVisibleBounds={true}
+            onClusterClick={this.handleZoomToShowLayer}
+            // animateAddingMarkers= {true} 
+            // spiderfyDistanceMultiplier= {true}
+            // removeOutsideVisibleBounds={false}
             // freezeAtzoom={}
-            hasLayer={true}
+            // hasLayer={false}
             //  removeOutsideVisibleBounds={true}
             maxClusterRadius={50}
             // chunkedLoading={true}
-            ref={this.ref}
-            onClusterlayeradd={this.layeradd}
-            onlayeradd={this.Add}
-           zoomToShowLayer={this.onzoomend}
+            // ref={this.zoomAndOpenPopup}
+            ref={this.zoomAndOpenPopup}
+            // clusterlayeradd={this.test}
+            // onClusterlayeradd={this.layeradd}
+            //  zoomToShowLayer={this.onzoomend}
+          
           >
             {cams.length > 0
               ? cams.map((cam, index) => {

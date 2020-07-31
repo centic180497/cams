@@ -48,7 +48,7 @@ const reducer_modal = (state = INITIAL_STATE, action) => {
     case types.SHOW_LOADING_MODAL:
       return {
         ...state,
-        isOpen: true,
+        isOpen: false,
         modalType: 'LOADING',
         content: action.content,
       }

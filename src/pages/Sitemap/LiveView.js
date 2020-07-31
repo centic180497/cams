@@ -10,7 +10,7 @@ import Loading from '../../components/Loading'
 
 const styles = (theme) => ({
   root: {
-    width: 510,
+    width: '100%',
     height: 270,
     cursor: 'default',
     background: theme.palette.common.white,

@@ -40,7 +40,7 @@ class InfoWindow extends Component {
           </div>
           <div className={classes.imageWrapper}>
             <img
-              src={`${data.object_img}`}
+              src={`${ 'http://116.110.6.137:1085'+data.object_img}`}
               className={classes.image}
             />
           </div>

@@ -181,9 +181,9 @@ const reducer_camera = (state = INITIAL_STATE, action) => {
         ...state,
         addCamera: {
           ...state.addCamera,
-          province: action.payload.province,
-          district: action.payload.district,
-          commune: action.payload.commune,
+          // province: action.payload.province,
+          // district: action.payload.district,
+          // commune: action.payload.commune,
         },
       }
 

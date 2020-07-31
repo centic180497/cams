@@ -26,6 +26,7 @@
     "leaflet-fullscreen": "^1.0.2",
     "leaflet.fullscreen": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
+    "leaflet.markercluster.freezable": "^1.0.0",
     "lodash": "^4.17.15",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",

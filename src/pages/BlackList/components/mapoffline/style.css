@@ -1,5 +1,6 @@
  .leaflet-popup-content {
     margin:4px 4px;
+    width: 100% !important;
 }
 .leaflet-popup-content p {
   margin: 0;
@@ -12,8 +13,11 @@
   position: absolute;
   z-index: 1000;
   pointer-events: none;
-  right: 1px !important;
+  right: 5px !important;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+.leaflet-right{
+  right:-5px
 }

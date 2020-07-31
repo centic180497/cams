@@ -32,6 +32,7 @@ class NewCameraMarker extends Component {
           <Marker
             position={[this.props.lat, this.props.lng]}
             icon={iconcamera}
+            draggable={true}
           ></Marker>
         </div>
       </div>

@@ -1,5 +1,9 @@
 .leaflet-popup-content {
     margin:4px 4px;
+    width: 100% !important;
+}
+.leaflet-popup-content p{
+  margin: 0 !important;
 }
 .leaflet-div-icon {
     background: transparent;
@@ -9,10 +13,13 @@
     position: absolute;
     z-index: 1000;
     pointer-events: none;
-    right: 0 !important;
+    right: 5px !important;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+  }
+  .leaflet-right{
+    right:-5px
   }
 /* .leaflet-pane .leaflet-tooltip-pane{
   margin-top: -22px;

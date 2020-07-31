@@ -66,11 +66,11 @@ class VehicleHistory extends Component {
           )}
         </div>
         <div className={classes.right}>
-          {/* <GoogleMap center={center} defaultZoom={defaultZoom} zoom={zoom}>
+           {/* <GoogleMap center={center} defaultZoom={defaultZoom} zoom={zoom}>
             {cams.map((cam, index) => (
               <Marker lat={cam.lat} lng={cam.lng} data={cam} key={index} />
             ))}
-          </GoogleMap> */}
+          </GoogleMap>  */}
           <MapOffline cams={this.props.cams}/>
         </div>
       </div>

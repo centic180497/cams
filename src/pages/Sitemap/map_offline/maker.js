@@ -1,8 +1,8 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
-import { Icon, L} from 'leaflet'
-import icon from 'assets/icon/mX.png'
+import { Icon, L } from 'leaflet'
+import icon from 'assets/icon/mmx.png'
 import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -43,63 +43,37 @@ const styles = (theme) => ({
   Marker: {
     backgroundColor: 'black',
   },
+  Popup:{
+    width:'480px',
+  },
   camName: {
     fontWeight: 600,
   },
   markerCamName: {
     margin: '0 !important',
+    width: '100%',
+  },
+  imgpopup:{
+    width: '480px',
+    paddingRight: '9px',
+  },
+  video:{
+    width:'100%'
   },
   test: {
     marginLeft: '13px',
     width: '30px',
-    height:'39px',
+    height: '39px',
     marginTop: '13px',
-    "&:hover": {
-      transform: "scale(1.5)"
-    }
+    '&:hover': {
+      width: '38px',
+      height: '38px',
+      zIndex: 2,
+      transformStyle: 'preserve-3d',
+    },
   },
-  // Popup:{
-  //   width: '480px !important',
-  // },
-  // video:{
-  //   width:'100%',
-  //   maxWidth:480
-  // }
 })
-// const iconcamera = new Icon({
-//   iconUrl: icon,
-//   iconSize: [30, 39],
-//   iconAnchor: [15, 39],
-//   popupAnchor: [0, -39],
-//   tooltipAnchor:[0,-39],
-//   className:"hover"
-// }) 
-const getMapBounds = (map, maps, cameras) => {
-  const bounds = new maps.LatLngBounds()
-  cameras.map(cam => {
-    bounds.extend(new maps.LatLng(cam.lat, cam.lng))
-  })
-  return bounds
-}
 
-const apiIsLoaded = (map, maps, cameras) => {
-  if (cameras.length > 0) {
-    const bounds = getMapBounds(map, maps, cameras)
-    if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-      let extendPoint1 = new maps.LatLng(
-        bounds.getNorthEast().lat() + 0.01,
-        bounds.getNorthEast().lng() + 0.01,
-      )
-      let extendPoint2 = new maps.LatLng(
-        bounds.getNorthEast().lat() - 0.01,
-        bounds.getNorthEast().lng() - 0.01,
-      )
-      bounds.extend(extendPoint1)
-      bounds.extend(extendPoint2)
-    }
-    map.fitBounds(bounds)
-  }
-}
 class MarkerComponent extends React.Component {
   _onClick = ({ id, lat, lng }) => {
     const { infoWindow } = this.props
@@ -114,60 +88,22 @@ class MarkerComponent extends React.Component {
       })
     }
   }
-//   onViewportChanged = (viewport) => {
-//     // console.log(viewport)
-//     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-//   }
-//   handlePortalClick = () => {
-//     // const { cameras } = this.props
-//     // apiIsLoaded(this.map, this.maps, cameras)
-//     const center=[15.892538563302992,108.33192510216088]
-//     const{changeBoundsMap}=this.props
-//     changeBoundsMap({center:center,zoom:this.props.defaultZoom})
-//   }
 
   openPopup(marker) {
-
     if (marker && marker.leafletElement) {
-      // if (marker.leafletElement._zoom > 13) {
-      //   marker.leafletElement.openPopup()
-      // }
       marker.leafletElement.openPopup()
     }
-    //   marker.zoomToShowLayer(target, function() {
-    //     target.openPopup();
-    //   })
-    // });
   }
-  // handleClose(id) {
-  //   // this.props.showInfoWindow({ id: -1 })
-  //   this.props.closeInfoWindow({ id: -1 })
-  // }
-//   zoomToShowLayer(markers) {
+  handleClose(id) {
+    const { infoWindow } = this.props
+   
+      this.props.closeInfoWindow({ id:-1 })
     
-//     console.log("dasdad",markers);
-//     markers.layer.zoomToBounds();
-//     markers.layer.openPopup()
-//     // markers.openPopup()
-//     // markers.layer.openPopup()
-//     // markers.freezeAtZoom(15)
-
-
-//     // markers.target._maxzoom=15
-//     // markers.layer.openPopup()
-// //     target.__parent.zoomToBounds();
-// // target.__parent.spiderfy();
-// // target.openPopup();
-//   //   console.log(markers);
-//   }
+  }
   render() {
-    const { classes, cams, infoWindow,cam,key } = this.props
+    const { classes, cams, infoWindow, cam, key } = this.props
     const iconmaker = renderToStaticMarkup(
-      <div
-        className={classNames('marker-instance', {
-          // 'cam-alert': this.props.matchCams.includes(cam.id),
-        })}
-      >
+      <div className={classNames('marker-instance', {})}>
         <img className={classes.test} src={icon} />
       </div>,
     )
@@ -177,53 +113,51 @@ class MarkerComponent extends React.Component {
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
-      tooltipAnchor:[0,-39],
+      tooltipAnchor: [0, -39],
       html: iconmaker,
     })
 
     // console.log('infowindow...', infoWindow);
     // console.log('cams...', cams);
-    
 
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
-                    <Marker
-                    key={key}
-                      position="right"
-                      onClick={() => this._onClick(cam)}
-                      position={[cam.lat, cam.lng]}
-                      icon={iconcamera}
-                      ref={
-                        infoWindow && cam.id === infoWindow
-                          ? this.openPopup
-                          : null
-                      }
-                    >
-                      <Popup
-                        // onClose={() => this.handleClose(cam.id)}
-                        className={classes.Popup}
-                      >
-                        <Typography className={classes.markerCamName}>
-                          {cam.name}
-                        </Typography>
-                        <LiveView id={cam.id} className={classes.video} />
-                      </Popup>
+        <Marker
+          key={key}
+          position="right"
+          onClick={() => this._onClick(cam)}
+          position={[cam.lat, cam.lng]}
+          icon={iconcamera}
+          ref={infoWindow && cam.id === infoWindow ? this.openPopup : null}
+        >
+          <Popup
+            onClose={() => this.handleClose(cam.id)}
+            className={classes.Popup}
 
-                      <Tooltip className={classes.Tooltip} direction={'top'}>
-                        <Typography align="center" className={classes.camName}>
-                          {' '}
-                          {cam.name}{' '}
-                        </Typography>
-                        <Typography align="center"> {cam.address} </Typography>
-                      </Tooltip>
-                    </Marker>
+          >
+            <div className={classes.imgpopup}>
+            <Typography className={classes.markerCamName}>
+              {cam.name}
+            </Typography>
+            <LiveView id={cam.id} className={classes.video} />
+            </div>
+          </Popup>
+
+          <Tooltip className={classes.Tooltip} direction={'top'}>
+            <Typography align="center" className={classes.camName}>
+              {' '}
+              {cam.name}{' '}
+            </Typography>
+            <Typography align="center"> {cam.address} </Typography>
+          </Tooltip>
+        </Marker>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ map,cameras }) => ({
+const mapStateToProps = ({ map, cameras }) => ({
   infoWindow: map.showInfoWindow,
   center: map.center,
   defaultZoom: map.defaultZoom,

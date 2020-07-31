@@ -32,6 +32,16 @@ const styles = (theme) => ({
     width: '100%',
     height: 'calc(100vh - 50px)',
   },
+  control: {
+    borderRadius: '4px',
+    border: 'none',
+    backgroundColor: 'white',
+    boxShadow: '0 1px 5px rgba(0,0,0,0.65)',
+  },
+  svg:{
+    color:'#4a4242'
+  }
+
 })
 // const iconcamera = new Icon({
 //     iconUrl: icon,
@@ -75,7 +85,7 @@ class MapOffline extends React.Component {
     //     'cam-alert': matchCams.includes(this.props.cams.id),
     // });
 
-    const possition = [15.87944, 108.335]
+    const possition = [15.892538563302992, 108.33192510216088]
     return (
       <div className={classes.root}>
         <Map
@@ -99,7 +109,7 @@ class MapOffline extends React.Component {
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"></path>
+                <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z" className={classes.svg}></path>
               </svg>
             </button>
             {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}

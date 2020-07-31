@@ -1,21 +1,23 @@
 /* .leaflet-popup-content {
     width: 200px !important;
 } */
-.leaflet-tooltip-pane {
-    z-index: 650;
-    left: 0px;
-    top: -39px;
-    background-color: white;
-}
-.leaflet-control-zoom-fullscreen {
-    background-image: url(https://github.com/brunob/leaflet.fullscreen/raw/master/icon-fullscreen.png);
+.leaflet-popup-content {
+    margin:4px 4px;
+    /* width: 100%; */
 }
 .leaflet-top.leaflet-left {
     position: absolute;
     z-index: 1000;
     pointer-events: none;
-    right: 0 !important;
+    right: 5px !important;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+  }
+  .leaflet-div-icon {
+    background: transparent;
+    border: none;
+  }
+  .leaflet-right{
+    right:-5px
   }
