@@ -2,7 +2,9 @@
 
 // const API_URL = 'http://116.110.6.137:1085/'
 // const API_URL = '/'
-const API_URL = 'http://10.49.46.13:8000/'
+const API_URL = 'http://103.101.76.162:8000/'
+
+// const API_URL = 'http://10.49.46.13:8000/'
 // const API_URL = 'http://116.110.6.137:1085/'
 
 const MAP_API_KEY = 'AIzaSyDb5xOZiLOJAtKJWj4spvQf3UEQvE-3sc4'

@@ -94,6 +94,23 @@ const styles = (theme) => ({
     userSelect: 'none',
     backgroundColor: 'rgb(255, 255, 255)',
   },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton1: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    // padding: 6,
+    top:-3
+  },
   test: {
     marginLeft: '13px',
     width: '30px',
@@ -101,7 +118,7 @@ const styles = (theme) => ({
     marginTop: '13px',
     '&:hover': {
       width: '38px',
-      height: '38px',
+      height: '47px',
       zIndex: 2,
       transformStyle: 'preserve-3d',
     },
@@ -141,6 +158,9 @@ class MapOffline extends React.Component {
 
     // this.customMarker = React.createRef();
   }
+  state = {
+    hover: false,
+  }
   // _onMarkerClick = (item) => {
   //   console.log(item.lat)
   //   const { infoWindow } = this.props
@@ -166,11 +186,11 @@ class MapOffline extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  handleClose = () => {
-    console.log('handleClose')
-    this.props.cancelFocusedCam()
-    this.props.focusOnCam({ id: -1 })
-  }
+  // handleClose = () => {
+  //   console.log('handleClose')
+  //   this.props.cancelFocusedCam()
+  //   this.props.focusOnCam({ id: -1 })
+  // }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
@@ -230,6 +250,16 @@ class MapOffline extends React.Component {
     event.stopPropagation()
     this.props.showDeleteCamModal(cam)
   }
+  _onClose=()=>{
+    this.setState({
+      hover: false,
+    })
+    this.props.cancelFocusedCam()
+    this.props.focusOnCam({ id: -1 })
+
+
+    console.log('asdkalsj')
+  }
   render() {
     const { classes, cams, infoWindow } = this.props
     const iconmaker = renderToStaticMarkup(
@@ -285,14 +315,14 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-              {/* <MarkerClusterGroup  
+              <MarkerClusterGroup  
             zoomToShowLayer={true}
             disableClusteringAtZoom={13}
             showCoverageOnHover={false}
             spiderfyOnMaxZoom={false}
             maxClusterRadius={50}
             
-          > */}
+          >
             {cams.length > 0
               ? cams.map((cam, index) => {
                   return (
@@ -309,11 +339,17 @@ class MapOffline extends React.Component {
                       }
                     >
                       <Popup
+                       closeButton	={false}
                         // onClick={() => this.handleClose(cam.id)}
-                        closeButton={this.handleClose}
+                        // closeButton={this.handleClose}
                         className={classes.Popup}
                         // onremove={this.handleclose}
                       >
+                         <div className={classes.header}>
+            <IconButton className={classes.iconButton1} onClick={this._onClose}>
+              <ClearOutlined className={classes.icon} />
+            </IconButton>
+          </div>
                         <Typography noWrap className={classes.markerCamName}>
                           {cam.name}
                         </Typography>
@@ -366,7 +402,7 @@ class MapOffline extends React.Component {
                   )
                 })
               : null}
-            {/* </MarkerClusterGroup> */}
+            </MarkerClusterGroup>
             {!isEmpty(this.props.newCamCoor) && (
               <NewCameaMarker
                 lat={this.props.newCamCoor.lat}

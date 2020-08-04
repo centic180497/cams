@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { Icon } from 'leaflet'
-import icon from 'assets/icon/mX.png'
+// import icon from 'assets/icon/mX.png'
 // import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 // import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -94,32 +94,10 @@ class MapOffline extends React.Component {
   //   console.log('ref',e);
 
   // }
-  test = (e) => {
-    console.log(e)
 
-    const { leafletElement } = this.mapref.current
-    console.log('leafletElement', leafletElement)
-
-    if (e) {
-      leafletElement.setView(e.popup._latlng)
-      const point = leafletElement.project(e.target._popup._latlng)
-      leafletElement.panTo(leafletElement.unproject(point), { animate: true })
-    }
-  }
 
   render() {
     const { classes, cams, focusedVehicle } = this.props
-    const iconmaker = renderToStaticMarkup(
-      <div>
-        <img className="abcd" src={icon} />
-      </div>,
-    )
-    const iconcamera = divIcon({
-      iconSize: [30, 39],
-      iconAnchor: [15, 39],
-      popupAnchor: [0, -39],
-      html: iconmaker,
-    })
 
     const possition = [15.87944, 108.335]
     return (
@@ -132,7 +110,6 @@ class MapOffline extends React.Component {
           className={classes.map}
           onViewportChanged={this.onViewportChanged}
           closePopupOnClick={false}
-          onpopupopen={this.test}
         >
           <Portal position="bottomright" className={classes.portal}>
             <Tooltip title="Boundmap" aria-label="Boundmap">

@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import L from 'leaflet'
-import icon from 'assets/icon/mX.png'
+// import icon from 'assets/icon/mX.png'
 import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
@@ -166,39 +166,12 @@ class MapOffline extends React.Component {
     
     //  mcg.zoomToShowLayer(layer,function(){
     //    console.log("hdiasuhdiauhd");
-       
-    marker=(e)=>{
-    console.log(this.zoomAndOpenPopup.current.leafletElement);
-    let layer=e.layer._leaflet_id
-    console.log('layer',layer);
-    
-    const cluser=this.zoomAndOpenPopup.current.leafletElement
-    let getlayer=cluser.getLayer(layer)
-    console.log("getlayer",getlayer);
-
-    // cluser.zoomToShowLayer(e,function(){
-    //   e.layer.openPopup()
-    // })
-    
-    
-    
-    // const cluster =this.zoomAndOpenPopup.current.leafletElement;
-    // let target = e.layer
-    // cluster.zoomToShowLayer(target,function(){
-    //   target.openPopup()
-    // })
-
-
-      console.log(e);
-      
-    }
-    
-
- 
 
   render() {
     const { classes, cams, infoWindow } = this.props
     // console.log(this.state.layer)
+
+    // console.log(this.ref);
     // console.log('infowindow...', infoWindow);
     // console.log('cams...', cams);
 
@@ -215,6 +188,7 @@ class MapOffline extends React.Component {
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}
           id="mapcluster"
+          closePopupOnClick={false}
           ref={this.ref}
           // onlayeradd={this.marker}
           // maxZoom={18}
@@ -253,7 +227,7 @@ class MapOffline extends React.Component {
           >
             {cams.length > 0
               ? cams.map((cam, index) => {
-                  return <MarkerComponent key={index} cam={cam} />
+                  return <MarkerComponent key={index} cam={cam} ref={this.ref}/>
                 })
               : null}
           </MarkerClusterGroup>

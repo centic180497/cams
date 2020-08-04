@@ -15,6 +15,8 @@ import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import ClearOutlined from '@material-ui/icons/ClearOutlined'
 import {
   cancelHoverRowVehicle,
   focusVehicle,
@@ -73,6 +75,22 @@ const styles = (theme) => ({
     position: 'relative',
     objectFit: 'fill',
   },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    padding: 6,
+  },
   Popup: {
     width: '400px',
     // maxWidth: 600,
@@ -92,6 +110,9 @@ const styles = (theme) => ({
 })
 
 class MakerComponent extends React.Component {
+   state = {
+    hover: false,
+  }
   // _onMarkerClick = (item) => {
   //   console.log(item.lat)
   //   const { infoWindow } = this.props
@@ -117,14 +138,26 @@ class MakerComponent extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  handleClose() {
-    this.props.cancelHoverRowVehicle()
-    this.props.focusVehicle(this.props.focusedVehicle)
-  }
+  // handleClose(id) {
+  //   console.log("sdfsdf",id)
+    
+  //   this.props.cancelHoverRowVehicle()
+  //   this.props.focusVehicle(this.props.focusedVehicle)
+  // }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
     }
+  }
+  _onClose=()=>{
+    this.setState({
+      hover: false,
+    })
+    this.props.cancelHoverRowVehicle()
+    this.props.focusVehicle({id:-1})
+
+
+    console.log('asdkalsj')
   }
 
   render() {
@@ -166,8 +199,13 @@ class MakerComponent extends React.Component {
           <Popup
             className={classes.Popup}
             closePopupOnClick={true}
-            onClose={() => this.handleClose()}
+            // onClose={() => this.handleClose(this.props.cam.id)}
           >
+          <div className={classes.header}>
+            <IconButton className={classes.iconButton} onClick={this._onClose}>
+              <ClearOutlined className={classes.icon} />
+            </IconButton>
+          </div>
             <div className={classes.imgpopup}>
               <Typography
                 className={classes.markerCamName}

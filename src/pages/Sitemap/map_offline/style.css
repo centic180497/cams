@@ -2,6 +2,9 @@
     margin:4px 4px;
     /* width: 480px !important; */
 }
+/* .leaflet-popup-close-button{
+  display: none;
+} */
 .leaflet-top.leaflet-left {
     position: absolute;
     z-index: 1000;

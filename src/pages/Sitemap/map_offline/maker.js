@@ -22,6 +22,8 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import { renderToStaticMarkup } from 'react-dom/server'
 import classNames from 'classnames'
+import IconButton from '@material-ui/core/IconButton'
+import ClearOutlined from '@material-ui/icons/ClearOutlined'
 import 'react-leaflet-markercluster/dist/styles.min.css'
 import _ from 'lodash'
 
@@ -46,6 +48,22 @@ const styles = (theme) => ({
   Popup:{
     width:'480px',
   },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    padding: 6,
+  },
   camName: {
     fontWeight: 600,
   },
@@ -67,7 +85,7 @@ const styles = (theme) => ({
     marginTop: '13px',
     '&:hover': {
       width: '38px',
-      height: '38px',
+      height: '47px',
       zIndex: 2,
       transformStyle: 'preserve-3d',
     },
@@ -75,6 +93,15 @@ const styles = (theme) => ({
 })
 
 class MarkerComponent extends React.Component {
+  constructor(props){
+    super(props);
+    this.ref = React.createRef();
+}
+  state = {
+    livestream: false
+  }
+
+  
   _onClick = ({ id, lat, lng }) => {
     const { infoWindow } = this.props
 
@@ -88,18 +115,46 @@ class MarkerComponent extends React.Component {
       })
     }
   }
+  closePopups(marker) {
+    if (marker && marker.leafletElement) {
+      marker.leafletElement.closePopup()
+    }
+  }
+  _onCloseInfoWindowClick=()=>{
+   
+    this.closePopups()
+    const { infoWindow } = this.props 
+    const {id}=this.props.cam
+  
+
+    this.setState({
+      livestream: false 
+    })
+    // this.props.showInfoWindow({id:-1})
+    this.props.closeInfoWindow({id:-1})
+
+    // this.props.showInfoWindow({id:-1})
+    console.log('dasdsd')
+  }
 
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
     }
   }
+test=()=>{
+  console.log("acascas");
+}
   handleClose(id) {
     const { infoWindow } = this.props
+    if(id!=infoWindow){
+      this.props.closeInfoWindow()
+    }
    
-      this.props.closeInfoWindow({ id:-1 })
-    
+      
+      // this.props.showInfoWindow({id:-1})
   }
+
   render() {
     const { classes, cams, infoWindow, cam, key } = this.props
     const iconmaker = renderToStaticMarkup(
@@ -132,14 +187,24 @@ class MarkerComponent extends React.Component {
           ref={infoWindow && cam.id === infoWindow ? this.openPopup : null}
         >
           <Popup
+          ref={this.ref}
             onClose={() => this.handleClose(cam.id)}
             className={classes.Popup}
-
+            closeButton	={true}
           >
-            <div className={classes.imgpopup}>
-            <Typography className={classes.markerCamName}>
+              {/* <div className={classes.header}>
+         
+            <IconButton className={classes.iconButton} onClick={this._onCloseInfoWindowClick}>
+              <ClearOutlined className={classes.icon} />
+            </IconButton>
+          </div> */}
+             <Typography className={classes.markerCamName}>
               {cam.name}
             </Typography>
+            <div className={classes.imgpopup}>
+            {/* <Typography className={classes.markerCamName}>
+              {cam.name}
+            </Typography> */}
             <LiveView id={cam.id} className={classes.video} />
             </div>
           </Popup>

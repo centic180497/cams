@@ -65,7 +65,7 @@ class LiveView extends Component {
     event.stopPropagation()
   }
   _onCloseInfoWindowClick = () => {
-    const { id } = this.props.detail
+    const { id } = this.props.cam
     this.props.closeInfoWindow(id)
   }
   render() {

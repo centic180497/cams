@@ -9,6 +9,9 @@
     background: transparent;
     border: none;
 }
+.leaflet-popup-close-button{
+  display: none;
+}
 .leaflet-top.leaflet-left {
     position: absolute;
     z-index: 1000;
