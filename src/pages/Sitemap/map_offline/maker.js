@@ -78,16 +78,37 @@ const styles = (theme) => ({
   video:{
     width:'100%'
   },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    top:-5,
+    padding: 6,
+  },
   test: {
     marginLeft: '13px',
     width: '30px',
     height: '39px',
     marginTop: '13px',
     '&:hover': {
-      width: '38px',
-      height: '47px',
-      zIndex: 2,
-      transformStyle: 'preserve-3d',
+      // width: '38px',
+      // height: '47px',
+      // zIndex: 2,
+      // transformStyle: 'preserve-3d',
+      transformStyle: 'preserve-3d', 
+      transition: '.3s ease-in-out',
+       transform: 'scale(1.3)',
+       transformOrigin: 'center'
     },
   },
 })
@@ -115,9 +136,9 @@ class MarkerComponent extends React.Component {
       })
     }
   }
-  closePopups(marker) {
-    if (marker && marker.leafletElement) {
-      marker.leafletElement.closePopup()
+  closePopups() {
+    if (this.ref.current && this.ref.current.leafletElement) {
+      this.ref.current.leafletElement.options.leaflet.map.closePopup()
     }
   }
   _onCloseInfoWindowClick=()=>{
@@ -127,11 +148,12 @@ class MarkerComponent extends React.Component {
     const {id}=this.props.cam
   
 
-    this.setState({
-      livestream: false 
-    })
-    // this.props.showInfoWindow({id:-1})
-    this.props.closeInfoWindow({id:-1})
+    // this.setState({
+    //   livestream: false 
+    // })
+    this.props.showInfoWindow({id:-1})
+    // this.props.closeInfoWindow({id:-1})
+    // this.props.closePrevStreaming()
 
     // this.props.showInfoWindow({id:-1})
     console.log('dasdsd')
@@ -160,7 +182,7 @@ test=()=>{
     const iconmaker = renderToStaticMarkup(
       <div className={classNames('marker-instance', {})}>
         <img className={classes.test} src={icon} />
-      </div>,
+      </div>
     )
     const iconcamera = divIcon({
       // iconAnchor: [15, 39],
@@ -188,16 +210,16 @@ test=()=>{
         >
           <Popup
           ref={this.ref}
-            onClose={() => this.handleClose(cam.id)}
+            // onClose={() => this.handleClose(cam.id)}
             className={classes.Popup}
-            closeButton	={true}
+            closeButton	={false}
           >
-              {/* <div className={classes.header}>
+              <div className={classes.header}>
          
             <IconButton className={classes.iconButton} onClick={this._onCloseInfoWindowClick}>
               <ClearOutlined className={classes.icon} />
             </IconButton>
-          </div> */}
+          </div>
              <Typography className={classes.markerCamName}>
               {cam.name}
             </Typography>

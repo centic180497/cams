@@ -58,10 +58,14 @@ const styles = (theme) => ({
     marginLeft: '13px',
     marginTop: '13px',
     '&:hover': {
-      width: '38px',
-      height: '38px',
-      zIndex: 2,
-      transformStyle: 'preserve-3d',
+      // width: '38px',
+      // height: '47px',
+      // zIndex: 2,
+      // transformStyle: 'preserve-3d',
+      transformStyle: 'preserve-3d', 
+      transition: '.3s ease-in-out',
+       transform: 'scale(1.3)',
+       transformOrigin: 'center'
     },
   },
   imgseach: {
@@ -138,12 +142,11 @@ class MakerComponent extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  // handleClose(id) {
-  //   console.log("sdfsdf",id)
+  handleClose(id) {
+    // console.log("sdfsdf",id)
     
-  //   this.props.cancelHoverRowVehicle()
-  //   this.props.focusVehicle(this.props.focusedVehicle)
-  // }
+    this.props.cancelHoverRowVehicle({id:-1})
+  }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
@@ -192,13 +195,14 @@ class MakerComponent extends React.Component {
         ref={
           focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
             ? this.openPopup
-            : null
+            : this.closePopups
         }
       >
         {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
           <Popup
             className={classes.Popup}
             closePopupOnClick={true}
+            closeButton	={false}
             // onClose={() => this.handleClose(this.props.cam.id)}
           >
           <div className={classes.header}>

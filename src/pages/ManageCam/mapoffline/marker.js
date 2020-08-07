@@ -106,6 +106,41 @@ const styles = (theme) => ({
       transformStyle: 'preserve-3d',
     },
   },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+    right: '-6px',
+    top:'-17px'
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton1: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    // padding: 6,
+ 
+  },
+  test: {
+    marginLeft: '13px',
+    width: '30px',
+    height: '39px',
+    marginTop: '13px',
+    '&:hover': {
+      // width: '38px',
+      // height: '47px',
+      // zIndex: 2,
+      // transformStyle: 'preserve-3d',
+      transformStyle: 'preserve-3d', 
+      transition: '.3s ease-in-out',
+       transform: 'scale(1.3)',
+       transformOrigin: 'center'
+    },
+  },
   Popup: {
     width: '250px',
     // maxWidth: 600,
@@ -223,12 +258,22 @@ class MarkerComponent extends React.Component {
       id,
     })
   }
+  _onClose=()=>{
+    this.setState({
+      hover: false,
+    })
+    this.props.cancelFocusedCam()
+    this.props.focusOnCam({ id: -1 })
+
+
+    console.log('asdkalsj')
+  }
   handleDelete = (event, cam) => {
     event.stopPropagation()
     this.props.showDeleteCamModal(cam)
   }
   render() {
-    const { classes, cams, infoWindow } = this.props
+    const { classes, cams, infoWindow,cam,lat,lng } = this.props
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
@@ -251,13 +296,11 @@ class MarkerComponent extends React.Component {
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
-            {cams.length > 0
-              ? cams.map((cam, index) => {
-                  return (
-                    <Marker
-                      key={index}
-                      // onClick={() => this._onClick(cam)}
-                      position={[cam.lat, cam.lng]}
+  
+           <Marker
+                   
+                      onClick={() => this._onClick(cam)}
+                      position={[lat,lng]}
                       icon={iconcamera}
                       ref={
                         this.props.focusedCam &&
@@ -267,10 +310,17 @@ class MarkerComponent extends React.Component {
                       }
                     >
                       <Popup
-                        onClose={() => this.handleClose(cam.id)}
-                        // onClick={()=>this.handleClose()}
+                       closeButton	={false}
+                        // onClick={() => this.handleClose(cam.id)}
+                        // closeButton={this.handleClose}
                         className={classes.Popup}
+                        // onremove={this.handleclose}
                       >
+                         <div className={classes.header}>
+            <IconButton className={classes.iconButton1} onClick={this._onClose}>
+              <ClearOutlined className={classes.icon} />
+            </IconButton>
+          </div>
                         <Typography noWrap className={classes.markerCamName}>
                           {cam.name}
                         </Typography>
@@ -320,9 +370,7 @@ class MarkerComponent extends React.Component {
                         <Typography align="center"> </Typography>
                       </Tooltip>
                     </Marker>
-                  )
-                })
-              : null}
+               
       </div>
     )
   }

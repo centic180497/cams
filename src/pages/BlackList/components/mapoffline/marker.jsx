@@ -45,10 +45,14 @@ const styles = (theme) => ({
     marginTop: '13px',
     '&:hover': {
       // transform: 'scale(1.5)',
-      width: "38px",
-      height: '38px',
-      zIndex: 2,
-      transformStyle: 'preserve-3d'
+      // width: "38px",
+      // height: '47px',
+      // zIndex: 2,
+      // transformStyle: 'preserve-3d'
+      transformStyle: 'preserve-3d', 
+      transition: '.3s ease-in-out',
+       transform: 'scale(1.3)',
+       transformOrigin: 'center'
     },
   },
   imgseach: {
@@ -167,7 +171,7 @@ class MarkerComponent extends React.Component {
               </Popup>
             </div>
           ) : (
-            this.closePopups
+            null// this.closePopups
           )}
           <Tooltip className={classes.Tooltip} direction={'top'}>
             <Typography align="center" className={classes.camName}>

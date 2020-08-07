@@ -1,6 +1,6 @@
 .leaflet-popup-content {
     margin:4px 4px;
-    /* width: 480px !important; */
+    width: 100% !important;
 }
 /* .leaflet-popup-close-button{
   display: none;

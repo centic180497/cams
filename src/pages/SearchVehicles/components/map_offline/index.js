@@ -134,7 +134,7 @@ class MapOffline extends React.Component {
           </Portal>
 
           <TileLayer
-            url="http://10.49.46.13:8081/styles/osm-bright/{z}/{x}/{y}.png"
+            url="http://103.101.76.162:8081/styles/osm-bright/{z}/{x}/{y}.png"
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
