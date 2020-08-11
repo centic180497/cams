@@ -168,41 +168,13 @@ class MapOffline extends React.Component {
   state = {
     hover: false,
   }
-  // _onMarkerClick = (item) => {
-  //   console.log(item.lat)
-  //   const { infoWindow } = this.props
-  // }
-
-  //   _onClick = ({ id, lat, lng }) => {
-  //     const { infoWindow } = this.props
-  //     if ((infoWindow !== -1) & (infoWindow !== id)) {
-  //       this.props.closePrevStreaming(infoWindow)
-  //     }
-  //     if (infoWindow !== id) {
-  //       this.props.showInfoWindow({
-  //         center: { lat, lng },
-  //         id,
-  //       })
-  //     }
-  //   }
-
-
-
+ 
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
     }
   }
-  // handleClose = () => {
-  //   console.log('handleClose')
-  //   this.props.cancelFocusedCam()
-  //   this.props.focusOnCam({ id: -1 })
-  // }
-  closePopups(marker) {
-    if (marker && marker.leafletElement) {
-      marker.leafletElement.closePopup()
-    }
-  }
+
   handleClick = (e) => {
     let lat = e.latlng.lat
     let lng = e.latlng.lng
@@ -217,19 +189,7 @@ class MapOffline extends React.Component {
     }
     // this.props.fetchCamLocation({ lat, lng })
   }
-  _onSwitchChange = (id, status) => (e) => {
-    e.stopPropagation()
-    let nextStatus
-    if (status === 'disabled') {
-      nextStatus = 'enabled'
-    } else {
-      nextStatus = 'disabled'
-    }
 
-    this.props.changeCamStatus(id, {
-      status: nextStatus,
-    })
-  }
   handlePortalClick = () => {
     const center = [15.892538563302992, 108.33192510216088]
     const { defaultZoom } = this.props
@@ -239,24 +199,6 @@ class MapOffline extends React.Component {
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   }
 
-  handleConfigsClick = (e, cam) => {
-    e.stopPropagation()
-    console.log(cam)
-
-    // const { id, lat, lng, name, ip } = this.props.detail
-    const { id, lat, lng, name, ip } = cam
-    this.props.configCam({
-      center: { lat, lng },
-      name,
-      ip,
-      zoom: 15,
-      id,
-    })
-  }
-  handleDelete = (event, cam) => {
-    event.stopPropagation()
-    this.props.showDeleteCamModal(cam)
-  }
   render() {
     console.log(this.props.editCam);
     console.log(this.props.isEditingCam);
@@ -330,7 +272,6 @@ class MapOffline extends React.Component {
                                 lng={cam.lng}
                                 cam={cam}
                     />
-                    
                   )
                 })
               : null}
@@ -338,7 +279,6 @@ class MapOffline extends React.Component {
                  <MarkerComponent
                  lat={this.props.editCam.lat}
                  lng={this.props.editCam.lng}
-                icon={iconcamera}
                  cam={{
                   ...this.props.editCam,
                   id: this.props.focusedCam,
