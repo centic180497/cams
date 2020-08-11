@@ -3,10 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import icon from 'assets/icon/mmx.png'
-// import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
-// import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
-// import LiveView from '../LiveView'
 import './style.css'
 import { Typography } from '@material-ui/core'
 import 'assets/styles/components/_marker.scss'
@@ -15,6 +12,8 @@ import classNames from 'classnames'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { divIcon } from 'leaflet'
 import _ from 'lodash'
+import IconButton from '@material-ui/core/IconButton'
+import ClearOutlined from '@material-ui/icons/ClearOutlined'
 import {
   cancelFocusVehicleHistory,
   focusVehicleHistory,
@@ -44,11 +43,6 @@ const styles = (theme) => ({
     height: '39px',
     marginTop: '13px',
     '&:hover': {
-      // transform: 'scale(1.5)',
-      // width: "38px",
-      // height: '47px',
-      // zIndex: 2,
-      // transformStyle: 'preserve-3d'
       transformStyle: 'preserve-3d', 
       transition: '.3s ease-in-out',
        transform: 'scale(1.3)',
@@ -57,23 +51,36 @@ const styles = (theme) => ({
   },
   imgseach: {
     width: '100%',
-    // maxWidth: '300px',
     maxWidth: '100%',
     minHeight:'150px',
-    // minHeight: '150px',
     maxHeight: '600px',
     height: '100%',
     pointerEvents:'none',
     objectFit:'fill'
   },
   Popup: {
-    width: '300px',
-    // maxWidth: 600,
+    width: '400px',
+  },
+  header: {
+    display: 'flex',
+    textAlign: 'right',
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  icon: {
+    fontSize: 14,
+  },
+  iconButton: {
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    right: 0,
+    padding: 6,
   },
   markerCamName:{
     width:'100%',
     possition:"relative",
-    height:'600px',
+    height:'550px',
     paddingRight:"8px"
   },
   imgpopup:{
@@ -83,25 +90,40 @@ const styles = (theme) => ({
 })
 
 class MarkerComponent extends React.Component {
+  constructor(props){
+    super(props);
+    this.ref = React.createRef();
+}
   state = {
-    hover: false,
+    livestream: false
   }
+
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
     }
   }
+  _onCloseInfoWindowClick=()=>{
+   this.setState({
+     livestream:false
+   })
+    this.closePopup()
+    this.props.cancelFocusVehicleHistory({id:-1})
+  }
   handleClose() {
     this.props.cancelFocusVehicleHistory()
     this.props.focusVehicleHistory(this.props.focusedVehicle)
   }
-
-  closePopups(marker) {
+   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
     }
   }
-
+  closePopup() {
+    if (this.ref.current && this.ref.current.leafletElement) {
+      this.ref.current.leafletElement.options.leaflet.map.closePopup()
+    }
+  }
   render() {
     const {
       classes,
@@ -136,18 +158,25 @@ class MarkerComponent extends React.Component {
         <Marker
           position={[cam.lat, cam.lng]}
           icon={iconcamera}
-          ref={isShowInfoWindow ? this.openPopup : this.closePopups}
+          ref={isShowInfoWindow ? this.openPopup :this.closePopups }
           closePopupOnClick={true}
           direction={'right'}
         >
-          {isShowInfoWindow ? (
+       
             <div className={classes.imgpopup}>
               <Popup
-                autoPan={true}
                 direction={'right'}
-                onClose={() => this.handleClose()}
+                ref={this.ref}
+                closeButton	={false}
+                // onClose={() => this.handleClose()}
                 className={classes.Popup}
               >
+                <div className={classes.header}>
+                  
+                  <IconButton className={classes.iconButton} onClick={this._onCloseInfoWindowClick}>
+                    <ClearOutlined className={classes.icon} />
+                  </IconButton>
+                </div>
                 <Typography noWrap className={classes.plate}>
                   Biển số xe: {focusedVehicle.plate_number}
                 </Typography>
@@ -170,9 +199,7 @@ class MarkerComponent extends React.Component {
                 </Typography>
               </Popup>
             </div>
-          ) : (
-            null// this.closePopups
-          )}
+     
           <Tooltip className={classes.Tooltip} direction={'top'}>
             <Typography align="center" className={classes.camName}>
               {cam.name}{' '}
@@ -186,7 +213,6 @@ class MarkerComponent extends React.Component {
 }
 
 const mapStateToProps = ({ map, blackList }) => ({
-  //   infoWindow: map.showInfoWindow,
   matchCams: blackList.vehicleHistory.matchCams,
   focusedVehicle: blackList.vehicleHistory.focusedVehicle,
 })

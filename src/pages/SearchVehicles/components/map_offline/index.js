@@ -86,16 +86,6 @@ class MapOffline extends React.Component {
   //  this.props.focusedVehicle
   // }
 
-  // handleClick(e) {
-  //   console.log('e ne', e)
-  //   this.setState({ currentPos: e.latlng })
-  // }
-  // ref = (e) => {
-  //   console.log('ref',e);
-
-  // }
-
-
   render() {
     const { classes, cams, focusedVehicle } = this.props
 
@@ -138,7 +128,7 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          <MarkerClusterGroup
+          {/* <MarkerClusterGroup
             onlayeradd={this.marker}
             zoomToShowLayer={true}
             disableClusteringAtZoom={13}
@@ -147,13 +137,13 @@ class MapOffline extends React.Component {
             onClusterClick={this.handleZoomToShowLayer}
             maxClusterRadius={50}
             ref={this.zoomAndOpenPopup}
-          >
+          > */}
             {cams.length > 0
               ? cams.map((cam, index) => {
                   return <MakerComponent key={index} cam={cam}></MakerComponent>
                 })
               : null}
-          </MarkerClusterGroup>
+          {/* </MarkerClusterGroup> */}
         </Map>
       </div>
     )

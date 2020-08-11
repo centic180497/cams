@@ -112,8 +112,8 @@ const styles = (theme) => ({
     marginLeft: 'auto',
     flexDirection: 'row',
     position: 'relative',
-    right: '-6px',
-    top:'-17px'
+    right: 0,
+    top:'-5px'
   },
   icon: {
     fontSize: 14,
@@ -122,7 +122,7 @@ const styles = (theme) => ({
     transformStyle: 'preserve-3d',
     position: 'absolute',
     right: 0,
-    // padding: 6,
+    padding: 4,
  
   },
   test: {
@@ -158,10 +158,6 @@ const styles = (theme) => ({
   svg: {
     color: '#4a4242',
   },
-  // markerCamName:{
-  //   width:'100%',
-  //   possition:"relative"
-  // }
 })
 const iconcamera = new Icon({
   iconUrl: icon,
@@ -171,28 +167,22 @@ const iconcamera = new Icon({
 })
 
 class MarkerComponent extends React.Component {
-  constructor(props) {
-    super(props)
-
-    // this.customMarker = React.createRef();
+  constructor(props){
+    super(props);
+    this.ref = React.createRef();
+}
+state = {
+  livestream: false
+}
+  _onClick = (cam) => {
+    const { lat, lng, id } = this.props.cam
+    this.props.focusOnCam({
+      center: { lat, lng },
+      zoom: 15,
+      id,
+    })
+  
   }
-  // _onMarkerClick = (item) => {
-  //   console.log(item.lat)
-  //   const { infoWindow } = this.props
-  // }
-
-  //   _onClick = ({ id, lat, lng }) => {
-  //     const { infoWindow } = this.props
-  //     if ((infoWindow !== -1) & (infoWindow !== id)) {
-  //       this.props.closePrevStreaming(infoWindow)
-  //     }
-  //     if (infoWindow !== id) {
-  //       this.props.showInfoWindow({
-  //         center: { lat, lng },
-  //         id,
-  //       })
-  //     }
-  //   }
 
   openPopup(marker) {
     if (marker && marker.leafletElement) {
@@ -203,9 +193,9 @@ class MarkerComponent extends React.Component {
     this.props.cancelFocusedCam()
     this.props.focusOnCam({ id: this.props.focusedCam })
   }
-  closePopups(marker) {
-    if (marker && marker.leafletElement) {
-      marker.leafletElement.closePopup()
+  closePopups() {
+    if (this.ref.current && this.ref.current.leafletElement) {
+      this.ref.current.leafletElement.options.leaflet.map.closePopup()
     }
   }
   handleClick = (e) => {
@@ -214,13 +204,10 @@ class MarkerComponent extends React.Component {
     const { isEditingCam, isAddingCam } = this.props
     if (isEditingCam) {
       this.props.changeCamLocation({ lat, lng })
-      // this.props.fetchCamLocation({ lat, lng })
     }
     if (isAddingCam) {
-      // this.props.getCameraLocation({ lat, lng })
-      this.props.fetchCamLocation({ lat, lng })
+           this.props.fetchCamLocation({ lat, lng })
     }
-    // this.props.fetchCamLocation({ lat, lng })
   }
   _onSwitchChange = (id, status) => (e) => {
     e.stopPropagation()
@@ -259,14 +246,11 @@ class MarkerComponent extends React.Component {
     })
   }
   _onClose=()=>{
+    this.closePopups()
     this.setState({
-      hover: false,
+      livestream: false,
     })
-    this.props.cancelFocusedCam()
-    this.props.focusOnCam({ id: -1 })
-
-
-    console.log('asdkalsj')
+    this.props.cancelFocusedCam({id:-1})
   }
   handleDelete = (event, cam) => {
     event.stopPropagation()
@@ -277,15 +261,12 @@ class MarkerComponent extends React.Component {
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
-          // 'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
         <img className={classes.test} src={icon} />
       </div>,
     )
     const iconcamera = divIcon({
-      // iconAnchor: [15, 39],
-      // popupAnchor: [0, -39],
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
@@ -297,30 +278,27 @@ class MarkerComponent extends React.Component {
     return (
       <div className={classes.root}>
   
-           <Marker
-                   
-                      onClick={() => this._onClick(cam)}
+           <Marker 
+                      onClick={() => this._onClick(cam,lat,lng)}
                       position={[lat,lng]}
                       icon={iconcamera}
                       ref={
                         this.props.focusedCam &&
                         cam.id === this.props.focusedCam
                           ? this.openPopup
-                          : this.closePopups
+                          : null
                       }
                     >
                       <Popup
+                        ref={this.ref}
                        closeButton	={false}
-                        // onClick={() => this.handleClose(cam.id)}
-                        // closeButton={this.handleClose}
                         className={classes.Popup}
-                        // onremove={this.handleclose}
                       >
                          <div className={classes.header}>
-            <IconButton className={classes.iconButton1} onClick={this._onClose}>
-              <ClearOutlined className={classes.icon} />
-            </IconButton>
-          </div>
+                          <IconButton className={classes.iconButton1} onClick={this._onClose}>
+                            <ClearOutlined className={classes.icon} />
+                          </IconButton>
+                        </div>
                         <Typography noWrap className={classes.markerCamName}>
                           {cam.name}
                         </Typography>
@@ -340,7 +318,8 @@ class MarkerComponent extends React.Component {
                               className={classes.iconButton}
                               onClick={(e) => this.handleDelete(e, cam)}
                             >
-                              <DeleteIcon className={classes.icon} />
+                              <DeleteIcon clas
+                              sName={classes.icon} />
                             </IconButton>
 
                             {cam.id === this.props.changingCamStatus ? (
@@ -392,7 +371,6 @@ const mapStateToProps = ({ map, cameras, manageCam }) => ({
   editCam: cameras.editCam.connection,
   isEditingCam: map.isEditingCam,
   isAddingCam: map.isAddingCam,
-  //   infoWindow: map.showInfoWindow,
 })
 export default connect(mapStateToProps, {
   fetchCamLocation,
@@ -403,7 +381,4 @@ export default connect(mapStateToProps, {
   changeBoundsMap,
   configCam: configCam,
   showDeleteCamModal,
-  //   showInfoWindow,
-  //   closeInfoWindow,
-  //   closePrevStreaming,
 })(withStyles(styles)(MarkerComponent))

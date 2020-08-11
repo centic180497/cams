@@ -58,10 +58,6 @@ const styles = (theme) => ({
     marginLeft: '13px',
     marginTop: '13px',
     '&:hover': {
-      // width: '38px',
-      // height: '47px',
-      // zIndex: 2,
-      // transformStyle: 'preserve-3d',
       transformStyle: 'preserve-3d', 
       transition: '.3s ease-in-out',
        transform: 'scale(1.3)',
@@ -70,7 +66,6 @@ const styles = (theme) => ({
   },
   imgseach: {
     width: '100%',
-    // maxWidth: '300px',
     maxWidth: '100%',
     maxHeight: '600px',
     minHeight: '150px',
@@ -97,7 +92,6 @@ const styles = (theme) => ({
   },
   Popup: {
     width: '400px',
-    // maxWidth: 600,
   },
   markerCamName: {
     width: '100%',
@@ -117,23 +111,6 @@ class MakerComponent extends React.Component {
    state = {
     hover: false,
   }
-  // _onMarkerClick = (item) => {
-  //   console.log(item.lat)
-  //   const { infoWindow } = this.props
-  // }
-
-  //   _onClick = ({ id, lat, lng }) => {
-  //     const { infoWindow } = this.props
-  //     if ((infoWindow !== -1) & (infoWindow !== id)) {
-  //       this.props.closePrevStreaming(infoWindow)
-  //     }
-  //     if (infoWindow !== id) {
-  //       this.props.showInfoWindow({
-  //         center: { lat, lng },
-  //         id,
-  //       })
-  //     }
-  //   }
 
   openPopup(marker) {
     if (marker && marker.leafletElement) {
@@ -143,7 +120,6 @@ class MakerComponent extends React.Component {
     }
   }
   handleClose(id) {
-    // console.log("sdfsdf",id)
     
     this.props.cancelHoverRowVehicle({id:-1})
   }
@@ -158,9 +134,6 @@ class MakerComponent extends React.Component {
     })
     this.props.cancelHoverRowVehicle()
     this.props.focusVehicle({id:-1})
-
-
-    console.log('asdkalsj')
   }
 
   render() {
@@ -169,16 +142,13 @@ class MakerComponent extends React.Component {
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
-          // 'marker-hover': hover || isShowInfoWindow,
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
         <img className={classes.test} src={icon} />
-        {/* <Marker icon={camera}></Marker> */}
       </div>,
     )
     const iconcamera = divIcon({
-      // iconUrl: camera,
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
@@ -188,10 +158,8 @@ class MakerComponent extends React.Component {
     const possition = [15.87944, 108.335]
     return (
       <Marker
-        // onClick={() => this._onClick(cam)}
         position={[cam.lat, cam.lng]}
         icon={iconcamera}
-        // icon={iconcamera}
         ref={
           focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
             ? this.openPopup
@@ -249,7 +217,6 @@ class MakerComponent extends React.Component {
 }
 
 const mapStateToProps = ({ map, searchVehicles }) => ({
-  //   infoWindow: map.showInfoWindow,
   focusedVehicle: searchVehicles.focusedVehicle,
   matchCams: searchVehicles.matchCams,
 })

@@ -257,16 +257,6 @@ class MapOffline extends React.Component {
     event.stopPropagation()
     this.props.showDeleteCamModal(cam)
   }
-  _onClose=()=>{
-    this.setState({
-      hover: false,
-    })
-    this.props.cancelFocusedCam()
-    this.props.focusOnCam({ id: -1 })
-
-
-    console.log('asdkalsj')
-  }
   render() {
     console.log(this.props.editCam);
     console.log(this.props.isEditingCam);
@@ -274,15 +264,12 @@ class MapOffline extends React.Component {
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
-          // 'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
         <img className={classes.test} src={icon} />
       </div>,
     )
     const iconcamera = divIcon({
-      // iconAnchor: [15, 39],
-      // popupAnchor: [0, -39],
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
@@ -325,14 +312,14 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-              <MarkerClusterGroup  
+              {/* <MarkerClusterGroup  
             zoomToShowLayer={true}
             disableClusteringAtZoom={13}
             showCoverageOnHover={false}
             spiderfyOnMaxZoom={false}
             maxClusterRadius={50}
             
-          >
+          > */}
             {cams.length > 0
               ? cams.map((cam, index) => {
                 if (cam.id === this.props.focusedCam && this.props.isEditingCam) return null
@@ -341,92 +328,9 @@ class MapOffline extends React.Component {
                                 key={index}
                                 lat={cam.lat}
                                 lng={cam.lng}
-                                // onClick={() => this._onClick(cam)}
-                                // position={[cam.lat, cam.lng]}
-                                // icon={iconcamera}
-                                // ref={
-                                //   this.props.focusedCam &&
-                                //   cam.id === this.props.focusedCam
-                                //     ? this.openPopup
-                                //     : this.closePopups
-                                // }
                                 cam={cam}
                     />
                     
-
-          //           <Marker
-          //             key={index}
-          //             // onClick={() => this._onClick(cam)}
-          //             position={[cam.lat, cam.lng]}
-          //             icon={iconcamera}
-          //             ref={
-          //               this.props.focusedCam &&
-          //               cam.id === this.props.focusedCam
-          //                 ? this.openPopup
-          //                 : this.closePopups
-          //             }
-          //           >
-          //             <Popup
-          //              closeButton	={false}
-          //               // onClick={() => this.handleClose(cam.id)}
-          //               // closeButton={this.handleClose}
-          //               className={classes.Popup}
-          //               // onremove={this.handleclose}
-          //             >
-          //                <div className={classes.header}>
-          //   <IconButton className={classes.iconButton1} onClick={this._onClose}>
-          //     <ClearOutlined className={classes.icon} />
-          //   </IconButton>
-          // </div>
-          //               <Typography noWrap className={classes.markerCamName}>
-          //                 {cam.name}
-          //               </Typography>
-          //               <Typography noWrap className={classes.markerCamName}>
-          //                 {cam.address}
-          //               </Typography>
-          //               <Fragment>
-          //                 <div className={classes.controls}>
-          //                   <IconButton
-          //                     className={classes.iconButton}
-          //                     onClick={(e) => this.handleConfigsClick(e, cam)}
-          //                   >
-          //                     <SettingsIcon className={classes.icon} />
-          //                   </IconButton>
-
-          //                   <IconButton
-          //                     className={classes.iconButton}
-          //                     onClick={(e) => this.handleDelete(e, cam)}
-          //                   >
-          //                     <DeleteIcon className={classes.icon} />
-          //                   </IconButton>
-
-          //                   {cam.id === this.props.changingCamStatus ? (
-          //                     <div className={classes.process}>
-          //                       <CircularProgress size={16} />
-          //                     </div>
-          //                   ) : (
-          //                     <Switch
-          //                       color="primary"
-          //                       size="small"
-          //                       checked={cam.status !== 'disabled'}
-          //                       onChange={this._onSwitchChange(
-          //                         cam.id,
-          //                         cam.status,
-          //                       )}
-          //                     />
-          //                   )}
-          //                 </div>
-          //               </Fragment>
-          //             </Popup>
-
-          //             <Tooltip className={classes.Tooltip} direction={'top'}>
-          //               <Typography align="center" className={classes.camName}>
-          //                 {' '}
-          //                 {cam.name}
-          //               </Typography>
-          //               <Typography align="center"> </Typography>
-          //             </Tooltip>
-          //           </Marker>
                   )
                 })
               : null}
@@ -434,10 +338,6 @@ class MapOffline extends React.Component {
                  <MarkerComponent
                  lat={this.props.editCam.lat}
                  lng={this.props.editCam.lng}
-                 // onClick={() => this._onClick(cam)}
-                //  position={[this.props.editCam.lat, this.props.editCam.lng]}
-                // lat={this.props.editCam.lat}
-                // lng={this.props.editCam.lng}
                 icon={iconcamera}
                  cam={{
                   ...this.props.editCam,
@@ -447,7 +347,7 @@ class MapOffline extends React.Component {
               </MarkerComponent>
             
             )}
-            </MarkerClusterGroup>
+            {/* </MarkerClusterGroup> */}
             {!isEmpty(this.props.newCamCoor) && (
               <NewCameaMarker
                 lat={this.props.newCamCoor.lat}
@@ -477,7 +377,6 @@ const mapStateToProps = ({ map, cameras, manageCam }) => ({
   editCam: cameras.editCam.connection,
   isEditingCam: map.isEditingCam,
   isAddingCam: map.isAddingCam,
-  //   infoWindow: map.showInfoWindow,
 })
 export default connect(mapStateToProps, {
   fetchCamLocation,
@@ -489,7 +388,4 @@ export default connect(mapStateToProps, {
   changeCamLocation: changeCamLocation,
   configCam: configCam,
   showDeleteCamModal,
-  //   showInfoWindow,
-  //   closeInfoWindow,
-  //   closePrevStreaming,
 })(withStyles(styles)(MapOffline))

@@ -3,9 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import L from 'leaflet'
 import { Icon } from 'leaflet'
-// import icon from 'assets/icon/mX.png'
-// import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
-// import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
 import './style.css'
 import { Typography } from '@material-ui/core'
@@ -43,13 +40,6 @@ const styles = (theme) => ({
     color: '#4a4242',
   },
 })
-// const iconcamera = new Icon({
-//     iconUrl: icon,
-//     iconSize: [30, 39],
-//     iconAnchor: [15, 39],
-//     popupAnchor: [0, -39],
-//     className:'testmarker',
-// })
 class MapOffline extends React.Component {
   constructor(props) {
     super(props)
@@ -59,10 +49,6 @@ class MapOffline extends React.Component {
   state = {
     hovered: false,
   }
-  // handleClick(e) {
-  //   console.log('e ne', e)
-  //   this.setState({ currentPos: e.latlng })
-  // }
   onViewportChanged = (viewport) => {
     console.log(viewport)
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
@@ -77,20 +63,11 @@ class MapOffline extends React.Component {
 
   render() {
     const { classes, cams, infoWindow, matchCams, focusedVehicle } = this.props
-    // console.log('render', matchCams)
-    // var btnClass = classNames('marker-instance', {
-    //     'camera-normal': cams.status === 'enabled',
-    //     'camera-disabled': cams.status === 'disabled',
-    //     // 'marker-hover':  isShowInfoWindow,
-    //     'cam-alert': matchCams.includes(this.props.cams.id),
-    // });
 
-    const possition = [15.892538563302992, 108.33192510216088]
     return (
       <div className={classes.root}>
         <Map
           fullscreenControl={true}
-          fullscreenControlOptions={{ position: 'topright' }}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
@@ -114,7 +91,6 @@ class MapOffline extends React.Component {
                 ></path>
               </svg>
             </button>
-            {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
           </Portal>
 
           <TileLayer
@@ -122,16 +98,6 @@ class MapOffline extends React.Component {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
-          <MarkerClusterGroup
-            onlayeradd={this.marker}
-            zoomToShowLayer={true}
-            disableClusteringAtZoom={13}
-            showCoverageOnHover={false}
-            spiderfyOnMaxZoom={false}
-            onClusterClick={this.handleZoomToShowLayer}
-            maxClusterRadius={50}
-            ref={this.zoomAndOpenPopup}
-          >
             {cams.length > 0
               ? cams.map((cam, index) => {
                   return (
@@ -141,7 +107,6 @@ class MapOffline extends React.Component {
                   )
                 })
               : null}
-          </MarkerClusterGroup>
         </Map>
       </div>
     )
@@ -149,7 +114,6 @@ class MapOffline extends React.Component {
 }
 
 const mapStateToProps = ({ map, blackList }) => ({
-  //   infoWindow: map.showInfoWindow,
   matchCams: blackList.vehicleHistory.matchCams,
   focusedVehicle: blackList.vehicleHistory.focusedVehicle,
   center: map.center,
@@ -157,8 +121,5 @@ const mapStateToProps = ({ map, blackList }) => ({
   zoom: map.zoom,
 })
 export default connect(mapStateToProps, {
-  //   showInfoWindow,
-  //   closeInfoWindow,
-  //   closePrevStreaming,
   changeBoundsMap,
 })(withStyles(styles)(MapOffline))
