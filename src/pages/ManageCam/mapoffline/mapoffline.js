@@ -203,22 +203,6 @@ class MapOffline extends React.Component {
     console.log(this.props.editCam);
     console.log(this.props.isEditingCam);
     const { classes, cams, infoWindow } = this.props
-    const iconmaker = renderToStaticMarkup(
-      <div
-        className={classNames('marker-instance', {
-        })}
-      >
-        <img className={classes.test} src={icon} />
-      </div>,
-    )
-    const iconcamera = divIcon({
-      iconSize: [30, 39],
-      iconAnchor: [15, 39],
-      popupAnchor: [0, -39],
-      tooltipAnchor: [0, -39],
-      html: iconmaker,
-    })
-
     const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
@@ -267,24 +251,24 @@ class MapOffline extends React.Component {
                 if (cam.id === this.props.focusedCam && this.props.isEditingCam) return null
                   return (
                     <MarkerComponent
-                                key={index}
-                                lat={cam.lat}
-                                lng={cam.lng}
-                                cam={cam}
+                      key={index}
+                      lat={cam.lat}
+                      lng={cam.lng}
+                      cam={cam}
                     />
                   )
                 })
               : null}
                      {!isEmpty(this.props.editCam) && this.props.focusedCam !== -1 && (
-                 <MarkerComponent
-                 lat={this.props.editCam.lat}
-                 lng={this.props.editCam.lng}
-                 cam={{
-                  ...this.props.editCam,
-                  id: this.props.focusedCam,
-                }}
-               >
-              </MarkerComponent>
+                      <MarkerComponent
+                      lat={this.props.editCam.lat}
+                      lng={this.props.editCam.lng}
+                      cam={{
+                        ...this.props.editCam,
+                        id: this.props.focusedCam,
+                      }}
+                    >
+                    </MarkerComponent>
             
             )}
             {/* </MarkerClusterGroup> */}
