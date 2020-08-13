@@ -70,7 +70,7 @@ class MapOffline extends React.Component {
       id:[]
     }
     this.ref = React.createRef();
-    this.zoomAndOpenPopup=React.createRef();
+  
   }
  
   onViewportChanged = (viewport) => {
@@ -97,7 +97,6 @@ class MapOffline extends React.Component {
           onViewportChanged={this.onViewportChanged}
           id="mapcluster"
           closePopupOnClick={false}
-          ref={this.ref}
         >
           <Portal position="bottomright">
             <button
@@ -105,7 +104,7 @@ class MapOffline extends React.Component {
               onClick={this.handlePortalClick}
             >
               <svg
-                class="MuiSvgIcon-root jss2162"
+                className="MuiSvgIcon-root jss2162"
                 focusable="false"
                 viewBox="0 0 24 24"
                 aria-hidden="true"

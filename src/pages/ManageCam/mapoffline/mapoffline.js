@@ -221,7 +221,7 @@ class MapOffline extends React.Component {
               onClick={this.handlePortalClick}
             >
               <svg
-                class="MuiSvgIcon-root jss2162"
+                className="MuiSvgIcon-root jss2162"
                 focusable="false"
                 viewBox="0 0 24 24"
                 aria-hidden="true"

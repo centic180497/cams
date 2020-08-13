@@ -171,9 +171,7 @@ class MarkerComponent extends React.Component {
     super(props);
     this.ref = React.createRef();
 }
-state = {
-  livestream: false
-}
+
   _onClick = (cam) => {
     const { lat, lng, id } = this.props.cam
     this.props.focusOnCam({
@@ -189,26 +187,16 @@ state = {
       marker.leafletElement.openPopup()
     }
   }
-  handleClose() {
-    this.props.cancelFocusedCam()
-    this.props.focusOnCam({ id: this.props.focusedCam })
-  }
+  // handleClose() {
+  //   this.props.cancelFocusedCam()
+  //   this.props.focusOnCam({ id: this.props.focusedCam })
+  // }
   closePopups() {
     if (this.ref.current && this.ref.current.leafletElement) {
       this.ref.current.leafletElement.options.leaflet.map.closePopup()
     }
   }
-  handleClick = (e) => {
-    let lat = e.latlng.lat
-    let lng = e.latlng.lng
-    const { isEditingCam, isAddingCam } = this.props
-    if (isEditingCam) {
-      this.props.changeCamLocation({ lat, lng })
-    }
-    if (isAddingCam) {
-           this.props.fetchCamLocation({ lat, lng })
-    }
-  }
+
   _onSwitchChange = (id, status) => (e) => {
     e.stopPropagation()
     let nextStatus
@@ -222,20 +210,10 @@ state = {
       status: nextStatus,
     })
   }
-  handlePortalClick = () => {
-    const center = [15.892538563302992, 108.33192510216088]
-    const { defaultZoom } = this.props
-    this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
-  }
-  onViewportChanged = (viewport) => {
-    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  }
+
 
   handleConfigsClick = (e, cam) => {
     e.stopPropagation()
-    console.log(cam)
-
-    // const { id, lat, lng, name, ip } = this.props.detail
     const { id, lat, lng, name, ip } = cam
     this.props.configCam({
       center: { lat, lng },
@@ -247,10 +225,7 @@ state = {
   }
   _onClose=()=>{
     this.closePopups()
-    this.setState({
-      livestream: false,
-    })
-    this.props.cancelFocusedCam({id:-1})
+    this.props.cancelFocusedCam()
   }
   handleDelete = (event, cam) => {
     event.stopPropagation()
@@ -274,7 +249,6 @@ state = {
       html: iconmaker,
     })
 
-    const possition = [15.87944, 108.335]
     return (
       <div className={classes.root}>
   
@@ -318,8 +292,8 @@ state = {
                               className={classes.iconButton}
                               onClick={(e) => this.handleDelete(e, cam)}
                             >
-                              <DeleteIcon clas
-                              sName={classes.icon} />
+                              <DeleteIcon 
+                              className={classes.icon} />
                             </IconButton>
 
                             {cam.id === this.props.changingCamStatus ? (
