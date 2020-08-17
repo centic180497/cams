@@ -179,18 +179,12 @@ class MarkerComponent extends React.Component {
       zoom: 15,
       id,
     })
-  
   }
-
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
     }
   }
-  // handleClose() {
-  //   this.props.cancelFocusedCam()
-  //   this.props.focusOnCam({ id: this.props.focusedCam })
-  // }
   closePopups() {
     if (this.ref.current && this.ref.current.leafletElement) {
       this.ref.current.leafletElement.options.leaflet.map.closePopup()
