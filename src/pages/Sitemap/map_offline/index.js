@@ -2,30 +2,23 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Map, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet'
 import L from 'leaflet'
-// import icon from 'assets/icon/mX.png'
 import { showInfoWindow, closeInfoWindow } from '../../../actions/action_map'
 import { closePrevStreaming } from '../../../actions/action_streaming'
 import { connect } from 'react-redux'
 import LiveView from '../LiveView'
 import './style.css'
 import MarkerComponent from './maker.js'
-// import 'leaflet.markercluster';
 import { Typography } from '@material-ui/core'
-// import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
-// import 'react-leaflet-fullscreen/dist/styles.css'
-// import 'react-leaflet-fullscreen/dist/index'
-// import 'leaflet.fullscreen/Control.FullScreen'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css
 import { Portal } from 'react-leaflet-portal'
 import { divIcon } from 'leaflet'
 import { changeBoundsMap } from 'actions/action_map'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
-// import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
 import _ from 'lodash'
 import {MAP_OFFLINE_URL} from '../../../constant/constant_endpoint'
 import 'leaflet/dist/leaflet.css'
-// import 'leaflet.markercluster.freezable'
+
 
 const styles = (theme) => ({
   root: {
