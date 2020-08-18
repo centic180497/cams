@@ -20,7 +20,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import classNames from 'classnames'
 import { divIcon } from 'leaflet'
+import {MAP_OFFLINE_URL} from '../../../constant/constant_endpoint'
 import MarkerComponent from './marker'
+import 'react-leaflet/dist/react-leaflet'
+import 'leaflet/dist/leaflet.css'
 // import { Tooltip } from '@material-ui/core'
 import {
   focusOnCam,
@@ -200,8 +203,6 @@ class MapOffline extends React.Component {
   }
 
   render() {
-    console.log(this.props.editCam);
-    console.log(this.props.isEditingCam);
     const { classes, cams, infoWindow } = this.props
     const possition = [15.87944, 108.335]
     return (
@@ -234,7 +235,7 @@ class MapOffline extends React.Component {
             </button>
           </Portal>
           <TileLayer
-            url="http://103.101.76.162:8081/styles/osm-bright/{z}/{x}/{y}.png"
+            url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />

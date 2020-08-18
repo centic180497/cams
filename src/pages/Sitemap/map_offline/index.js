@@ -11,19 +11,20 @@ import './style.css'
 import MarkerComponent from './maker.js'
 // import 'leaflet.markercluster';
 import { Typography } from '@material-ui/core'
+// import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+// import 'react-leaflet-fullscreen/dist/styles.css'
+// import 'react-leaflet-fullscreen/dist/index'
+// import 'leaflet.fullscreen/Control.FullScreen'
 import { Portal } from 'react-leaflet-portal'
 import { divIcon } from 'leaflet'
 import { changeBoundsMap } from 'actions/action_map'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 // import MarkerClusterGroup from 'react-leaflet-markercluster/dist/react-leaflet-markercluster'
-import 'leaflet.markercluster/dist/leaflet.markercluster.js'
-import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
-import 'react-leaflet-markercluster/dist/styles.min.css'
-import 'leaflet.markercluster/dist/leaflet.markercluster-src.js'
 import _ from 'lodash'
+import {MAP_OFFLINE_URL} from '../../../constant/constant_endpoint'
+import 'leaflet/dist/leaflet.css'
 // import 'leaflet.markercluster.freezable'
 
 const styles = (theme) => ({
@@ -114,7 +115,7 @@ class MapOffline extends React.Component {
             </button>
           </Portal>
           <TileLayer
-            url="http://103.101.76.162:8081/styles/osm-bright/{z}/{x}/{y}.png"
+            url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />

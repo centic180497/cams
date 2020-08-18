@@ -8,11 +8,12 @@ const API_URL = 'http://103.101.76.162:8000/'
 // const API_URL = 'http://116.110.6.137:1085/'
 
 const MAP_API_KEY = 'AIzaSyDb5xOZiLOJAtKJWj4spvQf3UEQvE-3sc4'
+const MAP_OFFLINE_URL="http://116.110.6.137:1085/map/styles/osm-bright/{z}/{x}/{y}.png"
 // const WS_URL = 'ws://171.251.18.114:1085'
 const WS_URL = 'ws://103.101.76.161:8001'
 const defaultCenter = {
   lat: 15.886600,
-  lng: 108.331690
+  lng: 108.331690 
 }
 
-export { API_URL, MAP_API_KEY, WS_URL, defaultCenter }
+export { API_URL, MAP_API_KEY, WS_URL, defaultCenter,MAP_OFFLINE_URL }

@@ -15,10 +15,11 @@ import MarkerComponent from './marker'
 import classNames from 'classnames'
 import { Portal } from 'react-leaflet-portal'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
-
+import {MAP_OFFLINE_URL} from "../../../../constant/constant_endpoint"
 import _ from 'lodash'
 import { changeBoundsMap } from '../../../../actions/action_map'
-
+import 'react-leaflet/dist/react-leaflet'
+import 'leaflet/dist/leaflet.css'
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -80,7 +81,7 @@ class MapOffline extends React.Component {
               onClick={this.handlePortalClick}
             >
               <svg
-                class="MuiSvgIcon-root jss2162"
+                className="MuiSvgIcon-root jss2162"
                 focusable="false"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -94,7 +95,7 @@ class MapOffline extends React.Component {
           </Portal>
 
           <TileLayer
-            url="http://103.101.76.162:8081/styles/osm-bright/{z}/{x}/{y}.png"
+            url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />

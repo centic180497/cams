@@ -8,18 +8,20 @@ import { Icon } from 'leaflet'
 import { connect } from 'react-redux'
 // import LiveView from '../LiveView'
 import './style.css'
-import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Typography } from '@material-ui/core'
 import { cancelHoverRowVehicle } from '../../../../actions/action_searchVehicles'
 import _ from 'lodash'
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { divIcon } from 'leaflet'
 import MakerComponent from './marker'
 import { changeBoundsMap } from '../../../../actions/action_map'
 import { Portal } from 'react-leaflet-portal'
 import DivIcon from 'react-leaflet-div-icon'
+import {MAP_OFFLINE_URL} from '../../../../constant/constant_endpoint'
+import 'leaflet/dist/leaflet.css'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 const styles = (theme) => ({
   root: {
@@ -74,7 +76,7 @@ class MapOffline extends React.Component {
     }
   }
   onViewportChanged = (viewport) => {
-    console.log(viewport)
+
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   }
   handlePortalClick = () => {
@@ -108,7 +110,7 @@ class MapOffline extends React.Component {
                 onClick={this.handlePortalClick}
               >
                 <svg
-                  class="MuiSvgIcon-root jss2162"
+                  className="MuiSvgIcon-root jss2162"
                   focusable="false"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -124,7 +126,7 @@ class MapOffline extends React.Component {
           </Portal>
 
           <TileLayer
-            url="http://103.101.76.162:8081/styles/osm-bright/{z}/{x}/{y}.png"
+            url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://centic.vn"> Centic</a>'
           />
