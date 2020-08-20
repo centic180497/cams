@@ -1,6 +1,7 @@
 import { WebSocketClient } from 'client'
 import { SocketEvents } from 'utils/constants'
 import { getSiteURL } from 'utils/url'
+import { alertNotifications } from './audio'
 
 import store from '../store'
 
@@ -42,6 +43,7 @@ function reconnectWebSocket() {
 }
 
 export function handleEvent(msg) {
+  alertNotifications()
   switch (msg.type) {
     case SocketEvents.BLACKLIST:
       handleBlacklistEvent(msg)

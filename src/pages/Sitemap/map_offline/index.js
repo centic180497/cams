@@ -10,7 +10,7 @@ import './style.css'
 import MarkerComponent from './maker.js'
 import { Typography } from '@material-ui/core'
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { Portal } from 'react-leaflet-portal'
 import { divIcon } from 'leaflet'
 import { changeBoundsMap } from 'actions/action_map'
@@ -68,6 +68,7 @@ class MapOffline extends React.Component {
   }
  
   onViewportChanged = (viewport) => {
+    // console.log('change viewport')
     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   }
   handlePortalClick = () => {
@@ -85,7 +86,8 @@ class MapOffline extends React.Component {
         <Map
           fullscreenControl={true}
           center={possition}
-          zoom={this.props.zoom}
+          // zoom={this.props.zoom}
+          zoom={13}
           className={classes.map}
           onClick={this.handleClick}
           onViewportChanged={this.onViewportChanged}

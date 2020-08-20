@@ -45,8 +45,8 @@ const styles = (theme) => ({
   Marker: {
     backgroundColor: 'black',
   },
-  Popup:{
-    width:'480px',
+  Popup: {
+    width: '480px',
   },
   header: {
     display: 'flex',
@@ -71,12 +71,12 @@ const styles = (theme) => ({
     margin: '0 !important',
     width: '100%',
   },
-  imgpopup:{
+  imgpopup: {
     width: '480px',
     paddingRight: '9px',
   },
-  video:{
-    width:'100%'
+  video: {
+    width: '100%',
   },
   header: {
     display: 'flex',
@@ -92,7 +92,7 @@ const styles = (theme) => ({
     transformStyle: 'preserve-3d',
     position: 'absolute',
     right: 0,
-    top:-5,
+    top: -5,
     padding: 6,
   },
   test: {
@@ -105,24 +105,23 @@ const styles = (theme) => ({
       // height: '47px',
       // zIndex: 2,
       // transformStyle: 'preserve-3d',
-      transformStyle: 'preserve-3d', 
+      transformStyle: 'preserve-3d',
       transition: '.3s ease-in-out',
-       transform: 'scale(1.3)',
-       transformOrigin: 'center'
+      transform: 'scale(1.3)',
+      transformOrigin: 'center',
     },
   },
 })
 
 class MarkerComponent extends React.Component {
-  constructor(props){
-    super(props);
-    this.ref = React.createRef();
-}
+  constructor(props) {
+    super(props)
+    this.ref = React.createRef()
+  }
   state = {
-    livestream: false
+    livestream: false,
   }
 
-  
   _onClick = ({ id, lat, lng }) => {
     const { infoWindow } = this.props
 
@@ -141,22 +140,19 @@ class MarkerComponent extends React.Component {
       this.ref.current.leafletElement.options.leaflet.map.closePopup()
     }
   }
-  _onCloseInfoWindowClick=()=>{
-   
+  _onCloseInfoWindowClick = () => {
     this.closePopups()
-    const { infoWindow } = this.props 
-    const {id}=this.props.cam
-  
+    const { infoWindow } = this.props
+    const { id } = this.props.cam
 
     // this.setState({
-    //   livestream: false 
+    //   livestream: false
     // })
-    this.props.showInfoWindow({id:-1})
+    this.props.showInfoWindow({ id: -1 })
     // this.props.closeInfoWindow({id:-1})
     // this.props.closePrevStreaming()
 
     // this.props.showInfoWindow({id:-1})
-    console.log('dasdsd')
   }
 
   openPopup(marker) {
@@ -164,17 +160,18 @@ class MarkerComponent extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-test=()=>{
-  console.log("acascas");
-}
+
+  test = () => {
+    console.log('acascas')
+  }
+
   handleClose(id) {
     const { infoWindow } = this.props
-    if(id!=infoWindow){
+    if (id != infoWindow) {
       this.props.closeInfoWindow()
     }
-   
-      
-      // this.props.showInfoWindow({id:-1})
+
+    // this.props.showInfoWindow({id:-1})
   }
 
   render() {
@@ -182,7 +179,7 @@ test=()=>{
     const iconmaker = renderToStaticMarkup(
       <div className={classNames('marker-instance', {})}>
         <img className={classes.test} src={icon} />
-      </div>
+      </div>,
     )
     const iconcamera = divIcon({
       // iconAnchor: [15, 39],
@@ -207,27 +204,30 @@ test=()=>{
           position={[cam.lat, cam.lng]}
           icon={iconcamera}
           ref={infoWindow && cam.id === infoWindow ? this.openPopup : null}
+          // ref={(marker) => console.log(marker)}
         >
           <Popup
-          ref={this.ref}
+            ref={this.ref}
             // onClose={() => this.handleClose(cam.id)}
             className={classes.Popup}
-            closeButton	={false}
+            closeButton={false}
           >
-              <div className={classes.header}>
-         
-            <IconButton className={classes.iconButton} onClick={this._onCloseInfoWindowClick}>
-              <ClearOutlined className={classes.icon} />
-            </IconButton>
-          </div>
-             <Typography className={classes.markerCamName}>
+            <div className={classes.header}>
+              <IconButton
+                className={classes.iconButton}
+                onClick={this._onCloseInfoWindowClick}
+              >
+                <ClearOutlined className={classes.icon} />
+              </IconButton>
+            </div>
+            <Typography className={classes.markerCamName}>
               {cam.name}
             </Typography>
             <div className={classes.imgpopup}>
-            {/* <Typography className={classes.markerCamName}>
+              {/* <Typography className={classes.markerCamName}>
               {cam.name}
             </Typography> */}
-            <LiveView id={cam.id} className={classes.video} />
+              <LiveView id={cam.id} className={classes.video} />
             </div>
           </Popup>
 
