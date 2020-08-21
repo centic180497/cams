@@ -79,9 +79,7 @@ class LiveView extends Component {
     } = this.props
 
     const { id } = this.props
-    console.log('id live view', id)
     // console.log('streamingCam', streamingCam)
-    
     return (
       <Fragment>
         {isFetchingStreaming ? (
