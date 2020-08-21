@@ -118,6 +118,9 @@ class CamItem extends Component {
         // zoom: 15
       })
     }
+    if(infoWindow===id){
+      console.log("idda");
+    }
   }
 
   render() {

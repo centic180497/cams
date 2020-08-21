@@ -58,6 +58,7 @@ const styles = (theme) => ({
 class LiveView extends Component {
   componentDidMount() {
     const { id } = this.props
+    // console.log('id live view', id)
     this.props.fetchStreamingCam(id)
   }
 
@@ -76,6 +77,10 @@ class LiveView extends Component {
       isFetchingStreaming,
       streamingCam = {},
     } = this.props
+
+    const { id } = this.props
+    console.log('id live view', id)
+    // console.log('streamingCam', streamingCam)
     
     return (
       <Fragment>
@@ -90,7 +95,7 @@ class LiveView extends Component {
             }}
             onClick={(e) => e.stopPropagation()}
           />
-        )}
+       )} 
       </Fragment>
     )
   }

@@ -37,8 +37,8 @@ const reducer_map = (state = INITIAL_STATE, action) => {
     case types.CLOSE_INFO_WINDOW:
       return {
         ...state,
-        // showInfoWindow: INITIAL_STATE.showInfoWindow
-        showInfoWindow: action.id
+        showInfoWindow: INITIAL_STATE.showInfoWindow
+        // showInfoWindow: action.id
 
       }
 

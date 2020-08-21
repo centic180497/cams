@@ -57,40 +57,79 @@ const styles = (theme) => ({
 class MapOffline extends React.Component {
   constructor(props) {
     super(props)
+    this.ref = React.createRef()
     this.state = {
-      layer: [],
-      markers: null,
-      zoom: 12,
-      id:[]
-    }
-    this.ref = React.createRef();
-  
+      mouseUp: false,
+      zoomEnd: false
+  } 
   }
- 
+  // onViewportChanged = (viewport) => {
+  //   console.log('change viewport',viewport)
+  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+
+  // }
   onViewportChanged = (viewport) => {
-    // console.log('change viewport')
-    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    // console.log('change viewport', viewport)
+    let { mouseUp, zoomEnd } = this.state
+    let { infoWindow } = this.props
+
+    if(mouseUp || zoomEnd) {
+      if(infoWindow !== -1) return
+      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    }
+    // console.log('asdalksdjalsdkj')
+    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
+  handleZoomEnd = () => {
+    this.setState({
+      ...this.state,
+      zoomEnd: true
+    })
+  }
+  handleMouseUp = () => {
+    this.setState({
+      ...this.state,
+      mouseUp: true
+    })
   }
   handlePortalClick = () => {
     const center = [15.892538563302992, 108.33192510216088]
     const { changeBoundsMap } = this.props
-    changeBoundsMap({ center: center, zoom: this.props.defaultZoom })
+    // changeBoundsMap({ center: center, zoom: this.props.defaultZoom })
+    // let bounds =  this.refs.map.leafletElement.getBounds();
+    // let bounds =  this.refs.map.leafletElement.getBounds();
+    // console.log(bounds);
+    //      let extendPoint1 =(  bounds._northEast.lat + 0.01,
+    //      bounds._northEast.lng + 0.01)
+      
+    //   let extendPoint2 =(bounds._northEast.lat - 0.01,
+    //   bounds._northEast.lng - 0.01)
+    //   bounds.extend(extendPoint1)
+    //   bounds.extend(extendPoint2)
+     changeBoundsMap({center:center,zoom:this.props.defaultZoom})
+    // console.log(bounds);
+    
   }
 
 
   render() {
     const { classes, cams, infoWindow } = this.props
     const possition = [15.87944, 108.335]
+    console.log("hjfsdjkhfsjkfhsdkj");
     return (
       <div className={classes.root} id="test">
         <Map
+          ref='map'
+          onmouseup={this.handleMouseUp}
+          onzoomend={this.handleZoomEnd}
+          onViewportChanged={this.onViewportChanged}
           fullscreenControl={true}
-          center={possition}
+          center={this.props.center}
           // zoom={this.props.zoom}
-          zoom={13}
+          zoom={this.props.zoom}
           className={classes.map}
           onClick={this.handleClick}
-          onViewportChanged={this.onViewportChanged}
+          // onViewportChanged={this.onViewportChanged}
           id="mapcluster"
           closePopupOnClick={false}
         >

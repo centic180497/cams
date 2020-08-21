@@ -75,12 +75,37 @@ class MapOffline extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  onViewportChanged = (viewport) => {
+  // onViewportChanged = (viewport) => {
 
-    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  // }
+  onViewportChanged = (viewport) => {
+    // console.log('change viewport', viewport)
+    let { mouseUp, zoomEnd } = this.state
+    let { focusedVehicle } = this.props
+
+    if(mouseUp || zoomEnd) {
+      // if(focusedVehicle !== -1) return
+      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    }
+    // console.log('asdalksdjalsdkj')
+    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
+  handleZoomEnd = () => {
+    this.setState({
+      ...this.state,
+      zoomEnd: true
+    })
+  }
+  handleMouseUp = () => {
+    this.setState({
+      ...this.state,
+      mouseUp: true
+    })
   }
   handlePortalClick = () => {
-    const { center, zoom, defaultZoom } = this.props
+    const center = [15.892538563302992, 108.33192510216088]
+    const { zoom, defaultZoom } = this.props
     this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
   }
   // handleClose() {
@@ -95,12 +120,15 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+         onmouseup={this.handleMouseUp}
+         onzoomend={this.handleZoomEnd}
+         onViewportChanged={this.onViewportChanged}
           ref={this.mapref}
           fullscreenControl={true}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
-          onViewportChanged={this.onViewportChanged}
+          // onViewportChanged={this.onViewportChanged}
           closePopupOnClick={false}
         >
           <Portal position="bottomright" className={classes.portal}>

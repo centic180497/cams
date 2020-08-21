@@ -39,6 +39,7 @@ import { isEmpty } from 'lodash'
 import './style.css'
 import { Typography } from '@material-ui/core'
 import { changeBoundsMap } from '../../../actions/action_map'
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,

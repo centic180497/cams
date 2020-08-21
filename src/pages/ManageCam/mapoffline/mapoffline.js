@@ -165,13 +165,37 @@ const iconcamera = new Icon({
 class MapOffline extends React.Component {
   constructor(props) {
     super(props)
-
-    // this.customMarker = React.createRef();
-  }
-  state = {
-    hover: false,
+    this.ref = React.createRef()
+    this.state = {
+      mouseUp: false,
+      zoomEnd: false
+  } 
   }
  
+  onViewportChanged = (viewport) => {
+    // console.log('change viewport', viewport)
+    let { mouseUp, zoomEnd } = this.state
+    let { focusedCam } = this.props
+
+    if(mouseUp || zoomEnd) {
+      if(focusedCam !== -1) return
+      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    }
+    // console.log('asdalksdjalsdkj')
+    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
+  handleZoomEnd = () => {
+    this.setState({
+      ...this.state,
+      zoomEnd: true
+    })
+  }
+  handleMouseUp = () => {
+    this.setState({
+      ...this.state,
+      mouseUp: true
+    })
+  }
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
@@ -198,9 +222,9 @@ class MapOffline extends React.Component {
     const { defaultZoom } = this.props
     this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
   }
-  onViewportChanged = (viewport) => {
-    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  }
+  // onViewportChanged = (viewport) => {
+  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  // }
 
   render() {
     const { classes, cams, infoWindow } = this.props
@@ -208,12 +232,15 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+          onmouseup={this.handleMouseUp}
+          onzoomend={this.handleZoomEnd}
+          onViewportChanged={this.onViewportChanged}
           fullscreenControl={true}
-          center={possition}
+          center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
           onClick={this.handleClick}
-          onViewportChanged={this.onViewportChanged}
+          // onViewportChanged={this.onViewportChanged}
           closePopupOnClick={false}
         >
           <Portal position="bottomright">

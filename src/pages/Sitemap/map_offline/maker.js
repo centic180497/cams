@@ -138,19 +138,21 @@ class MarkerComponent extends React.Component {
   closePopups() {
     if (this.ref.current && this.ref.current.leafletElement) {
       this.ref.current.leafletElement.options.leaflet.map.closePopup()
+      this.props.closeInfoWindow()
     }
   }
-  _onCloseInfoWindowClick = () => {
+  _onCloseInfoWindowClick = (id) => {
     this.closePopups()
-    const { infoWindow } = this.props
-    const { id } = this.props.cam
+    
+    // const { id } = this.props.cam
 
     // this.setState({
     //   livestream: false
     // })
-    this.props.showInfoWindow({ id: -1 })
-    // this.props.closeInfoWindow({id:-1})
-    // this.props.closePrevStreaming()
+    // this.props.showInfoWindow({ id: -1 })
+      const { infoWindow } = this.props
+    this.props.closeInfoWindow({id})
+    // this.props.closePrevStreaming(id)
 
     // this.props.showInfoWindow({id:-1})
   }
@@ -165,14 +167,14 @@ class MarkerComponent extends React.Component {
     console.log('acascas')
   }
 
-  handleClose(id) {
-    const { infoWindow } = this.props
-    if (id != infoWindow) {
-      this.props.closeInfoWindow()
-    }
+  // handleClose(id) {
+  //   const { infoWindow } = this.props
+   
+  //     this.props.closeInfoWindow({id})
+  
 
-    // this.props.showInfoWindow({id:-1})
-  }
+  //   // this.props.showInfoWindow({id:-1})
+  // }
 
   render() {
     const { classes, cams, infoWindow, cam, key } = this.props
@@ -215,7 +217,7 @@ class MarkerComponent extends React.Component {
             <div className={classes.header}>
               <IconButton
                 className={classes.iconButton}
-                onClick={this._onCloseInfoWindowClick}
+                onClick={()=>this._onCloseInfoWindowClick(cam.id)}
               >
                 <ClearOutlined className={classes.icon} />
               </IconButton>
@@ -227,7 +229,8 @@ class MarkerComponent extends React.Component {
               {/* <Typography className={classes.markerCamName}>
               {cam.name}
             </Typography> */}
-              <LiveView id={cam.id} className={classes.video} />
+            {infoWindow && cam.id === infoWindow ? <LiveView id={cam.id}/>:null}
+             
             </div>
           </Popup>
 

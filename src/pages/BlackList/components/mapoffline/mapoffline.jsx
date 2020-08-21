@@ -50,16 +50,39 @@ class MapOffline extends React.Component {
   state = {
     hovered: false,
   }
+  // onViewportChanged = (viewport) => {
+  //   console.log(viewport)
+  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  // }
   onViewportChanged = (viewport) => {
-    console.log(viewport)
-    this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    // console.log('change viewport', viewport)
+    let { mouseUp, zoomEnd } = this.state
+    let { focusedVehicle } = this.props
+
+    if(mouseUp || zoomEnd) {
+      // if(focusedVehicle !== -1) return
+      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+    }
+    // console.log('asdalksdjalsdkj')
+    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  }
+  handleZoomEnd = () => {
+    this.setState({
+      ...this.state,
+      zoomEnd: true
+    })
+  }
+  handleMouseUp = () => {
+    this.setState({
+      ...this.state,
+      mouseUp: true
+    })
   }
   handlePortalClick = () => {
-    const possition = [15.87944, 108.335]
+    const possition = [15.892538563302992,108.33192510216088]
     const { center, zoom, defaultZoom } = this.props
-    this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
-    console.log(this.props.zoom, this.props.center)
-    console.log(this.props.defaultZoom)
+    this.props.changeBoundsMap({ center: possition, zoom: defaultZoom })
+  
   }
 
   render() {
@@ -68,12 +91,15 @@ class MapOffline extends React.Component {
     return (
       <div className={classes.root}>
         <Map
+         onmouseup={this.handleMouseUp}
+         onzoomend={this.handleZoomEnd}
+         onViewportChanged={this.onViewportChanged}
           fullscreenControl={true}
           center={this.props.center}
           zoom={this.props.zoom}
           className={classes.map}
           closePopupOnClick={false}
-          onViewportChanged={this.onViewportChanged}
+          // onViewportChanged={this.onViewportChanged}
         >
           <Portal position="bottomright">
             <button
