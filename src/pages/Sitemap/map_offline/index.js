@@ -55,85 +55,52 @@ const styles = (theme) => ({
   }
 })
 class MapOffline extends React.Component {
-  constructor(props) {
-    super(props)
-    this.ref = React.createRef()
-    this.state = {
-      mouseUp: false,
-      zoomEnd: false
-  } 
-  }
   // onViewportChanged = (viewport) => {
-  //   console.log('change viewport',viewport)
-  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  //   let { mouseUp, zoomEnd } = this.state
+  //   let { infoWindow } = this.props
 
+  //   if(mouseUp || zoomEnd) {
+  //     if(infoWindow !== -1) return
+  //     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  //   }
   // }
-  onViewportChanged = (viewport) => {
-    // console.log('change viewport', viewport)
-    let { mouseUp, zoomEnd } = this.state
-    let { infoWindow } = this.props
-
-    if(mouseUp || zoomEnd) {
-      if(infoWindow !== -1) return
-      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-    }
-    // console.log('asdalksdjalsdkj')
-    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  }
-  handleZoomEnd = () => {
-    this.setState({
-      ...this.state,
-      zoomEnd: true
-    })
-  }
-  handleMouseUp = () => {
-    this.setState({
-      ...this.state,
-      mouseUp: true
-    })
-  }
-  handlePortalClick = () => {
-    const center = [15.892538563302992, 108.33192510216088]
-    const { changeBoundsMap } = this.props
-    // changeBoundsMap({ center: center, zoom: this.props.defaultZoom })
-    // let bounds =  this.refs.map.leafletElement.getBounds();
-    // let bounds =  this.refs.map.leafletElement.getBounds();
-    // console.log(bounds);
-    //      let extendPoint1 =(  bounds._northEast.lat + 0.01,
-    //      bounds._northEast.lng + 0.01)
-      
-    //   let extendPoint2 =(bounds._northEast.lat - 0.01,
-    //   bounds._northEast.lng - 0.01)
-    //   bounds.extend(extendPoint1)
-    //   bounds.extend(extendPoint2)
-     changeBoundsMap({center:center,zoom:this.props.defaultZoom})
-    // console.log(bounds);
-    
-  }
-
-
+  // handleZoomEnd = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     zoomEnd: true
+  //   })
+  // }
+  // handleMouseUp = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     mouseUp: true
+  //   })
+  // }
+  // handlePortalClick = () => {
+  //   const center = [15.892538563302992, 108.33192510216088]
+  //   const { changeBoundsMap } = this.props
+  //    changeBoundsMap({center:center,zoom:this.props.defaultZoom})
+  // }
   render() {
     const { classes, cams, infoWindow } = this.props
-    const possition = [15.87944, 108.335]
+    const possition = [15.892538563302992,108.33192510216088]
     console.log("hjfsdjkhfsjkfhsdkj");
     return (
       <div className={classes.root} id="test">
         <Map
           ref='map'
-          onmouseup={this.handleMouseUp}
-          onzoomend={this.handleZoomEnd}
-          onViewportChanged={this.onViewportChanged}
+          // onmouseup={this.handleMouseUp}
+          // onzoomend={this.handleZoomEnd}
+          // onViewportChanged={this.onViewportChanged}
           fullscreenControl={true}
-          center={this.props.center}
-          // zoom={this.props.zoom}
-          zoom={this.props.zoom}
+          center={possition}
+          zoom={13}
           className={classes.map}
           onClick={this.handleClick}
-          // onViewportChanged={this.onViewportChanged}
           id="mapcluster"
           closePopupOnClick={false}
         >
-          <Portal position="bottomright">
+          {/* <Portal position="bottomright">
             <button
               className={classes.control}
               onClick={this.handlePortalClick}
@@ -147,7 +114,7 @@ class MapOffline extends React.Component {
                 <path d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z" className={classes.svg}></path>
               </svg>
             </button>
-          </Portal>
+          </Portal> */}
           <TileLayer
             url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

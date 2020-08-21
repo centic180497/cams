@@ -75,83 +75,50 @@ class MapOffline extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  // onViewportChanged = (viewport) => {
-
-  //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   // }
-  onViewportChanged = (viewport) => {
-    // console.log('change viewport', viewport)
-    let { mouseUp, zoomEnd } = this.state
-    let { focusedVehicle } = this.props
+  // onViewportChanged = (viewport) => {
+  //   let { mouseUp, zoomEnd } = this.state
+  //   let { focusedVehicle } = this.props
 
-    if(mouseUp || zoomEnd) {
-      // if(focusedVehicle !== -1) return
-      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-    }
-    // console.log('asdalksdjalsdkj')
-    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  }
-  handleZoomEnd = () => {
-    this.setState({
-      ...this.state,
-      zoomEnd: true
-    })
-  }
-  handleMouseUp = () => {
-    this.setState({
-      ...this.state,
-      mouseUp: true
-    })
-  }
-  handlePortalClick = () => {
-    const center = [15.892538563302992, 108.33192510216088]
-    const { zoom, defaultZoom } = this.props
-    this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
-  }
-  // handleClose() {
-  //  this.props.cancelHoverRowVehicle()
-  //  this.props.focusedVehicle
+  //   if(mouseUp || zoomEnd) {
+  //     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  //   }
+  // }
+  // handleZoomEnd = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     zoomEnd: true
+  //   })
+  // }
+  // handleMouseUp = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     mouseUp: true
+  //   })
+  // }
+  // handlePortalClick = () => {
+  //   const center = [15.892538563302992, 108.33192510216088]
+  //   const { zoom, defaultZoom } = this.props
+  //   this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
   // }
 
   render() {
     const { classes, cams, focusedVehicle } = this.props
 
-    const possition = [15.87944, 108.335]
+    const possition = [15.892538563302992,108.33192510216088] 
     return (
       <div className={classes.root}>
         <Map
-         onmouseup={this.handleMouseUp}
-         onzoomend={this.handleZoomEnd}
-         onViewportChanged={this.onViewportChanged}
+        //  onmouseup={this.handleMouseUp}
+        //  onzoomend={this.handleZoomEnd}
+        //  onViewportChanged={this.onViewportChanged}
           ref={this.mapref}
           fullscreenControl={true}
-          center={this.props.center}
-          zoom={this.props.zoom}
+          center={possition}
+          zoom={13}
           className={classes.map}
-          // onViewportChanged={this.onViewportChanged}
           closePopupOnClick={false}
         >
-          <Portal position="bottomright" className={classes.portal}>
-            <Tooltip title="Boundmap" aria-label="Boundmap">
-              <button
-                className={classes.control}
-                onClick={this.handlePortalClick}
-              >
-                <svg
-                  className="MuiSvgIcon-root jss2162"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"
-                    className={classes.svg}
-                  ></path>
-                </svg>
-              </button>
-            </Tooltip>
-            {/* <Button className={classes.control} handlePortalClick={this.handlePortalClick()}></Button> */}
-          </Portal>
 
           <TileLayer
             url={MAP_OFFLINE_URL}

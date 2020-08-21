@@ -172,30 +172,30 @@ class MapOffline extends React.Component {
   } 
   }
  
-  onViewportChanged = (viewport) => {
-    // console.log('change viewport', viewport)
-    let { mouseUp, zoomEnd } = this.state
-    let { focusedCam } = this.props
+  // onViewportChanged = (viewport) => {
+  //   // console.log('change viewport', viewport)
+  //   let { mouseUp, zoomEnd } = this.state
+  //   let { focusedCam } = this.props
 
-    if(mouseUp || zoomEnd) {
-      if(focusedCam !== -1) return
-      this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-    }
-    // console.log('asdalksdjalsdkj')
-    // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
-  }
-  handleZoomEnd = () => {
-    this.setState({
-      ...this.state,
-      zoomEnd: true
-    })
-  }
-  handleMouseUp = () => {
-    this.setState({
-      ...this.state,
-      mouseUp: true
-    })
-  }
+  //   if(mouseUp || zoomEnd) {
+  //     if(focusedCam !== -1) return
+  //     this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  //   }
+  //   // console.log('asdalksdjalsdkj')
+  //   // this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
+  // }
+  // handleZoomEnd = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     zoomEnd: true
+  //   })
+  // }
+  // handleMouseUp = () => {
+  //   this.setState({
+  //     ...this.state,
+  //     mouseUp: true
+  //   })
+  // }
   openPopup(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.openPopup()
@@ -208,59 +208,37 @@ class MapOffline extends React.Component {
     const { isEditingCam, isAddingCam } = this.props
     if (isEditingCam) {
       this.props.changeCamLocation({ lat, lng })
-      // this.props.fetchCamLocation({ lat, lng })
     }
     if (isAddingCam) {
-      // this.props.getCameraLocation({ lat, lng })
       this.props.fetchCamLocation({ lat, lng })
     }
-    // this.props.fetchCamLocation({ lat, lng })
   }
 
-  handlePortalClick = () => {
-    const center = [15.892538563302992, 108.33192510216088]
-    const { defaultZoom } = this.props
-    this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
-  }
+  // handlePortalClick = () => {
+  //   const center = [15.892538563302992, 108.33192510216088]
+  //   const { defaultZoom } = this.props
+  //   this.props.changeBoundsMap({ center: center, zoom: defaultZoom })
+  // }
   // onViewportChanged = (viewport) => {
   //   this.props.changeBoundsMap({ center: viewport.center, zoom: viewport.zoom })
   // }
 
   render() {
     const { classes, cams, infoWindow } = this.props
-    const possition = [15.87944, 108.335]
+    const possition = [15.892538563302992,108.33192510216088]
     return (
       <div className={classes.root}>
         <Map
-          onmouseup={this.handleMouseUp}
-          onzoomend={this.handleZoomEnd}
-          onViewportChanged={this.onViewportChanged}
+          // onmouseup={this.handleMouseUp}
+          // onzoomend={this.handleZoomEnd}
+          // onViewportChanged={this.onViewportChanged}
           fullscreenControl={true}
-          center={this.props.center}
+          center={possition}
           zoom={this.props.zoom}
           className={classes.map}
           onClick={this.handleClick}
-          // onViewportChanged={this.onViewportChanged}
           closePopupOnClick={false}
         >
-          <Portal position="bottomright">
-            <button
-              className={classes.control}
-              onClick={this.handlePortalClick}
-            >
-              <svg
-                className="MuiSvgIcon-root jss2162"
-                focusable="false"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11zm-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2zM5 20v2h14v-2H5z"
-                  className={classes.svg}
-                ></path>
-              </svg>
-            </button>
-          </Portal>
           <TileLayer
             url={MAP_OFFLINE_URL}
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
