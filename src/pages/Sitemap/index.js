@@ -96,19 +96,17 @@ class SitemapPage extends Component {
               : classes.mapWrapper
           }
         >
-          <MapOffline
-            // center={center}
-            // defaultZoom={defaultZoom}
-            // zoom={zoom}
+          {
+            !cameraFilterSidebar ? <MapOffline
             onClick={this._onClick}
-            // onChildClick={this._onChildClick}
-            // onChange={this._onBoundsChange}
             cams={cams}
-           
           >
-            {/* {cams.map((cam, index) => (
-              <Marker lat={cam.lat} lng={cam.lng} key={index} detail={cam} />
-            ))} */}
+          </MapOffline>:null
+          }
+          <MapOffline
+            onClick={this._onClick}
+            cams={cams}
+          >
           </MapOffline>
         </div>
         <div
@@ -117,13 +115,10 @@ class SitemapPage extends Component {
           })}
         >
           {cameraFilterSidebar && (
-            // <CSSTransition in={cameraFilterSidebar} timeout={300}>
             <Fragment>
               <Search />
-              {/* <SearchCam /> */}
               <SearchResult   onClick={this.onClick}/>
             </Fragment>
-            // </CSSTransition>
           )}
         </div>
       </div>

@@ -1,6 +1,6 @@
  .leaflet-popup-content {
     margin:4px 4px;
-    width: 100% !important;
+    width: auto !important;
 }
 .leaflet-popup-content p {
   margin: 0;

@@ -64,15 +64,11 @@ const styles = (theme) => ({
        transformOrigin: 'center'
     },
   },
+
   imgseach: {
+    display: 'block',
     width: '100%',
-    maxWidth: '100%',
-    maxHeight: '600px',
-    minHeight: '150px',
-    height: '100%',
-    pointerEvents: 'none',
-    position: 'relative',
-    objectFit: 'fill',
+    height: 'auto',
   },
   header: {
     display: 'flex',
@@ -91,26 +87,53 @@ const styles = (theme) => ({
     padding: 6,
   },
   Popup: {
-    width: '400px',
+    width:'400px'
+    // height: 'calc(100vh-80px)',
+    // width:"500px"
   },
   markerCamName: {
     width: '100%',
     position: 'relative',
   },
   markerCamNameimg: {
-    width: '100%',
-    height: '450px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    minWidth: '250px',
   },
   imgpopup: {
-    width: '100%',
-    paddingRight: '9px',
+    minWidth: 'fit-content',
+    // height: 'calc(100vh - 80px)',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0',
+    width: 'auto',
   },
 })
 
 class MakerComponent extends React.Component {
-   state = {
+  state = {
     hover: false,
   }
+  // _onMarkerClick = (item) => {
+  //   console.log(item.lat)
+  //   const { infoWindow } = this.props
+  // }
+
+  //   _onClick = ({ id, lat, lng }) => {
+  //     const { infoWindow } = this.props
+  //     if ((infoWindow !== -1) & (infoWindow !== id)) {
+  //       this.props.closePrevStreaming(infoWindow)
+  //     }
+  //     if (infoWindow !== id) {
+  //       this.props.showInfoWindow({
+  //         center: { lat, lng },
+  //         id,
+  //       })
+  //     }
+  //   }
 
   openPopup(marker) {
     if (marker && marker.leafletElement) {
@@ -119,21 +142,25 @@ class MakerComponent extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  handleClose(id) {
-    
-    this.props.cancelHoverRowVehicle({id:-1})
-  }
+  // handleClose(id) {
+  //   console.log("sdfsdf",id)
+
+  //   this.props.cancelHoverRowVehicle()
+  //   this.props.focusVehicle(this.props.focusedVehicle)
+  // }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
     }
   }
-  _onClose=()=>{
+  _onClose = () => {
     this.setState({
       hover: false,
     })
     this.props.cancelHoverRowVehicle()
-    this.props.focusVehicle({id:-1})
+    this.props.focusVehicle({ id: -1 })
+
+    console.log('asdkalsj')
   }
 
   render() {
@@ -142,13 +169,16 @@ class MakerComponent extends React.Component {
     const iconmaker = renderToStaticMarkup(
       <div
         className={classNames('marker-instance', {
+          // 'marker-hover': hover || isShowInfoWindow,
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
         <img className={classes.test} src={icon} />
+        {/* <Marker icon={camera}></Marker> */}
       </div>,
     )
     const iconcamera = divIcon({
+      // iconUrl: camera,
       iconSize: [30, 39],
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
@@ -158,48 +188,56 @@ class MakerComponent extends React.Component {
     const possition = [15.87944, 108.335]
     return (
       <Marker
+        // onClick={() => this._onClick(cam)}
         position={[cam.lat, cam.lng]}
         icon={iconcamera}
+        // icon={iconcamera}
         ref={
           focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id
             ? this.openPopup
-            : this.closePopups
+            : null
         }
       >
         {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
           <Popup
             className={classes.Popup}
-            closePopupOnClick={true}
-            closeButton	={false}
+            closePopupOnClick={false}
+            closeButton={false}
             // onClose={() => this.handleClose(this.props.cam.id)}
           >
-          <div className={classes.header}>
-            <IconButton className={classes.iconButton} onClick={this._onClose}>
-              <ClearOutlined className={classes.icon} />
-            </IconButton>
-          </div>
-            <div className={classes.imgpopup}>
-              <Typography
-                className={classes.markerCamName}
-                className={classes.camName}
+            <div className={classes.header}>
+              <IconButton
+                className={classes.iconButton}
+                onClick={this._onClose}
               >
-                Biển số xe:{focusedVehicle.plate_number}
-              </Typography>
-              <Typography className={classes.markerCamName}>
-                {cam.name}
-              </Typography>
-              <Typography className={classes.markerCamName}>
-                {focusedVehicle.timestamp}
-              </Typography>
-              <Typography className={classes.markerCamName}>
-                {focusedVehicle.address}
-              </Typography>
-              <Typography className={classes.markerCamNameimg}>
+                <ClearOutlined className={classes.icon} />
+              </IconButton>
+            </div>
+            <div className={classes.imgpopup}>
+              <div>
+                <Typography
+                  className={classes.markerCamName}
+                  className={classes.camName}
+                >
+                  Biển số xe:{focusedVehicle.plate_number}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {cam.name}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {focusedVehicle.timestamp}
+                </Typography>
+                <Typography className={classes.markerCamName}>
+                  {focusedVehicle.address}
+                </Typography>
+              </div>
+
+              <div className={classes.markerCamNameimg}>
                 <img
                   className={classes.imgseach}
                   src={`http://116.110.6.137:1085${focusedVehicle.object_img}`}
                 />
-              </Typography>
+              </div>
             </div>
           </Popup>
         ) : null}
@@ -217,6 +255,7 @@ class MakerComponent extends React.Component {
 }
 
 const mapStateToProps = ({ map, searchVehicles }) => ({
+  //   infoWindow: map.showInfoWindow,
   focusedVehicle: searchVehicles.focusedVehicle,
   matchCams: searchVehicles.matchCams,
 })

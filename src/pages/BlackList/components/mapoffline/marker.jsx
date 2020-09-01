@@ -49,15 +49,6 @@ const styles = (theme) => ({
        transformOrigin: 'center'
     },
   },
-  imgseach: {
-    width: '100%',
-    maxWidth: '100%',
-    minHeight:'150px',
-    maxHeight: '600px',
-    height: '100%',
-    pointerEvents:'none',
-    objectFit:'fill'
-  },
   Popup: {
     width: '400px',
   },
@@ -67,6 +58,11 @@ const styles = (theme) => ({
     marginLeft: 'auto',
     flexDirection: 'row',
     position: 'relative',
+  },
+  imgseach: {
+    display: 'block',
+    width: '100%',
+    height: 'auto',
   },
   icon: {
     fontSize: 14,
@@ -78,15 +74,25 @@ const styles = (theme) => ({
     padding: 6,
   },
   markerCamName:{
-    width:'100%',
-    possition:"relative",
-    height:'550px',
-    paddingRight:"8px"
+    width: '100%',
+    position: 'relative',
   },
-  imgpopup:{
-    width:'100%',
-    paddingRight:"8px"
-  }
+  markerCamNameimg: {
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    minWidth: '250px',
+  },
+  imgpopup: {
+    minWidth: 'fit-content',
+    // height: 'calc(100vh - 80px)',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0',
+    width: 'auto',
+  },
 })
 
 class MarkerComponent extends React.Component {
@@ -163,7 +169,7 @@ class MarkerComponent extends React.Component {
           direction={'right'}
         >
        
-            <div className={classes.imgpopup}>
+          
               <Popup
                 direction={'right'}
                 ref={this.ref}
@@ -177,6 +183,7 @@ class MarkerComponent extends React.Component {
                     <ClearOutlined className={classes.icon} />
                   </IconButton>
                 </div>
+                <div className={classes.imgpopup}>
                 <Typography noWrap className={classes.plate}>
                   Biển số xe: {focusedVehicle.plate_number}
                 </Typography>
@@ -189,17 +196,16 @@ class MarkerComponent extends React.Component {
                 <Typography noWrap className={classes.address}>
                   {focusedVehicle.address}
                 </Typography>
-                <Typography className={classes.markerCamName}>
+                <div className={classes.markerCamNameimg}>
                   <img
                     className={classes.imgseach}
                     src={
                       'http://116.110.6.137:1085' + focusedVehicle.object_img
                     }
                   />
-                </Typography>
+                </div>
+              </div>
               </Popup>
-            </div>
-     
           <Tooltip className={classes.Tooltip} direction={'top'}>
             <Typography align="center" className={classes.camName}>
               {cam.name}{' '}
