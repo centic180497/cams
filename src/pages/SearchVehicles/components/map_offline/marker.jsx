@@ -66,9 +66,10 @@ const styles = (theme) => ({
   },
 
   imgseach: {
-    display: 'block',
-    width: '100%',
-    height: 'auto',
+    maxWidth: '400px',
+    minWidth: '300px',
+    maxHeight: '600px',
+    width: 'auto',
   },
   header: {
     display: 'flex',
@@ -87,7 +88,8 @@ const styles = (theme) => ({
     padding: 6,
   },
   Popup: {
-    width:'400px'
+     maxWidth:'400px',
+    
     // height: 'calc(100vh-80px)',
     // width:"500px"
   },
@@ -96,16 +98,23 @@ const styles = (theme) => ({
     position: 'relative',
   },
   markerCamNameimg: {
+    // overflow: 'hidden',
+    // height: 'calc(100vh-80px)',
+    // display: 'flex',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // flex: 1,
+    // 
+    width: '100%',
+    padding: 5,
     overflow: 'hidden',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    minWidth: '250px',
   },
   imgpopup: {
-    minWidth: 'fit-content',
-    // height: 'calc(100vh - 80px)',
+    // maxWidth: '400px',
+    // minWidth: '300px',
+    // maxHeight: '800px',
     display: 'flex',
     flexDirection: 'column',
     padding: '0',

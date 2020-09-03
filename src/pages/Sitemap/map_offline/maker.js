@@ -72,8 +72,14 @@ const styles = (theme) => ({
     width: '100%',
   },
   imgpopup: {
-    width: '480px',
-    paddingRight: '9px',
+    width: '100%',
+    // paddingRight: '9px',
+    height:'100%'
+  },
+  Popup:{
+    width:'480px',
+    height:'294px'
+
   },
   video: {
     width: '100%',
