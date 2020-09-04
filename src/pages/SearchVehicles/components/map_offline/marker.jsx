@@ -58,18 +58,18 @@ const styles = (theme) => ({
     marginLeft: '13px',
     marginTop: '13px',
     '&:hover': {
-      transformStyle: 'preserve-3d', 
+      transformStyle: 'preserve-3d',
       transition: '.3s ease-in-out',
-       transform: 'scale(1.3)',
-       transformOrigin: 'center'
+      transform: 'scale(1.3)',
+      transformOrigin: 'center',
     },
   },
 
   imgseach: {
-    maxWidth: '400px',
-    minWidth: '300px',
-    maxHeight: '600px',
     width: 'auto',
+    maxWidth: '300px',
+    minWidth: '200px',
+    maxHeight: '600px',
   },
   header: {
     display: 'flex',
@@ -88,8 +88,7 @@ const styles = (theme) => ({
     padding: 6,
   },
   Popup: {
-     maxWidth:'400px',
-    
+    //  maxWidth:'400px',
     // height: 'calc(100vh-80px)',
     // width:"500px"
   },
@@ -104,9 +103,8 @@ const styles = (theme) => ({
     // alignItems: 'center',
     // justifyContent: 'center',
     // flex: 1,
-    // 
+    //
     width: '100%',
-    padding: 5,
     overflow: 'hidden',
     display: 'flex',
     justifyContent: 'center',
@@ -125,38 +123,17 @@ const styles = (theme) => ({
 class MakerComponent extends React.Component {
   state = {
     hover: false,
+    imgLoad: false
   }
-  // _onMarkerClick = (item) => {
-  //   console.log(item.lat)
-  //   const { infoWindow } = this.props
-  // }
 
-  //   _onClick = ({ id, lat, lng }) => {
-  //     const { infoWindow } = this.props
-  //     if ((infoWindow !== -1) & (infoWindow !== id)) {
-  //       this.props.closePrevStreaming(infoWindow)
-  //     }
-  //     if (infoWindow !== id) {
-  //       this.props.showInfoWindow({
-  //         center: { lat, lng },
-  //         id,
-  //       })
-  //     }
-  //   }
-
-  openPopup(marker) {
+  openPopup = (marker) => {
+    const { focusedVehicle, cam } = this.props
+    const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
     if (marker && marker.leafletElement) {
-      console.log(marker)
-
       marker.leafletElement.openPopup()
+      
     }
   }
-  // handleClose(id) {
-  //   console.log("sdfsdf",id)
-
-  //   this.props.cancelHoverRowVehicle()
-  //   this.props.focusVehicle(this.props.focusedVehicle)
-  // }
   closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
@@ -171,9 +148,19 @@ class MakerComponent extends React.Component {
 
     console.log('asdkalsj')
   }
+  myHandleImageLoadEvent=(event)=>{
+    const url =event.target.src
+    if(url){
+      this.setState({
+        imgLoad:true
+      })
+    }
+    
+  }
 
   render() {
     const { classes, cams, focusedVehicle, cam } = this.props
+    const { imgLoad } = this.state
     const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
     const iconmaker = renderToStaticMarkup(
       <div
@@ -207,7 +194,7 @@ class MakerComponent extends React.Component {
             : null
         }
       >
-        {focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id ? (
+        {(focusedVehicle && _.get(focusedVehicle, 'camera.id') === cam.id)  ? (
           <Popup
             className={classes.Popup}
             closePopupOnClick={false}
@@ -243,11 +230,14 @@ class MakerComponent extends React.Component {
 
               <div className={classes.markerCamNameimg}>
                 <img
+                  onLoad={(event) => this.myHandleImageLoadEvent(event)} 
                   className={classes.imgseach}
+                  id="img"
                   src={`http://116.110.6.137:1085${focusedVehicle.object_img}`}
                 />
               </div>
             </div>
+           
           </Popup>
         ) : null}
         <div className={classes.custom}>

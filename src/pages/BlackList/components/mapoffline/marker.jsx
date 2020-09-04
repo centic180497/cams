@@ -43,15 +43,15 @@ const styles = (theme) => ({
     height: '39px',
     marginTop: '13px',
     '&:hover': {
-      transformStyle: 'preserve-3d', 
+      transformStyle: 'preserve-3d',
       transition: '.3s ease-in-out',
-       transform: 'scale(1.3)',
-       transformOrigin: 'center'
+      transform: 'scale(1.3)',
+      transformOrigin: 'center',
     },
   },
-  Popup: {
-    width: '400px',
-  },
+  // Popup: {
+  //   width: '400px',
+  // },
   header: {
     display: 'flex',
     textAlign: 'right',
@@ -60,9 +60,13 @@ const styles = (theme) => ({
     position: 'relative',
   },
   imgseach: {
-    display: 'block',
-    width: '100%',
-    height: 'auto',
+    // display: 'block',
+    // width: '100%',
+    // height: 'auto',
+    width: 'auto',
+    maxWidth: '400px',
+    minWidth: '200px',
+    maxHeight: '600px',
   },
   icon: {
     fontSize: 14,
@@ -73,7 +77,7 @@ const styles = (theme) => ({
     right: 0,
     padding: 6,
   },
-  markerCamName:{
+  markerCamName: {
     width: '100%',
     position: 'relative',
   },
@@ -96,12 +100,12 @@ const styles = (theme) => ({
 })
 
 class MarkerComponent extends React.Component {
-  constructor(props){
-    super(props);
-    this.ref = React.createRef();
-}
+  constructor(props) {
+    super(props)
+    this.ref = React.createRef()
+  }
   state = {
-    livestream: false
+    livestream: false,
   }
 
   openPopup(marker) {
@@ -109,18 +113,18 @@ class MarkerComponent extends React.Component {
       marker.leafletElement.openPopup()
     }
   }
-  _onCloseInfoWindowClick=()=>{
-   this.setState({
-     livestream:false
-   })
+  _onCloseInfoWindowClick = () => {
+    this.setState({
+      livestream: false,
+    })
     this.closePopup()
-    this.props.cancelFocusVehicleHistory({id:-1})
+    this.props.cancelFocusVehicleHistory({ id: -1 })
   }
   handleClose() {
     this.props.cancelFocusVehicleHistory()
     this.props.focusVehicleHistory(this.props.focusedVehicle)
   }
-   closePopups(marker) {
+  closePopups(marker) {
     if (marker && marker.leafletElement) {
       marker.leafletElement.closePopup()
     }
@@ -129,6 +133,15 @@ class MarkerComponent extends React.Component {
     if (this.ref.current && this.ref.current.leafletElement) {
       this.ref.current.leafletElement.options.leaflet.map.closePopup()
     }
+  }
+  myHandleImageLoadEvent=(event)=>{
+    const url =event.target.src
+    if(url){
+      this.setState({
+        imgLoad:true
+      })
+    }
+    
   }
   render() {
     const {
@@ -145,9 +158,11 @@ class MarkerComponent extends React.Component {
           'cam-alert': this.props.matchCams.includes(cam.id),
         })}
       >
-        <img className={classes.test} src={icon}
-        onMouseEnter={this._onMouseEnter}
-        onMouseLeave={this._onMouseLeave}
+        <img
+          className={classes.test}
+          src={icon}
+          onMouseEnter={this._onMouseEnter}
+          onMouseLeave={this._onMouseLeave}
         />
       </div>,
     )
@@ -156,7 +171,7 @@ class MarkerComponent extends React.Component {
       iconAnchor: [15, 39],
       popupAnchor: [0, -39],
       tooltipAnchor: [0, -39],
-      html: iconmaker
+      html: iconmaker,
     })
     const isShowInfoWindow = _.get(focusedVehicle, 'camera.id') === cam.id
     return (
@@ -164,48 +179,47 @@ class MarkerComponent extends React.Component {
         <Marker
           position={[cam.lat, cam.lng]}
           icon={iconcamera}
-          ref={isShowInfoWindow ? this.openPopup :this.closePopups }
+          ref={isShowInfoWindow ? this.openPopup : this.closePopups}
           closePopupOnClick={true}
           direction={'right'}
         >
-       
-          
-              <Popup
-                direction={'right'}
-                ref={this.ref}
-                closeButton	={false}
-                // onClose={() => this.handleClose()}
-                className={classes.Popup}
+          <Popup
+            direction={'right'}
+            ref={this.ref}
+            closeButton={false}
+            // onClose={() => this.handleClose()}
+            className={classes.Popup}
+          >
+            <div className={classes.header}>
+              <IconButton
+                className={classes.iconButton}
+                onClick={this._onCloseInfoWindowClick}
               >
-                <div className={classes.header}>
-                  
-                  <IconButton className={classes.iconButton} onClick={this._onCloseInfoWindowClick}>
-                    <ClearOutlined className={classes.icon} />
-                  </IconButton>
-                </div>
-                <div className={classes.imgpopup}>
-                <Typography noWrap className={classes.plate}>
-                  Biển số xe: {focusedVehicle.plate_number}
-                </Typography>
-                <Typography noWrap className={classes.camName}>
-                  {_.get(focusedVehicle, 'camera.name')}
-                </Typography>
-                <Typography noWrap className={classes.time}>
-                  {focusedVehicle.timestamp}
-                </Typography>
-                <Typography noWrap className={classes.address}>
-                  {focusedVehicle.address}
-                </Typography>
-                <div className={classes.markerCamNameimg}>
-                  <img
-                    className={classes.imgseach}
-                    src={
-                      'http://116.110.6.137:1085' + focusedVehicle.object_img
-                    }
-                  />
-                </div>
+                <ClearOutlined className={classes.icon} />
+              </IconButton>
+            </div>
+            <div className={classes.imgpopup}>
+              <Typography noWrap className={classes.plate}>
+                Biển số xe: {focusedVehicle.plate_number}
+              </Typography>
+              <Typography noWrap className={classes.camName}>
+                {_.get(focusedVehicle, 'camera.name')}
+              </Typography>
+              <Typography noWrap className={classes.time}>
+                {focusedVehicle.timestamp}
+              </Typography>
+              <Typography noWrap className={classes.address}>
+                {focusedVehicle.address}
+              </Typography>
+              <div className={classes.markerCamNameimg}>
+                <img
+                  onLoad={(event) => this.myHandleImageLoadEvent(event)}
+                  className={classes.imgseach}
+                  src={'http://116.110.6.137:1085' + focusedVehicle.object_img}
+                />
               </div>
-              </Popup>
+            </div>
+          </Popup>
           <Tooltip className={classes.Tooltip} direction={'top'}>
             <Typography align="center" className={classes.camName}>
               {cam.name}{' '}
